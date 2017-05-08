@@ -1,9 +1,16 @@
 {
-  "name": "server",
+  "name": "Test",
   "version": "0.0.0",
   "description": "Server",
-  "main": "app.js",
+  "main": "server.ts",
   "author": {
     "name": "Ahmed"
+  },
+  "dependencies": {
+    "body-parser": "^1.17.1",
+    "cookie-parser": "^1.4.3",
+    "express": "^4.15.2",
+    "md5": "^2.2.1",
+    "mongodb": "^2.2.26"
   }
 }
