@@ -2,10 +2,9 @@
 
 export declare namespace Interfaces {
     export interface IPerson {
-        _id: string;
         firstName: string;
         lastName: string;
-        fullName: string;
+        fullName(): string;
         email: Email;
         phones: Phone[];
         address: IAddress;
@@ -39,11 +38,11 @@ export declare namespace Interfaces {
         offers: string[];
         orders: string[];
         reservations: IReservation[];
-        branchesCount: number;
-        mealsCount: number;
-        offersCount: number;
-        ordersCount: number;
-        reservationsCount: number;
+        branchesCount(): number;
+        mealsCount(): number;
+        offersCount(): number;
+        ordersCount(): number;
+        reservationsCount(): number;
         addBranch(branch: IBranch): void;
         addMeal(meal: IMeal): void;
         addOffer(offer: IOffer): void;
@@ -52,11 +51,15 @@ export declare namespace Interfaces {
     }
 
     export interface IBranch {
+        _id: string;
+        name: string;
         manager: IBranchManager;
         address: IAddress;
         login: ILogin;
+        token: string;
         phones: Phone[];
         addPhone(phone: Phone): void;
+        generateToken(): void;
     }
 
     export interface IOffer {
@@ -70,19 +73,23 @@ export declare namespace Interfaces {
     }
 
     export interface IUser extends IPerson {
+        _id: string;
+        login: ILogin;
+        token: string;
         image: Uri;
         socialMedia: ISocialMedia[];
         points: number;
         favourites: string[];
         orders: string[];
-        favouritesCount: number;
-        ordersCount: number;
+        favouritesCount(): number;
+        ordersCount(): number;
         addSocialMedia(socialMedia: ISocialMedia): void;
+        generateToken(): void;
     }
 
-    export interface IRestaurantOwner extends IPerson {}
+    export interface IRestaurantOwner extends IPerson { }
 
-    export interface IBranchManager extends IPerson {}
+    export interface IBranchManager extends IPerson { }
 
     export interface ISocialMedia {
         provider: string;
@@ -95,17 +102,17 @@ export declare namespace Interfaces {
         guests: number;
         guestsPerTable: number;
         order?: string;
-        tablesCount: number;
+        tablesCount(): number;
     }
 
     export interface ISubOrder {
         _id: string;
         num: number;
         rate: OrderRate;
-        price: Price;
+        price(): Price;
         owner: string;
         meals: MealPrice[];
-        mealsCount: number;
+        mealsCount(): number;
         addMeal(meal: IMeal): void;
     }
 
@@ -114,8 +121,8 @@ export declare namespace Interfaces {
         address: IAddress;
         subOrders: string[];
         time: Date;
-        subOrdersCount: number;
-        mealsCount: number;
+        subOrdersCount(): number;
+        mealsCount(): number;
         addsubOrder(subOrder: ISubOrder): void;
     }
 
@@ -126,7 +133,7 @@ export declare namespace Interfaces {
         category: string;
         price: Price;
         ingredients: IIngredient[];
-        ingredientsCount: number;
+        ingredientsCount(): number;
         addIngredient(ingredient: IIngredient): void;
         addIngredients(ingredient: IIngredient[]): void;
     }

@@ -1,8 +1,6 @@
 [
   {
     "outputFileName": "server.min.js",
-    "inputFiles": [
-      "Scripts/libs/server.js"
-    ]
+    "inputFiles": [ "Scripts/libs/server.js" ]
   }
 ]
