@@ -57,6 +57,9 @@
     <TypeScriptCompile Include="Scripts\Sources\Mongodb.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
+    <TypeScriptCompile Include="Scripts\Sources\Routes\Branches.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
     <TypeScriptCompile Include="Scripts\Sources\Routes\Login.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
