@@ -114,7 +114,7 @@ export class Manager implements I.IBranchManager {
     constructor(firstName: string, lastName: string, phone: Phone);
     constructor(firstName: string, lastName: string, phone: Phone, email: Email);
     constructor(firstName: string, lastName: string, phone: Phone, email: Email, address: Address);
-    constructor(public firstName: string, public lastName: string, public phone: Phone, public email: Email = "", public address: Address = new Address()) {
+    constructor(public firstName: string, public lastName: string,  phone: Phone, public email: Email = "", public address: Address = new Address()) {
         this.phones = Array<Phone>();
         this.phones.push(phone);
     }

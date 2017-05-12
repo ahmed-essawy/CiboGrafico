@@ -34,6 +34,15 @@
   </PropertyGroup>
   <ItemGroup>
     <None Include="bundleconfig.json" />
+    <Content Include="Scripts\libs\Scripts\Sources\Classes.js.map" />
+    <Content Include="Scripts\libs\Scripts\Sources\Interfaces.js.map" />
+    <Content Include="Scripts\libs\Scripts\Sources\Middlewares.js.map" />
+    <Content Include="Scripts\libs\Scripts\Sources\Mongodb.js.map" />
+    <Content Include="Scripts\libs\Scripts\Sources\Routes\Login.js.map" />
+    <Content Include="Scripts\libs\Scripts\Sources\Routes\Restaurants.js.map" />
+    <Content Include="Scripts\libs\Scripts\Sources\Routes\Users.js.map" />
+    <Content Include="Scripts\libs\Scripts\Sources\Types.js.map" />
+    <Content Include="Scripts\libs\server.js.map" />
     <Content Include="tsconfig.json">
       <SubType>Code</SubType>
     </Content>
@@ -46,6 +55,9 @@
       <SubType>Code</SubType>
     </TypeScriptCompile>
     <TypeScriptCompile Include="Scripts\Sources\Routes\Login.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="Scripts\Sources\Routes\Restaurants.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
     <TypeScriptCompile Include="Scripts\Sources\Routes\Users.ts">
@@ -62,12 +74,25 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Scripts\" />
+    <Folder Include="Scripts\libs\" />
+    <Folder Include="Scripts\libs\Scripts\" />
+    <Folder Include="Scripts\libs\Scripts\Sources\" />
+    <Folder Include="Scripts\libs\Scripts\Sources\Routes\" />
     <Folder Include="Scripts\Sources\" />
     <Folder Include="Scripts\Sources\Routes\" />
     <Folder Include="Scripts\typings\" />
     <Folder Include="Scripts\typings\node\" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Scripts\libs\Scripts\Sources\Classes.js" />
+    <Compile Include="Scripts\libs\Scripts\Sources\Interfaces.js" />
+    <Compile Include="Scripts\libs\Scripts\Sources\Middlewares.js" />
+    <Compile Include="Scripts\libs\Scripts\Sources\Mongodb.js" />
+    <Compile Include="Scripts\libs\Scripts\Sources\Routes\Login.js" />
+    <Compile Include="Scripts\libs\Scripts\Sources\Routes\Restaurants.js" />
+    <Compile Include="Scripts\libs\Scripts\Sources\Routes\Users.js" />
+    <Compile Include="Scripts\libs\Scripts\Sources\Types.js" />
+    <Compile Include="Scripts\libs\server.js" />
     <Compile Include="server.min.js" />
   </ItemGroup>
   <!-- Do not delete the following Import Project.  While this appears to do nothing it is a marker for setting TypeScript properties before our import that depends on them. -->

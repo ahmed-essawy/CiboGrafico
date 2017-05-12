@@ -5,6 +5,7 @@ const parser = require("body-parser"), md5 = require("md5"), cookieParser = requ
 middlewares
     .use("/Users", passport.authenticate("bearer", { session: false }), require("./Routes/Users"))
     .use("/Login", require("./Routes/Login"))
+    .use("/Restaurants", require("./Routes/Restaurants"))
     .use(parser.json())
     .use(parser.urlencoded({ extended: true }))
     .use(cookieParser())

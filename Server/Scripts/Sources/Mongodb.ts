@@ -1,4 +1,5 @@
-﻿import { Login, User, Restaurant } from "./Classes";
+﻿import { Login, User, Restaurant, Branch } from "./Classes";
+import { Id, objectId } from "./Types";
 let usersCollection, restaurantsCollection;
 module.exports = {
     objectId: () => require("mongodb").ObjectId(),
@@ -24,7 +25,7 @@ module.exports = {
         },
         Branches: {
             Collection: () => restaurantsCollection,
-            Find(object: Login, callback) {
+            read(object: Login, callback) {
                 this.Collection().findOne({ "branches.login": object },
                     (err, row: Restaurant) => {
                         if (row) return callback({ success: true, data: row.branches.filter(b => b.login = object) });
@@ -36,7 +37,10 @@ module.exports = {
     Users: {
         Collection: () => usersCollection,
         Insert(object: User, callback) {
-            this.Collection().update(object.login.username, { $setOnInsert: object }, { upsert: true }, (err, numAffected) => callback(numAffected));
+            this.Collection().update(object.login.username,
+                { $setOnInsert: object },
+                { upsert: true },
+                (err, numAffected) => callback(numAffected));
         },
         Find(object: User, callback) {
             return this.Collection().find(object).toArray((err, row: User[]) => {
@@ -47,15 +51,75 @@ module.exports = {
     },
     Restaurants: {
         Collection: () => restaurantsCollection,
-        Insert(object: Restaurant) {
-            console.log(object);
-            this.Collection().update({ name: object.name }, { $setOnInsert: object }, { upsert: true }, (err, numAffected) => console.log(err));
+        create(object: Restaurant, callback) {
+            this.Collection().update({ name: object.name },
+                { $setOnInsert: object },
+                { upsert: true },
+                (err, numAffected) => callback(numAffected));
         },
-        Find(object: Restaurant, callback) {
-            return this.Collection().find(object).toArray((err, row: Restaurant) => {
+        readAll(callback) {
+            return this.Collection().find().toArray((err, row: Restaurant) => {
                 if (row) return callback({ success: true, data: row });
-                return callback({ success: false, data: object.branches });
+                return callback({ success: false });
             });
+        },
+        read(object: Id, callback) {
+            return this.Collection().findOne(objectId(object._id),
+                (err, row: Restaurant) => {
+                    if (row) return callback({ success: true, data: row });
+                    return callback({ success: false, data: object });
+                });
+        },
+        update(object: Restaurant, callback) {
+            object._id = objectId(object._id);
+            this.Collection().update({ _id: object._id },
+                { $set: object },
+                (err, resp) => {
+                    if (resp.result.ok) return callback({ success: true, data: resp.result });
+                    return callback({ success: false, data: object });
+                });
+        },
+        delete(object: Id) {
+            this.Collection().removeOne({ _id: objectId(object._id) });
+        }
+    },
+    Branches: {
+        Collection: () => restaurantsCollection,
+        create(object: Restaurant, callback) {
+            object._id = objectId(object._id);
+            this.Collection().update({ _id: object._id },
+                { $set: object },
+                (err, resp) => {
+                    if (resp.result.ok) return callback({ success: true, data: resp.result });
+                    return callback({ success: false, data: object });
+                });
+        },
+        read(object: Id, callback) {
+            this.Collection().findOne({ "branches._id": objectId(object._id) },
+                (err, row: Restaurant) => {
+                    if (row) return callback({ success: true, data: row.branches.filter(b => b._id = object._id) });
+                    return callback({ success: false, data: object._id });
+                });
+        },
+        delete(object: Id) {
+            this.Collection().branches.splice(this.Collection().branches
+                .indexOf(objectId(object._id)),
+                1);
+        },
+        addBranch(object: Branch, restaurant: Id, callback) {
+            this.Collection().findOne(objectId(restaurant._id),
+                (err, row: Restaurant) => {
+                    if (row) {
+                        row.addBranch(object);
+
+                        this.Collection().update({ _id: object._id },
+                            { $set: object },
+                            (err, resp) => {
+                                if (resp.result.ok) return callback({ success: true, data: resp.result });
+                                return callback({ success: false, data: object });
+                            });
+                    }
+                });
         }
     }
 };
