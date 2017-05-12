@@ -1,5 +1,5 @@
 ﻿import { SubOrder } from "../Classes";
-import { objectId, Order_Rate, OrderRate } from "../Types";
+import { Order_Rate, OrderRate } from "../Types";
 {
     const suborders = require("express").Router(), parser = require("body-parser"), db = require("../Mongodb");
     suborders
@@ -15,17 +15,17 @@ import { objectId, Order_Rate, OrderRate } from "../Types";
         })
         .post("/",
         (req, res) => {
-            let suborder: SubOrder = new SubOrder(db.objectId(), req.body.num, req.body.owner, req.body.meals);
+            const suborder = new SubOrder(db.objectId(), req.body.num, req.body.owner, req.body.meals);
             db.Suborders.Create(suborder, response => res.json(response));
         })
         .put("/",
         (req, res) => {
-            let suborder: SubOrder = new SubOrder(req.body._id, req.body.num, req.body.owner, req.body.meals);
+            const suborder = new SubOrder(req.body._id, req.body.num, req.body.owner, req.body.meals);
             db.Suborders.Update(suborder, response => res.json(response));
         })
         .put("/RateOrder",
         (req, res) => {
-            let suborder: Order_Rate = { _id: req.body._id, "rate": OrderRate[parseInt(req.body.rate)] };
+            const suborder: Order_Rate = { _id: req.body._id, "rate": OrderRate[parseInt(req.body.rate)] };
             db.Suborders.Update(suborder, response => res.json(response));
         });
     module.exports = suborders;

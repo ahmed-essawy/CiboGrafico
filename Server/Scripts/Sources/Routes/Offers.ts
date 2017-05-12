@@ -1,5 +1,4 @@
-﻿import { Offer, Meal } from "../Classes";
-import { objectId } from "../Types";
+﻿import { Offer } from "../Classes";
 {
     const offers = require("express").Router(), parser = require("body-parser"), db = require("../Mongodb");
     offers
@@ -15,7 +14,7 @@ import { objectId } from "../Types";
         })
         .post("/",
         (req, res) => {
-            let offer: Offer = new Offer(db.objectId(),
+            const offer = new Offer(db.objectId(),
                 req.body.image,
                 req.body.description,
                 req.body.meal,
@@ -26,7 +25,7 @@ import { objectId } from "../Types";
         })
         .put("/",
         (req, res) => {
-            let offer: Offer = new Offer(req.body._id,
+            const offer = new Offer(req.body._id,
                 req.body.image,
                 req.body.description,
                 req.body.meal,
