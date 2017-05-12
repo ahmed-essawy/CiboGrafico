@@ -1,7 +1,8 @@
-﻿import { Restaurant, Owner, Address, Branch, Manager, Login, Meal, Offer, Order, User, SocialMedia, Reservation } from "../Classes";
+﻿import { Restaurant, Owner, Address, Branch, Manager, Login } from "../Classes";
 {
     const restaurants = require("express").Router(), db = require("../Mongodb"), parser = require("body-parser");
-    restaurants.use(parser.json())
+    restaurants
+        .use(parser.json())
         .use(parser.urlencoded({ extended: true }))
         .get("/", (req, res) => db.Restaurants.ReadAll(response => res.json(response)))
         .get("/:id", (req, res) => db.Restaurants.Read({ _id: req.params.id }, response => res.json(response)))
@@ -55,7 +56,7 @@
                             req.body.owner.address.city,
                             req.body.owner.address.country)));
                 if (req.body.branches) {
-                    for (var i = 0; i < req.body.branches.length; i++) {
+                    for (let i = 0; i < req.body.branches.length; i++) {
                         updateRest.addBranch(new Branch(db.objectId(),
                             req.body.branches[i].name,
                             new Manager(req.body.branches[i].manager.firstName,
