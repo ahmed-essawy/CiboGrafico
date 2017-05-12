@@ -47,6 +47,13 @@ module.exports = {
                 if (row) return callback({ success: true, data: row });
                 return callback({ success: false, data: object.login.username });
             });
+        },
+        Login(object: Login, callback) {
+            this.Collection().findOne({ "login.username": object.username, "login.password": object.password },
+                (err, row: User) => {
+                    if (row) return callback({ success: true, data: row.login.token });
+                    return callback({ success: false, data: object.username });
+                });
         }
     },
     Restaurants: {

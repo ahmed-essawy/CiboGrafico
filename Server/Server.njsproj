@@ -46,6 +46,9 @@
     <Content Include="tsconfig.json">
       <SubType>Code</SubType>
     </Content>
+    <TypeScriptCompile Include="Scripts\Sources\Authentication.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
     <TypeScriptCompile Include="Scripts\Sources\Classes.ts" />
     <TypeScriptCompile Include="Scripts\Sources\Interfaces.ts" />
     <TypeScriptCompile Include="Scripts\Sources\Middlewares.ts">

@@ -1,10 +1,10 @@
 ﻿import { Interfaces as I } from "./Interfaces";
 import { Duration, Email, MealPrice, OrderRate, OrderType, Phone, Price, Uri } from "./Types";
+const md5 = require("md5");
 
 export class User implements I.IUser {
     fullName(): string { return this.firstName + " " + this.lastName; }
 
-    get token(): string { return "123" };
     phones: Phone[];
     points: number;
     favourites: string[];
@@ -29,7 +29,10 @@ export class User implements I.IUser {
 
     ordersCount(): number { return this.orders.length; }
 
-    generateToken(): void { throw new Error("Not implemented"); }
+    generateToken(): string {
+        this.login.token = md5(this.login.username + this.login.password + "ITIGraduationProject" + new Date());
+        return this.login.token;
+    }
 }
 
 export class SocialMedia implements I.ISocialMedia {
@@ -87,7 +90,10 @@ export class Branch implements I.IBranch {
 
     addPhone(phone: Phone): void { this.phones.push(phone); }
 
-    generateToken(): void { throw new Error("Not implemented"); }
+    generateToken(): string {
+        this.login.token = md5(this.login.username + this.login.password + "ITIGraduationProject" + new Date());
+        return this.login.token;
+    }
 }
 
 export class Owner implements I.IRestaurantOwner {
@@ -195,7 +201,9 @@ export class Reservation implements I.IReservation {
 }
 
 export class Login implements I.ILogin {
-    constructor(public username: string, public password: string) { }
+    token: string;
+
+    constructor(public username: string, public password: string) { this.token = md5(this.username + this.password + "ITIGraduationProject" + new Date()); }
 }
 
 export class Address implements I.IAddress {
