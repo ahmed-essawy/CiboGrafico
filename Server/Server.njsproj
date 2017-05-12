@@ -48,6 +48,15 @@
     <TypeScriptCompile Include="Scripts\Sources\Routes\Login.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
+    <TypeScriptCompile Include="Scripts\Sources\Routes\Offers.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="Scripts\Sources\Routes\Orders.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="Scripts\Sources\Routes\SubOrders.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
     <TypeScriptCompile Include="Scripts\Sources\Routes\Users.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
