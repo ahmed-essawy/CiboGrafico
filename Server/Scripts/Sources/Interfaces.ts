@@ -12,6 +12,7 @@ export declare namespace Interfaces {
     export interface ILogin {
         username: string;
         password: string;
+        token: string;
     }
     export interface IAddress {
         street: string;
@@ -50,10 +51,9 @@ export declare namespace Interfaces {
         manager: IBranchManager;
         address: IAddress;
         login: ILogin;
-        token: string;
         phones: Phone[];
         addPhone(phone: Phone): void;
-        generateToken(): void;
+        generateToken(): string;
     }
     export interface IOffer {
         _id: string;
@@ -67,7 +67,6 @@ export declare namespace Interfaces {
     export interface IUser extends IPerson {
         _id: string;
         login: ILogin;
-        token: string;
         image: Uri;
         socialMedia: ISocialMedia[];
         points: number;
@@ -76,7 +75,7 @@ export declare namespace Interfaces {
         favouritesCount(): number;
         ordersCount(): number;
         addSocialMedia(socialMedia: ISocialMedia): void;
-        generateToken(): void;
+        generateToken(): string;
     }
     export interface IRestaurantOwner extends IPerson {}
     export interface IBranchManager extends IPerson {}

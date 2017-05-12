@@ -1,45 +1,19 @@
 ﻿import { Interfaces as I } from "./Interfaces";
-import { Duration, Email, Id, MealPrice, OrderRate, OrderType, Phone, Price, Uri } from "./Types";
+import { Duration, Email, MealPrice, OrderRate, OrderType, Phone, Price, Uri } from "./Types";
+const md5 = require("md5");
+
 export class User implements I.IUser {
     fullName(): string { return this.firstName + " " + this.lastName; }
-    get token(): string { return "123" };
+
     phones: Phone[];
     points: number;
     favourites: string[];
     orders: string[];
-    constructor(_id: string,
-                firstName: string,
-                lastName: string,
-                email: Email,
-                login: Login,
-                phone: Phone,
-                address: Address);
-    constructor(_id: string,
-                firstName: string,
-                lastName: string,
-                email: Email,
-                login: Login,
-                phone: Phone,
-                address: Address,
-                image: Uri);
-    constructor(_id: string,
-                firstName: string,
-                lastName: string,
-                email: Email,
-                login: Login,
-                phone: Phone,
-                address: Address,
-                image: Uri,
-                socialMedia: SocialMedia[]);
-    constructor(public _id: string,
-                public firstName: string,
-                public lastName: string,
-                public email: Email,
-                public login: Login,
-                phone: Phone,
-                public address: Address = new Address(),
-                public image: Uri = "",
-                public socialMedia: SocialMedia[] = Array<SocialMedia>()) {
+
+    constructor(_id: string, firstName: string, lastName: string, email: Email, login: Login, phone: Phone, address: Address);
+    constructor(_id: string, firstName: string, lastName: string, email: Email, login: Login, phone: Phone, address: Address, image: Uri);
+    constructor(_id: string, firstName: string, lastName: string, email: Email, login: Login, phone: Phone, address: Address, image: Uri, socialMedia: SocialMedia[]);
+    constructor(public _id: string, public firstName: string, public lastName: string, public email: Email, public login: Login, phone: Phone, public address: Address = new Address(), public image: Uri = "", public socialMedia: SocialMedia[] = Array<SocialMedia>()) {
         this.phones = Array<Phone>();
         this.phones.push(phone);
         this.points = 0;
@@ -50,11 +24,17 @@ export class User implements I.IUser {
     addSocialMedia(socialMedia: SocialMedia): void { this.socialMedia.push(socialMedia) }
     favouritesCount(): number { return this.favourites.length; }
     ordersCount(): number { return this.orders.length; }
-    generateToken(): void { throw new Error("Not implemented"); }
+
+    generateToken(): string {
+        this.login.token = md5(this.login.username + this.login.password + "ITIGraduationProject" + new Date());
+        return this.login.token;
+    }
 }
+
 export class SocialMedia implements I.ISocialMedia {
-    constructor(public provider: string, public uri: Uri) {}
+    constructor(public provider: string, public uri: Uri) { }
 }
+
 export class Restaurant implements I.IRestaurant {
     branches: Branch[];
     meals: Meal[];
@@ -85,17 +65,17 @@ export class Restaurant implements I.IRestaurant {
 export class Branch implements I.IBranch {
     phones: Phone[];
     get token(): string { return "123" };
-    constructor(public _id: string,
-                public name: string,
-                public manager: Manager,
-                public address: Address,
-                public login: Login,
-                phone: Phone) {
+
+    constructor(public _id: string, public name: string, public manager: Manager, public address: Address, public login: Login, phone: Phone) {
         this.phones = Array<Phone>();
         this.phones.push(phone);
     }
     addPhone(phone: Phone): void { this.phones.push(phone); }
-    generateToken(): void { throw new Error("Not implemented"); }
+
+    generateToken(): string {
+        this.login.token = md5(this.login.username + this.login.password + "ITIGraduationProject" + new Date());
+        return this.login.token;
+    }
 }
 export class Owner implements I.IRestaurantOwner {
     fullName(): string { return this.firstName + " " + this.lastName; }
@@ -103,11 +83,7 @@ export class Owner implements I.IRestaurantOwner {
     constructor(firstName: string, lastName: string, phone: Phone);
     constructor(firstName: string, lastName: string, phone: Phone, email: Email);
     constructor(firstName: string, lastName: string, phone: Phone, email: Email, address: Address);
-    constructor(public firstName: string,
-                public lastName: string,
-                public phone: Phone,
-                public email: Email = "",
-                public address: Address = new Address()) {
+    constructor(public firstName: string, public lastName: string, public phone: Phone, public email: Email = "", public address: Address = new Address()) {
         this.phones = Array<Phone>();
         this.phones.push(phone);
     }
@@ -119,11 +95,7 @@ export class Manager implements I.IBranchManager {
     constructor(firstName: string, lastName: string, phone: Phone);
     constructor(firstName: string, lastName: string, phone: Phone, email: Email);
     constructor(firstName: string, lastName: string, phone: Phone, email: Email, address: Address);
-    constructor(public firstName: string,
-                public lastName: string,
-                public phone: Phone,
-                public email: Email = "",
-                public address: Address = new Address()) {
+    constructor(public firstName: string, public lastName: string,  phone: Phone, public email: Email = "", public address: Address = new Address()) {
         this.phones = Array<Phone>();
         this.phones.push(phone);
     }
@@ -219,7 +191,9 @@ export class Reservation implements I.IReservation {
     }
 }
 export class Login implements I.ILogin {
-    constructor(public username: string, public password: string) {}
+    token: string;
+
+    constructor(public username: string, public password: string) { this.token = md5(this.username + this.password + "ITIGraduationProject" + new Date()); }
 }
 export class Address implements I.IAddress {
     constructor();
