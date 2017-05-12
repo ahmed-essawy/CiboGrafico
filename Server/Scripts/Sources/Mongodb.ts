@@ -8,6 +8,9 @@ module.exports = {
             (err, db) => {
                 usersCollection = db.collection("Users");
                 restaurantsCollection = db.collection("Restaurants");
+                ordersCollection = db.collection("Orders");
+                subordersCollection = db.collection("SubOrders");
+                offersCollection = db.collection("Offers");
                 console.log(`\nConnected to Database:${db.databaseName} successfully.`);
                 return callback(err);
             });
@@ -117,7 +120,7 @@ module.exports = {
     Orders: {
         Collection: () => ordersCollection,
         Read(object: Order, callback) {
-            return this.Collection().find(object).toArray((err, row: Order[]) => {
+            this.Collection().find(object).toArray((err, row: Order[]) => {
                 if (row) return callback({ success: true, data: row });
                 return callback({ success: false });
             });
@@ -165,7 +168,7 @@ module.exports = {
     Suborders: {
         Collection: () => subordersCollection,
         Read(object: SubOrder, callback) {
-            return this.Collection().find(object).toArray((err, row: SubOrder[]) => {
+            this.Collection().find(object).toArray((err, row: SubOrder[]) => {
                 if (row) return callback({ success: true, data: row });
                 return callback({ success: false });
             });
@@ -206,7 +209,7 @@ module.exports = {
     Offers: {
         Collection: () => offersCollection,
         Read(object: Offer, callback) {
-            return this.Collection().find(object).toArray((err, row: Offer[]) => {
+            this.Collection().find(object).toArray((err, row: Offer[]) => {
                 if (row) return callback({ success: true, data: row });
                 return callback({ success: false });
             });
