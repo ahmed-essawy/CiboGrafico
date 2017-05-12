@@ -6,23 +6,10 @@ import Owner = Classes.Owner;
     const restaurants = require("express").Router(), db = require("../Mongodb"), parser = require("body-parser");
     restaurants.use(parser.json())
         .use(parser.urlencoded({ extended: true }))
-        .get("/",
-        (req, res) => {
-            db.Restaurants.readAll(response => res.json(response));
-        })
-        .get("/:id",
-        (req, res) => {
-            db.Restaurants.read({ _id: req.params.id }, response => res.json(response));
-        })
-        .get("/branch/:id",
-        (req, res) => {
-            db.Branches.read({ _id: req.params.id },
-                callback => console.log(callback));
-            res.json({ success: true });
-        })
-        .post("/",
-        (req, res) => {
-            console.log(req.body);
+        .get("/", (req, res) => db.Restaurants.ReadAll(response => res.json(response)))
+        .get("/:id", (req, res) => db.Restaurants.Read({ _id: req.params.id }, response => res.json(response)))
+        .get("/Branch/:id", (req, res) => db.Branches.Read({ _id: req.params.id }, response => res.json(response)))
+        .post("/", (req, res) => {
             try {
                 const temp_rest = new Restaurant(db.objectId(),
                     req.body.name,
@@ -34,7 +21,7 @@ import Owner = Classes.Owner;
                         new Address(req.body.owner.address.street,
                             req.body.owner.address.city,
                             req.body.owner.address.country)));
-                if (req.body.branches)
+                if (req.body.branches) {
                     for (var i = 0; i < req.body.branches.length; i++) {
                         temp_rest.addBranch(new Branch(db.objectId(),
                             req.body.branches[i].name,
@@ -51,7 +38,8 @@ import Owner = Classes.Owner;
                             new Login(req.body.branches[i].login.username, req.body.branches[i].login.password),
                             req.body.branches[i].phones));
                     }
-                if (req.body.meals)
+                }
+                if (req.body.meals) {
                     for (var i = 0; i < req.body.meals.length; i++) {
                         temp_rest.addMeal(new Meal(db.objectId(),
                             req.body.meals[i].name,
@@ -59,7 +47,8 @@ import Owner = Classes.Owner;
                             req.body.meals[i].category,
                             req.body.meals[i].price));
                     }
-                if (req.body.offers)
+                }
+                if (req.body.offers) {
                     for (var i = 0; i < req.body.offers.length; i++) {
                         temp_rest.addOffer(new Offer(db.objectId(),
                             req.body.offers[i].image,
@@ -73,7 +62,8 @@ import Owner = Classes.Owner;
                             req.body.offers[i].duration,
                             req.body.offers[i].startDate));
                     }
-                if (req.body.orders)
+                }
+                if (req.body.orders) {
                     for (var i = 0; i < req.body.orders.length; i++) {
                         temp_rest.addOrder(new Order(db.objectId(),
                             req.body.orders[i].num,
@@ -97,7 +87,8 @@ import Owner = Classes.Owner;
                                 req.body.orders[i].address.city,
                                 req.body.orders[i].address.country)));
                     }
-                if (req.body.reservations)
+                }
+                if (req.body.reservations) {
                     for (var i = 0; i < req.body.reservations.length; i++) {
                         temp_rest.addReservation(new Reservation(db.objectId(),
                             new User(db.objectId(),
@@ -118,15 +109,15 @@ import Owner = Classes.Owner;
                             req.body.reservations[i].guestsPerTable,
                             req.body.reservations[i].order));
                     }
-                db.Restaurants.create(temp_rest, callback => console.log(callback));
+                }
+                db.Restaurants.Create(temp_rest, callback => console.log(callback));
                 res.json({ success: true });
             } catch (err) {
-                res.json({ success: false, msg: "Invalid Data" });
+                res.json({ success: false, msg: "Invalid Data", err: err });
             }
         })
-        .post("/Branch",
-        (req, res) => {
-            db.Branches.addBranch(req.body.branch, req.body.restaurant, resp => res.json(resp));
+        .post("/Branch", (req, res) => {
+            db.Branches.AddBranch(req.body.branch, { _id: req.body.restaurant }, response => res.json(response));
         })
         .put("/",
         (req, res) => {
@@ -141,7 +132,7 @@ import Owner = Classes.Owner;
                         new Address(req.body.owner.address.street,
                             req.body.owner.address.city,
                             req.body.owner.address.country)));
-                if (req.body.branches)
+                if (req.body.branches) {
                     for (var i = 0; i < req.body.branches.length; i++) {
                         update_rest.addBranch(new Branch(db.objectId(),
                             req.body.branches[i].name,
@@ -158,7 +149,8 @@ import Owner = Classes.Owner;
                             new Login(req.body.branches[i].login.username, req.body.branches[i].login.password),
                             req.body.branches[i].phones));
                     }
-                if (req.body.meals)
+                }
+                if (req.body.meals) {
                     for (var i = 0; i < req.body.meals.length; i++) {
                         update_rest.addMeal(new Meal(db.objectId(),
                             req.body.meals[i].name,
@@ -166,7 +158,8 @@ import Owner = Classes.Owner;
                             req.body.meals[i].category,
                             req.body.meals[i].price));
                     }
-                if (req.body.offers)
+                }
+                if (req.body.offers) {
                     for (var i = 0; i < req.body.offers.length; i++) {
                         update_rest.addOffer(new Offer(db.objectId(),
                             req.body.offers[i].image,
@@ -180,7 +173,8 @@ import Owner = Classes.Owner;
                             req.body.offers[i].duration,
                             req.body.offers[i].startDate));
                     }
-                if (req.body.orders)
+                }
+                if (req.body.orders) {
                     for (var i = 0; i < req.body.orders.length; i++) {
                         update_rest.addOrder(new Order(db.objectId(),
                             req.body.orders[i].num,
@@ -204,7 +198,8 @@ import Owner = Classes.Owner;
                                 req.body.orders[i].address.city,
                                 req.body.orders[i].address.country)));
                     }
-                if (req.body.reservations)
+                }
+                if (req.body.reservations) {
                     for (var i = 0; i < req.body.reservations.length; i++) {
                         update_rest.addReservation(new Reservation(db.objectId(),
                             new User(db.objectId(),
@@ -225,19 +220,18 @@ import Owner = Classes.Owner;
                             req.body.reservations[i].guestsPerTable,
                             req.body.reservations[i].order));
                     }
-                db.Restaurants.update(update_rest, response => res.json(response));
+                }
+                db.Restaurants.Update(update_rest, response => res.json(response));
             } catch (err) {
                 res.json({ success: false, msg: "Invalid Data" });
             }
         })
-        .delete("/:id",
-        (req, res) => {
-            db.Restaurants.delete({ _id: req.params.id });
+        .delete("/:id", (req, res) => {
+            db.Restaurants.Delete({ _id: req.params.id });
             res.json({ success: true, data: req.params.id });
         })
-        .delete("/branch/:id",
-        (req, res) => {
-            db.Branches.delete({ _id: req.params.id });
+        .delete("/Branch/:id", (req, res) => {
+            db.Branches.Delete({ _id: req.params.id });
             res.json({ success: true, data: req.params.id });
         });
     module.exports = restaurants;
