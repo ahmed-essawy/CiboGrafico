@@ -11,8 +11,6 @@
     "cookie-parser": "^1.4.3",
     "express": "^4.15.2",
     "md5": "^2.2.1",
-    "mongodb": "^2.2.26",
-    "passport": "^0.3.2",
-    "passport-http-bearer": "^1.0.1"
+    "mongodb": "^2.2.26"
   }
 }
