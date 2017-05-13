@@ -61,9 +61,9 @@ export class Restaurant implements I.IRestaurant {
 
     addMeal(meal: Meal): void { this.meals.push(meal); }
 
-    addOffer(offer: Offer): void { this.offers.push(offer._id); }
+    addOffer(offer: Id): void { this.offers.push(offer._id); }
 
-    addOrder(order: Order): void { this.orders.push(order._id); }
+    addOrder(order: Id): void { this.orders.push(order._id); }
 
     addReservation(reservation: Reservation): void { this.reservations.push(reservation); }
 
@@ -80,8 +80,6 @@ export class Restaurant implements I.IRestaurant {
 
 export class Branch implements I.IBranch {
     phones: Phone[];
-
-    get token(): string { return "123" };
 
     constructor(public _id: string, public name: string, public manager: Manager, public address: Address, public login: Login, phone: Phone) {
         this.phones = Array<Phone>();
@@ -129,21 +127,15 @@ export class Manager implements I.IBranchManager {
 }
 
 export class Meal implements I.IMeal {
-    ingredients: Ingredient[];
+    ingredients: string[];
 
     ingredientsCount(): number { return this.ingredients.length; }
 
-    constructor(public _id: string,
-        public name: string,
-        public image: Uri,
-        public category: string,
-        public price: Price) {
-        this.ingredients = new Array<Ingredient>();
-    }
+    constructor(public _id: string, public name: string, public image: Uri, public category: string, public price: Price) { this.ingredients = new Array<string>(); }
 
-    addIngredient(ingredient: Ingredient): void { this.ingredients.push(ingredient); }
+    addIngredient(ingredient: Id): void { this.ingredients.push(ingredient._id); }
 
-    addIngredients(ingredients: Ingredient[]): void { ingredients.forEach(item => this.ingredients.push(item)); }
+    addIngredients(ingredients: Id[]): void { ingredients.forEach(item => this.ingredients.push(item._id)); }
 }
 
 export class SubOrder implements I.ISubOrder {
@@ -163,7 +155,7 @@ export class SubOrder implements I.ISubOrder {
 
     mealsCount(): number { return this.meals.length; }
 
-    addMeal(meal: Meal): void { this.meals.push(meal) }
+    addMeal(meal: MealPrice): void { this.meals.push(meal) }
 }
 
 export class Order extends SubOrder {
@@ -226,5 +218,7 @@ export class Address implements I.IAddress {
 }
 
 export class Ingredient implements I.IIngredient {
-    constructor(public _id: string, public name: string, public image: string) { }
+    constructor(_id: string, name: string);
+    constructor(_id: string, name: string, image: string);
+    constructor(public _id: string, public name: string, public image: string = "") { }
 }
