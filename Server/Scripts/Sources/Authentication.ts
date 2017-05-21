@@ -1,14 +1,8 @@
-﻿export let isAuthenticatedUser = (req, res, next) => {
-    require("./Mongodb").Users.Read({ "login.token": req.query.access_token },
-        users => {
-            if (users.data.length == 0) res.sendStatus(401);
-            else next();
-        });
-};
-export let isAuthenticatedBranch = (req, res, next) => {
+﻿export let isAuthenticatedUser = (req: any, res: any, next: any) => {};
+export let isAuthenticatedBranch = (req: any, res: any, next: any) => {
     require("./Mongodb").Restaurants.Read({ "login.token": req.query.access_token },
         users => {
-            if (users.data.length == 0) res.sendStatus(401);
+            if (users.data.length === 0) res.status(401).json({ success: false, msg: "Unauthorized" });
             else next();
         });
 };

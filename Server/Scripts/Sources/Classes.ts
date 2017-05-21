@@ -1,21 +1,20 @@
-﻿import { Interfaces as I } from "./Interfaces";
-import { Duration, Email, MealPrice, OrderRate, OrderType, Phone, Price, Uri, Id } from "./Types";
+﻿import {IUser, ISocialMedia, IRestaurant, IBranch, IRestaurantOwner, IBranchManager, IMeal, ISubOrder, IOffer, IReservation, IAuthentication, IAddress, IIngredient } from "./Interfaces";
+import { Duration, Email, MealPrice, OrderRate, OrderType, Phone, Price, Uri, Id, Username, AccountType } from "./Types";
 const md5 = require("md5");
 
-export class User implements I.IUser {
+export class User implements IUser {
     fullName(): string { return this.firstName + " " + this.lastName; }
 
-    phones: Phone[];
     points: number;
     favourites: string[];
     orders: string[];
 
-    constructor(_id: string, firstName: string, lastName: string, email: Email, login: Login, phone: Phone, address: Address);
-    constructor(_id: string, firstName: string, lastName: string, email: Email, login: Login, phone: Phone, address: Address, image: Uri);
-    constructor(_id: string, firstName: string, lastName: string, email: Email, login: Login, phone: Phone, address: Address, image: Uri, socialMedia: SocialMedia[]);
-    constructor(public _id: string, public firstName: string, public lastName: string, public email: Email, public login: Login, phone: Phone, public address: Address = new Address(), public image: Uri = "", public socialMedia: SocialMedia[] = Array<SocialMedia>()) {
-        this.phones = Array<Phone>();
-        this.phones.push(phone);
+    constructor(_id: string, firstName: string, lastName: string, email: Email, username: Username);
+    constructor(_id: string, firstName: string, lastName: string, email: Email, username: Username, phones: Phone[]);
+    constructor(_id: string, firstName: string, lastName: string, email: Email, username: Username, phones: Phone[], address: Address);
+    constructor(_id: string, firstName: string, lastName: string, email: Email, username: Username, phones: Phone[], address: Address, image: Uri);
+    constructor(_id: string, firstName: string, lastName: string, email: Email, username: Username, phones: Phone[], address: Address, image: Uri, socialMedia: SocialMedia[]);
+    constructor(public _id: string, public firstName: string, public lastName: string, public email: Email, public username: Username, public phones: Phone[] = Array<string>(), public address: Address = new Address(), public image: Uri = "", public socialMedia: SocialMedia[] = Array<SocialMedia>()) {
         this.points = 0;
         this.favourites = Array<string>();
         this.orders = Array<string>();
@@ -28,18 +27,13 @@ export class User implements I.IUser {
     favouritesCount(): number { return this.favourites.length; }
 
     ordersCount(): number { return this.orders.length; }
-
-    generateToken(): string {
-        this.login.token = md5(this.login.username + this.login.password + "ITIGraduationProject" + new Date());
-        return this.login.token;
-    }
 }
 
-export class SocialMedia implements I.ISocialMedia {
-    constructor(public provider: string, public uri: Uri) { }
+export class SocialMedia implements ISocialMedia {
+    constructor(public provider: string, public uri: Uri) {}
 }
 
-export class Restaurant implements I.IRestaurant {
+export class Restaurant implements IRestaurant {
     branches: Branch[];
     meals: Meal[];
     offers: string[];
@@ -78,39 +72,24 @@ export class Restaurant implements I.IRestaurant {
     reservationsCount(): number { return this.reservations.length; }
 }
 
-export class Branch implements I.IBranch {
-    phones: Phone[];
-
-    constructor(public _id: string, public name: string, public manager: Manager, public address: Address, public login: Login, phone: Phone) {
-        this.phones = Array<Phone>();
-        this.phones.push(phone);
-    }
+export class Branch implements IBranch {
+    constructor(public _id: string, public name: string, public manager: Manager, public address: Address, public email: Email, public username: Username, public phones: Phone[]) {}
 
     addPhone(phone: Phone): void { this.phones.push(phone); }
-
-    generateToken(): string {
-        this.login.token = md5(this.login.username + this.login.password + "ITIGraduationProject" + new Date());
-        return this.login.token;
-    }
 }
 
-export class Owner implements I.IRestaurantOwner {
+export class Owner implements IRestaurantOwner {
     fullName(): string { return this.firstName + " " + this.lastName; }
 
-    phones: Phone[];
-
-    constructor(firstName: string, lastName: string, phone: Phone);
-    constructor(firstName: string, lastName: string, phone: Phone, email: Email);
-    constructor(firstName: string, lastName: string, phone: Phone, email: Email, address: Address);
-    constructor(public firstName: string, public lastName: string, public phone: Phone, public email: Email = "", public address: Address = new Address()) {
-        this.phones = Array<Phone>();
-        this.phones.push(phone);
-    }
+    constructor(firstName: string, lastName: string, phones: Phone[]);
+    constructor(firstName: string, lastName: string, phones: Phone[], email: Email);
+    constructor(firstName: string, lastName: string, phones: Phone[], email: Email, address: Address);
+    constructor(public firstName: string, public lastName: string, public phones: Phone[], public email: Email = "", public address: Address = new Address()) {}
 
     addPhone(phone: Phone): void { this.phones.push(phone); }
 }
 
-export class Manager implements I.IBranchManager {
+export class Manager implements IBranchManager {
     fullName(): string { return this.firstName + " " + this.lastName; }
 
     phones: Phone[];
@@ -126,7 +105,7 @@ export class Manager implements I.IBranchManager {
     addPhone(phone: Phone): void { this.phones.push(phone); }
 }
 
-export class Meal implements I.IMeal {
+export class Meal implements IMeal {
     ingredients: string[];
 
     ingredientsCount(): number { return this.ingredients.length; }
@@ -138,7 +117,7 @@ export class Meal implements I.IMeal {
     addIngredients(ingredients: Id[]): void { ingredients.forEach(item => this.ingredients.push(item._id)); }
 }
 
-export class SubOrder implements I.ISubOrder {
+export class SubOrder implements ISubOrder {
     owner: string;
     rate: string;
     time: Date;
@@ -173,11 +152,7 @@ export class Order extends SubOrder {
     subOrdersCount(): number { return this.subOrders.length; }
 }
 
-//var meal1 = new Meal("42423", "fsufhsdj", "das", "asdas", 20);
-//var meal2 = new Meal("42423", "fsufhsdj", "Das", "asdas", 30);
-//var y = new Order("12312", 3432, x, OrderDelivery, new Address("dasa"), [meal1, meal2]);
-//console.log(y.price);
-export class Offer implements I.IOffer {
+export class Offer implements IOffer {
     meal: string;
 
     constructor(_id: string, image: Uri, description: string, meal: Id, discount: number, duration: Duration);
@@ -187,38 +162,42 @@ export class Offer implements I.IOffer {
     }
 }
 
-export class Reservation implements I.IReservation {
+export class Reservation implements IReservation {
     owner: string;
 
     tablesCount(): number { return this.guests / this.guestsPerTable; }
 
     constructor(_id: string, owner: Id, guests: number, guestsPerTable: number);
     constructor(_id: string, owner: Id, guests: number, guestsPerTable: number, order: string);
-    constructor(public _id: string,
-        owner: Id,
-        public guests: number,
-        public guestsPerTable: number,
-        public order?: string) {
+    constructor(public _id: string, owner: Id, public guests: number, public guestsPerTable: number, public order?: string) {
         this.owner = owner._id;
     }
 }
 
-export class Login implements I.ILogin {
+export class Authentication implements IAuthentication {
+    password: string;
     token: string;
+    devices: string[];
 
-    constructor(public username: string, public password: string) { this.token = md5(this.username + this.password + "ITIGraduationProject" + new Date()); }
+    constructor(public _id: string, public type: AccountType, public email: Email, public username: Username, password: string) {
+        this.devices = Array<string>();
+        this.password = md5(password);
+        this.token = md5(this.type + this.username + this.password + "ITIGraduationProject" + new Date());
+    }
+
+    addDevice(device: string): void { this.devices.push(device) }
 }
 
-export class Address implements I.IAddress {
+export class Address implements IAddress {
     constructor();
     constructor(street: string);
     constructor(street: string, city: string);
     constructor(street: string, city: string, country: string);
-    constructor(public street: string = "", public city: string = "Alexandria", public country: string = "Egypt") { }
+    constructor(public street: string = "", public city: string = "Alexandria", public country: string = "Egypt") {}
 }
 
-export class Ingredient implements I.IIngredient {
+export class Ingredient implements IIngredient {
     constructor(_id: string, name: string);
     constructor(_id: string, name: string, image: string);
-    constructor(public _id: string, public name: string, public image: string = "") { }
+    constructor(public _id: string, public name: string, public image: string = "") {}
 }

@@ -46,6 +46,28 @@
     <Content Include="tsconfig.json">
       <SubType>Code</SubType>
     </Content>
+    <TypeScriptCompile Include="Scripts\Sources\Access Layers\Branches.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="Scripts\Sources\Access Layers\Meals.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="Scripts\Sources\Access Layers\Offers.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="Scripts\Sources\Access Layers\Orders.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="Scripts\Sources\Access Layers\Restaurants.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="Scripts\Sources\Access Layers\SubOrders.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="Scripts\Sources\Access Layers\Users.ts" />
+    <TypeScriptCompile Include="Scripts\Sources\Access Layers\Login.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
     <TypeScriptCompile Include="Scripts\Sources\Authentication.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
@@ -68,6 +90,9 @@
       <SubType>Code</SubType>
     </TypeScriptCompile>
     <TypeScriptCompile Include="Scripts\Sources\Routes\Orders.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="Scripts\Sources\Settings.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
     <TypeScriptCompile Include="Scripts\Sources\Routes\SubOrders.ts">
@@ -95,6 +120,7 @@
     <Folder Include="Scripts\libs\Scripts\Sources\" />
     <Folder Include="Scripts\libs\Scripts\Sources\Routes\" />
     <Folder Include="Scripts\Sources\" />
+    <Folder Include="Scripts\Sources\Access Layers\" />
     <Folder Include="Scripts\Sources\Routes\" />
     <Folder Include="Scripts\typings\" />
     <Folder Include="Scripts\typings\node\" />
