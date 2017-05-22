@@ -11,7 +11,7 @@
                 const tempAddress = new Address(req.body.branch.address.street, req.body.branch.address.city, req.body.branch.address.country);
                 const tempBranch = new Branch(db.objectId(), req.body.branch.name, tempManager, tempAddress, req.body.branch.email, req.body.branch.username, req.body.branch.phone);
                 db.Branches.Create(tempBranch, { _id: req.body.restaurant }, response => res.json(response));
-            } else res.sendStatus(403);
+            } else res.status(400).json({ success: false, msg: "Invalid Data" });
         })
         .put("/", (req, res) => {
             if (req.body._id) {
