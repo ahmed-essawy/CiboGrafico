@@ -1,5 +1,4 @@
 ﻿import { Duration, Email, MealPrice, Phone, Price, Uri, Username, Id, AccountType } from "./Types";
-
 export interface IPerson {
     firstName: string;
     lastName: string;
@@ -7,12 +6,10 @@ export interface IPerson {
     phones: Phone[];
     addPhone(phone: Phone): void;
 }
-
 export interface ILogin {
     email: Email;
     username: Username;
 }
-
 export interface IAuthentication extends ILogin {
     _id: string;
     type: AccountType;
@@ -21,19 +18,16 @@ export interface IAuthentication extends ILogin {
     devices: string[];
     addDevice(device: string): void;
 }
-
 export interface IAddress {
     street: string;
     city: string;
     country: string;
 }
-
 export interface IIngredient {
     _id: string;
     name: string;
     image: string;
 }
-
 export interface IRestaurant {
     _id: string;
     name: string;
@@ -55,7 +49,6 @@ export interface IRestaurant {
     addOrder(order: Id): void;
     addReservation(reservation: IReservation): void;
 }
-
 export interface IBranch extends ILogin {
     _id: string;
     name: string;
@@ -64,7 +57,6 @@ export interface IBranch extends ILogin {
     phones: Phone[];
     addPhone(phone: Phone): void;
 }
-
 export interface IOffer {
     _id: string;
     image: Uri;
@@ -74,28 +66,23 @@ export interface IOffer {
     duration: Duration;
     meal: string;
 }
-
 export interface IUser extends IPerson, ILogin {
     _id: string;
     image: Uri;
     socialMedia: ISocialMedia[];
     points: number;
-    favourites: string[];
+    favorites: IMeal[];
     orders: string[];
-    favouritesCount(): number;
+    favoritesCount(): number;
     ordersCount(): number;
     addSocialMedia(socialMedia: ISocialMedia): void;
 }
-
-export interface IRestaurantOwner extends IPerson {}
-
-export interface IBranchManager extends IPerson {}
-
+export interface IRestaurantOwner extends IPerson { }
+export interface IBranchManager extends IPerson { }
 export interface ISocialMedia {
     provider: string;
     uri: Uri;
 }
-
 export interface IReservation {
     _id: string;
     owner: string;
@@ -104,7 +91,6 @@ export interface IReservation {
     order?: string;
     tablesCount(): number;
 }
-
 export interface ISubOrder {
     _id: string;
     num: number;
@@ -115,7 +101,6 @@ export interface ISubOrder {
     mealsCount(): number;
     addMeal(meal: MealPrice): void;
 }
-
 export interface IOrder extends ISubOrder {
     type: string;
     address: IAddress;
@@ -126,7 +111,6 @@ export interface IOrder extends ISubOrder {
     addsubOrder(subOrder: Id): void;
     restaurant: Id;
 }
-
 export interface IMeal {
     _id: string;
     name: string;
