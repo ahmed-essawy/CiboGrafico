@@ -118,16 +118,14 @@ export class Meal implements IMeal {
 }
 
 export class SubOrder implements ISubOrder {
-    owner: string;
     rate: string;
     time: Date;
 
     price(): Price { return this.meals.reduce((a, b) => a + b.price, 0); }
 
-    constructor(_id: string, num: number, owner: Id);
-    constructor(_id: string, num: number, owner: Id, meals: MealPrice[]);
-    constructor(public _id: string, public num: number, owner: Id, public meals: MealPrice[] = new Array<MealPrice>()) {
-        this.owner = owner._id;
+    constructor(_id: string, num: number, owner:string);
+    constructor(_id: string, num: number, owner:string, meals: MealPrice[]);
+    constructor(public _id: string, public num: number, public owner: string, public meals: MealPrice[] = new Array<MealPrice>()) {
         this.rate = OrderRate[OrderRate.None];
         this.time = new Date();
     }
@@ -141,9 +139,9 @@ export class Order extends SubOrder {
     subOrders: string[];
     type: string;
 
-    constructor(_id: string, num: number, owner: Id, restaurant: string, type: OrderType, address: Address);
-    constructor(_id: string, num: number, owner: Id, restaurant: string, type: OrderType, address: Address, meals: MealPrice[]);
-    constructor(_id: string, num: number, owner: Id, public restaurant: string, type: OrderType, public address: Address, meals: MealPrice[] = new Array<MealPrice>()) {
+    constructor(_id: string, num: number, owner: string, restaurant: string, type: OrderType, address: Address);
+    constructor(_id: string, num: number, owner: string, restaurant: string, type: OrderType, address: Address, meals: MealPrice[]);
+    constructor(_id: string, num: number, owner: string, public restaurant: string, type: OrderType, public address: Address, meals: MealPrice[] = new Array<MealPrice>()) {
         super(_id, num, owner, meals);
         this.subOrders = Array<string>();
         this.type = OrderType[type];
