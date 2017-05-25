@@ -1,4 +1,13 @@
 ﻿import { Duration, Email, MealPrice, Phone, Price, Uri, Username, Id, AccountType } from "./Types";
+interface IId {
+    _id: string;
+}
+interface IName {
+    name: string;
+}
+interface IImage {
+    image: Uri;
+}
 export interface IPerson {
     firstName: string;
     lastName: string;
@@ -10,8 +19,7 @@ export interface ILogin {
     email: Email;
     username: Username;
 }
-export interface IAuthentication extends ILogin {
-    _id: string;
+export interface IAuthentication extends ILogin, IId {
     type: AccountType;
     password: string;
     token: string;
@@ -23,14 +31,13 @@ export interface IAddress {
     city: string;
     country: string;
 }
-export interface IIngredient {
-    _id: string;
-    name: string;
+export interface IBranchAddress extends IAddress {
+    area: string;
+}
+export interface IIngredient extends IId, IName {
     image: string;
 }
-export interface IRestaurant {
-    _id: string;
-    name: string;
+export interface IRestaurant extends IId, IName {
     logo: Uri;
     owner: IRestaurantOwner;
     branches: IBranch[];
@@ -49,26 +56,20 @@ export interface IRestaurant {
     addOrder(order: Id): void;
     addReservation(reservation: IReservation): void;
 }
-export interface IBranch extends ILogin {
-    _id: string;
-    name: string;
+export interface IBranch extends ILogin, IId, IName {
     manager: IBranchManager;
-    address: IAddress;
+    address: IBranchAddress;
     phones: Phone[];
     addPhone(phone: Phone): void;
 }
-export interface IOffer {
-    _id: string;
-    image: Uri;
+export interface IOffer extends IId, IImage {
     description: string;
     discount: number;
     startDate: Date;
-    duration: Duration;
+    endDate: Date;
     meal: string;
 }
-export interface IUser extends IPerson, ILogin {
-    _id: string;
-    image: Uri;
+export interface IUser extends IPerson, ILogin, IId, IImage {
     socialMedia: ISocialMedia[];
     points: number;
     favorites: IMeal[];
@@ -77,22 +78,20 @@ export interface IUser extends IPerson, ILogin {
     ordersCount(): number;
     addSocialMedia(socialMedia: ISocialMedia): void;
 }
-export interface IRestaurantOwner extends IPerson { }
-export interface IBranchManager extends IPerson { }
+export interface IRestaurantOwner extends IPerson {}
+export interface IBranchManager extends IPerson {}
 export interface ISocialMedia {
     provider: string;
     uri: Uri;
 }
-export interface IReservation {
-    _id: string;
+export interface IReservation extends IId {
     owner: string;
     guests: number;
     guestsPerTable: number;
     order?: string;
     tablesCount(): number;
 }
-export interface ISubOrder {
-    _id: string;
+export interface ISubOrder extends IId {
     num: number;
     rate: string;
     price(): Price;
@@ -109,12 +108,9 @@ export interface IOrder extends ISubOrder {
     subOrdersCount(): number;
     mealsCount(): number;
     addsubOrder(subOrder: Id): void;
-    restaurant: Id;
+    restaurant: string;
 }
-export interface IMeal {
-    _id: string;
-    name: string;
-    image: Uri;
+export interface IMeal extends IId, IName, IImage {
     category: string;
     price: Price;
     ingredients: string[];

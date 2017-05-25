@@ -7,5 +7,6 @@ middlewares
     .use("/Orders", require("./Routes/Orders"))
     .use("/SubOrders", require("./Routes/SubOrders"))
     .use("/Offers", require("./Routes/Offers"))
-    .use("/Users", require("./Routes/Users"));
+    .use("/Users", require("./Routes/Users"))
+    .use("/Locations", require("./Routes/Locations"));
 module.exports = middlewares;

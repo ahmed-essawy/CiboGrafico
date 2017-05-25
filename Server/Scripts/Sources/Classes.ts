@@ -1,24 +1,58 @@
 ﻿import {
-    IUser, ISocialMedia, IRestaurant, IBranch, IRestaurantOwner, IBranchManager, IMeal, ISubOrder, IOffer,
-    IReservation, IAuthentication, IAddress, IIngredient
+    IUser, ISocialMedia, IRestaurant, IBranch, IRestaurantOwner, IBranchManager, IMeal, IOrder, ISubOrder, IOffer,
+    IReservation, IAuthentication, IAddress, IIngredient, IBranchAddress
 } from "./Interfaces";
-import { Duration, Email, MealPrice, OrderRate, OrderType, Phone, Price, Uri, Id, Username, AccountType } from
+import { Duration, Email, MealPrice, OrderRate, OrderType, Phone, Price, Uri, Id, Username, AccountType, objectId } from
     "./Types";
+import { IsNotEmpty, Length, IsInt, IsAlpha, IsUrl, IsArray, IsEmail, IsAlphanumeric, IsEnum, IsDate, IsString }
+    from
+    "class-validator";
 const md5 = require("md5");
 export class User implements IUser {
+    _id: string;
+    @IsAlpha()
+    firstName: string;
+    @IsAlpha()
+    lastName: string;
     fullName(): string { return this.firstName + " " + this.lastName; }
+    @IsEmail()
+    email: Email;
+    @IsAlphanumeric()
+    username: Username;
+    @IsArray()
+    phones: Phone[];
+    @IsUrl()
+    image: Uri;
+    @IsArray()
+    socialMedia: SocialMedia[];
+    @IsInt()
     points: number;
+    @IsArray()
     favorites: Meal[];
+    @IsArray()
     orders: string[];
-    constructor(_id: string, firstName: string, lastName: string, email: Email, username: Username);
-    constructor(_id: string, firstName: string, lastName: string, email: Email, username: Username, phones: Phone[]);
-    constructor(_id: string, firstName: string, lastName: string, email: Email, username: Username, phones: Phone[], address: Address);
-    constructor(_id: string, firstName: string, lastName: string, email: Email, username: Username, phones: Phone[], address: Address, image: Uri);
-    constructor(_id: string, firstName: string, lastName: string, email: Email, username: Username, phones: Phone[], address: Address, image: Uri, socialMedia: SocialMedia[]);
-    constructor(public _id: string, public firstName: string, public lastName: string, public email: Email, public username: Username, public phones: Phone[] = Array<string>(), public address: Address = new Address(), public image: Uri = "", public socialMedia: SocialMedia[] = Array<SocialMedia>()) {
+    constructor(id: string, firstName: string, lastName: string, email: Email, username: Username);
+    constructor(id: string, firstName: string, lastName: string, email: Email, username: Username, phones: Phone[]);
+    constructor(id: string, firstName: string, lastName: string, email: Email, username: Username, phones: Phone[],
+        address: Address);
+    constructor(id: string, firstName: string, lastName: string, email: Email, username: Username, phones: Phone[],
+        address: Address, image: Uri);
+    constructor(id: string, firstName: string, lastName: string, email: Email, username: Username, phones: Phone[],
+        address: Address, image: Uri, socialMedia: SocialMedia[]);
+    constructor(id: string, firstName: string, lastName: string, email: Email, username: Username,
+        phones: Phone[] = Array<Phone>(), public address: Address = new Address(), image: Uri = "",
+        socialMedia: SocialMedia[] = Array<SocialMedia>()) {
+        this._id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.username = username;
+        this.phones = phones;
+        this.image = image;
         this.points = 0;
         this.favorites = Array<Meal>();
         this.orders = Array<string>();
+        this.socialMedia = socialMedia;
     }
     addPhone(phone: Phone): void { this.phones.push(phone) }
     addSocialMedia(socialMedia: SocialMedia): void { this.socialMedia.push(socialMedia) }
@@ -26,17 +60,37 @@ export class User implements IUser {
     ordersCount(): number { return this.orders.length; }
 }
 export class SocialMedia implements ISocialMedia {
-    constructor(public provider: string, public uri: Uri) { }
+    @IsString()
+    provider: string;
+    @IsUrl()
+    uri: string;
+    constructor(provider: string, uri: Uri) {
+        this.provider = provider;
+        this.uri = uri;
+    }
 }
 export class Restaurant implements IRestaurant {
+    _id: string;
+    @IsAlpha()
+    name: string;
+    @IsUrl()
+    logo: Uri;
+    @IsArray()
     branches: Branch[];
+    @IsArray()
     meals: Meal[];
+    @IsArray()
     offers: string[];
+    @IsArray()
     orders: string[];
+    @IsArray()
     reservations: Reservation[];
-    constructor(_id: string, name: string, logo: Uri, owner: Owner);
-    constructor(_id: string, name: string, logo: Uri, owner: Owner, branch: Branch);
-    constructor(public _id: string, public name: string, public logo: Uri, public owner: Owner, branch?: Branch) {
+    constructor(id: string, name: string, logo: Uri, owner: Owner);
+    constructor(id: string, name: string, logo: Uri, owner: Owner, branch: Branch);
+    constructor(id: string, name: string, logo: Uri, public owner: Owner, branch?: Branch) {
+        this._id = objectId(id);
+        this.name = name;
+        this.logo = logo;
         this.branches = Array<Branch>();
         if (branch) this.branches.push(branch);
         this.meals = Array<Meal>();
@@ -56,91 +110,195 @@ export class Restaurant implements IRestaurant {
     reservationsCount(): number { return this.reservations.length; }
 }
 export class Branch implements IBranch {
-    constructor(public _id: string,
-        public name: string,
-        public manager: Manager,
-        public address: Address,
-        public email: Email,
-        public username: Username,
-        public phones: Phone[]) { }
+    _id: string;
+    @IsAlpha()
+    name: string;
+    @IsEmail()
+    email: Email;
+    @IsAlphanumeric()
+    username: Username;
+    @IsArray()
+    phones: Phone[];
+    constructor(id: string, name: string, public manager: Manager, public address: BranchAddress, email: Email,
+        username: Username, phones: Phone[]) {
+        this._id = objectId(id);
+        this.name = name;
+        this.email = email;
+        this.username = username;
+        this.phones = phones;
+    }
     addPhone(phone: Phone): void { this.phones.push(phone); }
 }
 export class Owner implements IRestaurantOwner {
+    @IsAlpha()
+    firstName: string;
+    @IsAlpha()
+    lastName: string;
     fullName(): string { return this.firstName + " " + this.lastName; }
+    @IsArray()
+    phones: Phone[];
+    @IsEmail()
+    email: Email;
     constructor(firstName: string, lastName: string, phones: Phone[]);
     constructor(firstName: string, lastName: string, phones: Phone[], email: Email);
     constructor(firstName: string, lastName: string, phones: Phone[], email: Email, address: Address);
-    constructor(public firstName: string, public lastName: string, public phones: Phone[], public email: Email = "", public address: Address = new Address()) { }
+    constructor(firstName: string, lastName: string, phones: Phone[], email: Email = "",
+        public address: Address = new Address()) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phones = phones;
+        this.email = email;
+    }
     addPhone(phone: Phone): void { this.phones.push(phone); }
 }
 export class Manager implements IBranchManager {
+    @IsAlpha()
+    firstName: string;
+    @IsAlpha()
+    lastName: string;
+    @IsEmail()
+    email: Email;
     fullName(): string { return this.firstName + " " + this.lastName; }
+    @IsArray()
     phones: Phone[];
     constructor(firstName: string, lastName: string, phone: Phone);
     constructor(firstName: string, lastName: string, phone: Phone, email: Email);
     constructor(firstName: string, lastName: string, phone: Phone, email: Email, address: Address);
-    constructor(public firstName: string, public lastName: string, phone: Phone, public email: Email = "", public address: Address = new Address()) {
+    constructor(firstName: string, lastName: string, phone: Phone, email: Email = "",
+        public address: Address = new Address()) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
         this.phones = Array<Phone>();
         this.phones.push(phone);
     }
     addPhone(phone: Phone): void { this.phones.push(phone); }
 }
 export class Meal implements IMeal {
+    _id: string;
+    @IsAlpha()
+    name: string;
+    @IsUrl()
+    image: Uri;
+    @IsInt()
+    price: Price;
+    @IsArray()
     ingredients: string[];
     ingredientsCount(): number { return this.ingredients.length; }
-    constructor(public _id: string, public name: string, public image: Uri, public category: string, public price: Price) {
+    constructor(id: string, name: string, image: Uri, public category: string, price: Price) {
+        this._id = id;
+        this.name = name;
+        this.image = image;
+        this.price = price;
         this.ingredients = new Array<string>();
     }
     addIngredient(ingredient: Id): void { this.ingredients.push(ingredient._id); }
     addIngredients(ingredients: Id[]): void { ingredients.forEach(item => this.ingredients.push(item._id)); }
 }
 export class SubOrder implements ISubOrder {
+    _id: string;
+    @IsInt()
+    num: number;
+
+    owner: string;
+    @IsArray()
+    meals: MealPrice[];
     rate: string;
+    @IsDate()
     time: Date;
     price(): Price { return this.meals.reduce((a, b) => a + b.price, 0); }
-    constructor(_id: string, num: number, owner: string);
-    constructor(_id: string, num: number, owner: string, meals: MealPrice[]);
-    constructor(public _id: string, public num: number, public owner: string, public meals: MealPrice[] = new Array<MealPrice>()) {
+    constructor(id: string, num: number, owner: string);
+    constructor(id: string, num: number, owner: string, meals: MealPrice[]);
+    constructor(id: string, num: number, owner: string, meals: MealPrice[] = new Array<MealPrice>()) {
+        this._id = id;
+        this.owner = owner;
+        this.meals = meals;
         this.rate = OrderRate[OrderRate.None];
         this.time = new Date();
     }
     mealsCount(): number { return this.meals.length; }
     addMeal(meal: MealPrice): void { this.meals.push(meal) }
 }
-export class Order extends SubOrder {
+export class Order extends SubOrder implements IOrder {
+    @IsArray()
     subOrders: string[];
+    @IsEnum(OrderType)
     type: string;
-    constructor(_id: string, num: number, owner: string, restaurant: string, type: OrderType, address: Address);
-    constructor(_id: string, num: number, owner: string, restaurant: string, type: OrderType, address: Address, meals: MealPrice[]);
-    constructor(_id: string, num: number, owner: string, public restaurant: string, type: OrderType, public address: Address, meals: MealPrice[] = new Array<MealPrice>()) {
-        super(_id, num, owner, meals);
+
+    restaurant: string;
+    constructor(id: string, num: number, owner: string, restaurant: string, type: OrderType, address: Address);
+    constructor(id: string, num: number, owner: string, restaurant: string, type: OrderType, address: Address,
+        meals: MealPrice[]);
+    constructor(id: string, num: number, owner: string, restaurant: string, type: OrderType, public address: Address,
+        meals: MealPrice[] = new Array<MealPrice>()) {
+        super(id, num, owner, meals);
         this.subOrders = Array<string>();
         this.type = OrderType[type];
     }
+    addsubOrder(subOrder: Id): void { this.subOrders.push(subOrder._id) }
     subOrdersCount(): number { return this.subOrders.length; }
 }
 export class Offer implements IOffer {
+    _id: string;
+    @IsUrl()
+    image: Uri;
+    @IsString()
+    description: string;
+    @IsInt()
+    discount: number;
+    @IsDate()
+    startDate: Date;
+
     meal: string;
-    constructor(_id: string, image: Uri, description: string, meal: Id, discount: number, duration: Duration);
-    constructor(_id: string, image: Uri, description: string, meal: Id, discount: number, duration: Duration, startDate: Date);
-    constructor(public _id: string, public image: Uri, public description: string, meal: Id, public discount: number, public duration: Duration, public startDate: Date = new Date()) {
-        this.meal = meal._id;
+    endDate: Date;
+    constructor(id: string, image: Uri, description: string, meal: string, discount: number, duration: Duration);
+    constructor(id: string, image: Uri, description: string, meal: string, discount: number, duration: Duration,
+        startDate: Date);
+    constructor(id: string, image: Uri, description: string, meal: string, discount: number, duration: Duration,
+        startDate: Date = new Date()) {
+        this._id = id;
+        this.image = image;
+        this.description = description;
+        this.meal = meal;
+        this.discount = discount;
+        this.startDate = this.endDate = startDate;
+        this.endDate.setHours(this.endDate.getHours() + duration);
     }
 }
 export class Reservation implements IReservation {
+    _id: string;
+
     owner: string;
+    @IsInt()
+    guests: number;
+    @IsInt()
+    guestsPerTable: number;
     tablesCount(): number { return this.guests / this.guestsPerTable; }
-    constructor(_id: string, owner: Id, guests: number, guestsPerTable: number);
-    constructor(_id: string, owner: Id, guests: number, guestsPerTable: number, order: string);
-    constructor(public _id: string, owner: Id, public guests: number, public guestsPerTable: number, public order?: string) {
-        this.owner = owner._id;
+    constructor(id: string, owner: string, guests: number, guestsPerTable: number);
+    constructor(id: string, owner: string, guests: number, guestsPerTable: number, order: string);
+    constructor(id: string, owner: string, guests: number, guestsPerTable: number, public order?: string) {
+        this._id = id;
+        this.owner = owner;
+        this.guests = guests;
+        this.guestsPerTable = guestsPerTable;
     }
 }
 export class Authentication implements IAuthentication {
+    _id: string;
+    @IsEnum(AccountType)
+    type: AccountType;
+    @IsEmail()
+    email: Email;
+    @IsAlphanumeric()
+    username: Username;
     password: string;
     token: string;
+    @IsArray()
     devices: string[];
-    constructor(public _id: string, public type: AccountType, public email: Email, public username: Username, password: string) {
+    constructor(id: string, type: AccountType, email: Email, username: Username, password: string) {
+        this._id = id;
+        this.email = email;
+        this.username = username;
         this.devices = Array<string>();
         this.password = md5(password);
         this.token = md5(this.type + this.username + this.password + "ITIGraduationProject" + new Date());
@@ -154,8 +312,29 @@ export class Address implements IAddress {
     constructor(street: string, city: string, country: string);
     constructor(public street: string = "", public city: string = "Alexandria", public country: string = "Egypt") { }
 }
+export class BranchAddress extends Address implements IBranchAddress {
+    @IsString()
+    area: string;
+    constructor(area: string, city: string);
+    constructor(area: string, city: string, country: string);
+    constructor(area: string, city: string, country: string, street: string);
+    constructor(area: string, public city: string, public country: string = "Egypt",
+        public street: string = "") {
+        super(street, city, country);
+        this.area = area;
+    }
+}
 export class Ingredient implements IIngredient {
-    constructor(_id: string, name: string);
-    constructor(_id: string, name: string, image: string);
-    constructor(public _id: string, public name: string, public image: string = "") { }
+    _id: string;
+    @IsAlpha()
+    name: string;
+    @IsUrl()
+    image: Uri;
+    constructor(id: string, name: string);
+    constructor(id: string, name: string, image: string);
+    constructor(id: string, name: string, image: Uri = "") {
+        this._id = id;
+        this.name = name;
+        this.image = image;
+    }
 }

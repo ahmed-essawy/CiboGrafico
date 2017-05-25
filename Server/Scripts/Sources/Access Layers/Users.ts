@@ -101,16 +101,8 @@ module.exports = {
                 else return callback({ success: false, data: object });
             });
     }
-    //,
-    //    DeleteFavourite(object: Id, provider: string, callback: any) {
-    //        Collection("Users").update({ "_id": objectId(object._id) },
-    //            { $pull: { "socialMedia": { "socialMedia.provider": provider } } }, (err, resp) => {
-    //                if (resp.result.ok) return callback({ success: true, data: resp.result });
-    //                else return callback({ success: false, data: object });
-    //            });
-    //    }
     ,
-    DeleteFavourite(object: Id, callback: any) {
+    DeleteFavorite(object: Id, callback: any) {
         Collection("Users").update({ "favorites._id": objectId(object._id) },
             { $pull: { "favorites": { "_id": objectId(object._id) } } },
             (err, resp) => {
@@ -118,14 +110,4 @@ module.exports = {
                 else return callback({ success: false, data: object });
             });
     }
-    //UpdateSocial(object: Id,providerr:string, callback: any) {
-    //   object._id = objectId(object._id);
-    //   Collection("Users").update({ _id: object._id }, { $pull: { socialMedia: { "provider": providerr } }}, (err, resp1) => {
-    //       if (err) return callback({ success: false, msg: "Error !!" });
-    //       if (resp1.result.nModified === 1) {
-    //           return callback({ success: true, data1: resp1.result });
-    //       } else return callback({ success: false, msg: "Data not modified" });
-    //   });
-    //       } else return callback({ success: false, msg: "Data not modified" });
-    //   });
 };
