@@ -1,5 +1,5 @@
 {
-  "name": "Test",
+  "name": "API",
   "version": "0.0.0",
   "description": "Server",
   "main": "server.ts",
@@ -12,6 +12,7 @@
     "cookie-parser": "^1.4.3",
     "express": "^4.15.2",
     "md5": "^2.2.1",
-    "mongodb": "^2.2.26"
+    "mongodb": "^2.2.26",
+    "class-validator": "^0.7.0"
   }
 }

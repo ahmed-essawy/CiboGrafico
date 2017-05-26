@@ -111,7 +111,6 @@
     <TypeScriptCompile Include="server.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
-    <TypeScriptCompile Include="server" />
     <Content Include="package.json" />
     <Content Include="README.md" />
   </ItemGroup>
