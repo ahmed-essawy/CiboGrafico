@@ -50,7 +50,9 @@ Global
 		{6BD2D113-0577-4538-8219-49B7CEF7C3D7}.Debug|Android.ActiveCfg = Debug|Android
 		{6BD2D113-0577-4538-8219-49B7CEF7C3D7}.Debug|Android.Build.0 = Debug|Android
 		{6BD2D113-0577-4538-8219-49B7CEF7C3D7}.Debug|Android.Deploy.0 = Debug|Android
-		{6BD2D113-0577-4538-8219-49B7CEF7C3D7}.Debug|Any CPU.ActiveCfg = Debug|Windows-ARM
+		{6BD2D113-0577-4538-8219-49B7CEF7C3D7}.Debug|Any CPU.ActiveCfg = Debug|Android
+		{6BD2D113-0577-4538-8219-49B7CEF7C3D7}.Debug|Any CPU.Build.0 = Debug|Android
+		{6BD2D113-0577-4538-8219-49B7CEF7C3D7}.Debug|Any CPU.Deploy.0 = Debug|Android
 		{6BD2D113-0577-4538-8219-49B7CEF7C3D7}.Debug|iOS.ActiveCfg = Debug|iOS
 		{6BD2D113-0577-4538-8219-49B7CEF7C3D7}.Debug|iOS.Build.0 = Debug|iOS
 		{6BD2D113-0577-4538-8219-49B7CEF7C3D7}.Debug|iOS.Deploy.0 = Debug|iOS
