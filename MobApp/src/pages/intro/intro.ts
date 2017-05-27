@@ -1,6 +1,7 @@
 ﻿import { Component } from "@angular/core";
-import { NavController, NavParams } from "ionic-angular";
-import { TabsPage } from "../tabs/tabs";
+import { NavController, NavParams, MenuController, App } from "ionic-angular";
+import { MenuPage } from "../menu/menu";
+import { LocationPage } from "../location/location";
 /*
   Generated class for the intro page.
 
@@ -8,11 +9,12 @@ import { TabsPage } from "../tabs/tabs";
   Ionic pages and navigation.
 */
 @Component({
-    selector: "page-intro",
-    templateUrl: "intro.html"
-})
+        selector: "page-intro",
+        templateUrl: "intro.html"
+    })
 export class IntroPage {
-    slideData = [{ image: "img1.jpg" }, { image: "img2.jpg" }, { image: "img1.jpg" }];
-    constructor(public navCtrl: NavController, public navParams: NavParams) { }
-    goToLocationPage() { this.navCtrl.push(TabsPage); }
+    appCtrl: any;
+    slideData = [{ image: "1.jpg" }, { image: "2.jpg" }, { image: "3.jpg" }];
+    constructor(public navCtrl: NavController, public navParams: NavParams, private app: App) {}
+    goToLocationPage() { this.app.getRootNav().setRoot(LocationPage); }
 }
