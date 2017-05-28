@@ -1,0 +1,11 @@
+﻿<ion-content>
+    <div class="intro-loader" text-center>
+        <ion-spinner *ngIf="!isReady" class="loader"></ion-spinner>
+        <button (click)="startApp()" *ngIf="isReady" class="btn" ion-button round>CONTINUE</button>
+    </div>
+    <ion-slides autoplay="3000" loop="true" speed="1000">
+        <ion-slide *ngFor="let slide of slideData">
+            <img id="img" src="assets/images/{{slide.image}}" />
+        </ion-slide>
+    </ion-slides>
+</ion-content>
