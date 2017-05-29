@@ -79,7 +79,9 @@ export class Restaurant implements IRestaurant {
     @IsArray()
     branches: Array<Branch>;
     @IsArray()
-    reviews: Array<{ _id: string; Rate: Rate }>;
+    reviews: Array<{ _id: string; comment: string }>;
+    @IsArray()
+    rates: Array<{ _id: string; rate: Rate }>;
     @IsArray()
     meals: Array<Meal>;
     @IsArray()
@@ -95,7 +97,8 @@ export class Restaurant implements IRestaurant {
         this.name = name;
         this.logo = logo;
         this.branches = Array<Branch>();
-        this.reviews = Array<{ _id: string; Rate: Rate }>();
+        this.reviews = Array<{ _id: string; comment: string }>();
+        this.rates = Array<{ _id: string; rate: Rate }>();
         if (branch) this.branches.pushIfNotExist(branch);
         this.meals = Array<Meal>();
         this.offers = Array<string>();
@@ -103,13 +106,15 @@ export class Restaurant implements IRestaurant {
         this.reservations = Array<Reservation>();
     }
     addBranch(branch: Branch): void { this.branches.pushIfNotExist(branch); }
-    addReview(review: { _id: string; Rate: Rate }): void { this.reviews.pushIfNotExist(review); }
+    addReview(review: { _id: string; comment: string }): void { this.reviews.pushIfNotExist(review); }
+    addRate(rate: { _id: string; rate: Rate }): void { this.rates.pushIfNotExist(rate); }
     addMeal(meal: Meal): void { this.meals.pushIfNotExist(meal); }
     addOffer(offer: Id): void { this.offers.pushIfNotExist(offer._id); }
     addOrder(order: Id): void { this.orders.pushIfNotExist(order._id); }
     addReservation(reservation: Reservation): void { this.reservations.pushIfNotExist(reservation); }
     branchesCount(): number { return this.branches.length; }
     reviewsCount(): number { return this.reviews.length; }
+    ratesCount(): number { return this.rates.length; }
     mealsCount(): number { return this.meals.length; }
     offersCount(): number { return this.offers.length; }
     ordersCount(): number { return this.orders.length; }
@@ -246,6 +251,7 @@ export class Order extends SubOrder implements IOrder {
 }
 export class Offer implements IOffer {
     _id: string;
+    provider: string;
     @IsUrl()
     image: Uri;
     @IsString()
@@ -256,12 +262,16 @@ export class Offer implements IOffer {
     startDate: Date;
     meal: string;
     endDate: Date;
-    constructor(id: string, image: Uri, description: string, meal: string, discount: number, duration: Duration);
-    constructor(id: string, image: Uri, description: string, meal: string, discount: number, duration: Duration,
+    constructor(id: string, provider: string, image: Uri, description: string, meal: string, discount: number,
+                duration: Duration);
+    constructor(id: string, provider: string, image: Uri, description: string, meal: string, discount: number,
+                duration: Duration,
                 startDate: Date);
-    constructor(id: string, image: Uri, description: string, meal: string, discount: number, duration: Duration,
+    constructor(id: string, provider: string, image: Uri, description: string, meal: string, discount: number,
+                duration: Duration,
                 startDate: Date = new Date()) {
         this._id = id;
+        this.provider = provider;
         this.image = image;
         this.description = description;
         this.meal = meal;

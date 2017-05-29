@@ -1,5 +1,5 @@
 ﻿import { Order, SubOrder, Address } from "../Classes";
-import { OrderRate, Order_Rate, objectId, OrderType } from "../Types";
+import { Order_Rate, objectId, OrderType } from "../Types";
 {
     const orders = require("express").Router(), db = require("../Mongodb");
     orders
@@ -38,14 +38,12 @@ import { OrderRate, Order_Rate, objectId, OrderType } from "../Types";
                                 if (req.body.address.country) tempOrder.address.country = req.body.address.country;
                             }
                             if (Array.isArray(req.body.meals)) tempOrder.meals = req.body.meals;
-                            console.log(tempOrder);
                             db.Orders.Update(tempOrder, response => res.json(response));
                         } else res.status(404).json({ success: false, msg: "Data Not Found" });
                     });
             } else res.status(400).json({ success: false, msg: "Invalid Data" });
         })
         .put("/RateOrder", (req, res) => {
-
             if (req.body._id) {
                 db.Orders.Read({ _id: req.body._id },
                     response => {

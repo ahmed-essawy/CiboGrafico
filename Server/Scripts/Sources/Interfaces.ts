@@ -41,19 +41,22 @@ export interface IRestaurant extends IId, IName {
     logo: Uri;
     owner: IRestaurantOwner;
     branches: Array<IBranch>;
-    reviews: Array<{ _id: string, Rate: Rate }>;
+    reviews: Array<{ _id: string, comment: string }>;
+    rates: Array<{ _id: string, rate: Rate }>;
     meals: Array<IMeal>;
     offers: Array<string>;
     orders: Array<string>;
     reservations: Array<IReservation>;
     branchesCount(): number;
     reviewsCount(): number;
+    ratesCount(): number;
     mealsCount(): number;
     offersCount(): number;
     ordersCount(): number;
     reservationsCount(): number;
     addBranch(branch: IBranch): void;
-    addReview(review: { _id: string, Rate: Rate }): void;
+    addReview(review: { _id: string, comment: string }): void;
+    addRate(review: { _id: string, rate: Rate }): void;
     addMeal(meal: IMeal): void;
     addOffer(offer: Id): void;
     addOrder(order: Id): void;
@@ -66,6 +69,7 @@ export interface IBranch extends ILogin, IId, IName {
     addPhone(phone: Phone): void;
 }
 export interface IOffer extends IId, IImage {
+    provider: string;
     description: string;
     discount: number;
     startDate: Date;
@@ -81,8 +85,8 @@ export interface IUser extends IPerson, ILogin, IId, IImage {
     ordersCount(): number;
     addSocialMedia(socialMedia: ISocialMedia): void;
 }
-export interface IRestaurantOwner extends IPerson { }
-export interface IBranchManager extends IPerson { }
+export interface IRestaurantOwner extends IPerson {}
+export interface IBranchManager extends IPerson {}
 export interface ISocialMedia {
     provider: string;
     uri: Uri;
