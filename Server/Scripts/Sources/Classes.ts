@@ -4,9 +4,10 @@
     } from "./Interfaces";
 import { Duration, Email, MealPrice, Rate, OrderType, Phone, Price, Uri, Id, Username, AccountType, objectId } from
     "./Types";
-import { IsNotEmpty, Length, IsInt, IsAlpha, IsUrl, IsArray, IsEmail, IsAlphanumeric, IsEnum, IsDate, IsString }
+import { Validator, IsNotEmpty, Length, IsInt, IsAlpha, IsUrl, IsArray, IsEmail, IsAlphanumeric, IsEnum, IsDate, IsString }
     from
     "class-validator";
+const valid = new Validator();
 const md5 = require("md5");
 export class User implements IUser {
     _id: string;
@@ -21,7 +22,6 @@ export class User implements IUser {
     username: Username;
     @IsArray()
     phones: Array<Phone>;
-    @IsUrl()
     image: Uri;
     @IsArray()
     socialMedia: Array<SocialMedia>;
@@ -49,7 +49,8 @@ export class User implements IUser {
         this.email = email;
         this.username = username;
         this.phones = phones;
-        this.image = image;
+        this.image = "http://imgur.com/a/WEVjy";
+        if (valid.isURL(image)) this.image = image;
         this.points = 0;
         this.favorites = Array<Meal>();
         this.orders = Array<string>();
