@@ -2,7 +2,7 @@
 import { Http, RequestOptions, URLSearchParams, RequestOptionsArgs, ResponseContentType, Headers } from "@angular/http";
 @Injectable()
 export class Api {
-    url = "http://192.168.1.104:8888";
+    url = "http://172.16.0.87:8888";
     options: RequestOptions;
     constructor(private http: Http) {
         this.options = new RequestOptions({

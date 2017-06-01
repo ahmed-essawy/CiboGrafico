@@ -1,42 +1,24 @@
-﻿<ion-content class="home" padding>
-
-  <h2 class="center">Ionic 2 - Blank Starter</h2>
-
-  <div class="center">
-    <p class="ionic-logo"></p>
-  </div>
-
-  <ion-card>
-    <ion-card-header>
-      Docs are here to help you
-    </ion-card-header>
-
-    <ion-list>
-      <button ion-item (click)="onLink('http://go.microsoft.com/fwlink/?LinkID=820516')">
-        <ion-icon name="jet" item-left></ion-icon>
-        Getting Started
-      </button>
-
-      <button ion-item (click)="onLink('http://go.microsoft.com/fwlink/?LinkID=820761')">
-        <ion-icon name="ionic" item-left></ion-icon>
-        Ionic Framework
-      </button>
-
-      <button ion-item (click)="onLink('http://go.microsoft.com/fwlink/?LinkID=820520')">
-        <ion-icon name="thunderstorm" item-left></ion-icon>
-        Azure Services
-      </button>
-
-      <button ion-item (click)="onLink('http://go.microsoft.com/fwlink/?LinkID=820524')">
-        <ion-icon name="cafe" item-left></ion-icon>
-        Plugins Support
-      </button>
-
-      <button ion-item (click)="onLink('http://go.microsoft.com/fwlink/?LinkID=820526')">
-        <ion-icon name="paw" item-left></ion-icon>
-        Troubleshooting
-      </button>
-      <ion-item></ion-item>
-    </ion-list>
-  </ion-card>
+﻿<ion-header no-border>
+    <ion-toolbar color="danger" text-center>
+        <ion-buttons left>
+            <button icon-onl ion-button large menuToggle>
+                <ion-icon name="menu"></ion-icon>
+            </button>
+        </ion-buttons>
+        <ion-title>CiboGrafico</ion-title>
+        <ion-buttons right>
+            <button icon-only ion-button>
+                <ion-icon name="search"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+<ion-content padding>
+    <ion-card text-center>
+        <ion-card-header text-wrap>Enjoy a personalized<br />ordering experience</ion-card-header>
+        <ion-card-content>
+            <button (click)="loginModal()" color="secondary" ion-button outline><ion-icon name="log-in"></ion-icon> Login</button>
+            <button (click)="fbConnect()" block ion-button small><ion-icon name="logo-facebook"></ion-icon> Log In with Facebook</button>
+        </ion-card-content>
+    </ion-card>
 </ion-content>

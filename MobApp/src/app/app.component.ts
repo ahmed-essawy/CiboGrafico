@@ -1,19 +1,20 @@
 ﻿import { Component } from "@angular/core";
 import { Platform } from "ionic-angular";
 import { StatusBar, Splashscreen } from "ionic-native";
+import { SQLite } from "@ionic-native/sqlite";
+import { Sql } from "../providers/sql";
 import { IntroPage } from "../pages/intro/intro";
-import {MenuPage} from "../pages/menu/menu";
+import { MenuPage } from "../pages/menu/menu";
 @Component({
     templateUrl: "app.html"
 })
 export class MyApp {
-    // rootPage = IntroPage;
-    rootPage = MenuPage;
-    constructor(platform: Platform) {
+    rootPage;
+    constructor(platform: Platform, sql: Sql) {
         platform.ready().then(() => {
             if (!platform.is("cordova")) return;
-            // Okay, so the platform is ready and our plugins are available.
-            // Here you can do any higher level native things you might need.
+            this.rootPage = IntroPage;
+            // this.rootPage = MenuPage;
             StatusBar.styleDefault();
             Splashscreen.hide();
         });
