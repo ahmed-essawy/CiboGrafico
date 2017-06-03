@@ -1,12 +1,9 @@
-﻿import {
-    IUser, ISocialMedia, IRestaurant, IBranch, IRestaurantOwner, IBranchManager, IMeal, IOrder, ISubOrder, IOffer,
-    IReservation, IAuthentication, IAddress, IIngredient, IBranchAddress
-    } from "./Interfaces";
+﻿import { IUser, ISocialMedia, IRestaurant, IBranch, IRestaurantOwner, IBranchManager, IMeal, IOrder, ISubOrder, IOffer,
+    IReservation, IAuthentication, IAddress, IIngredient, IBranchAddress } from "./Interfaces";
 import { Duration, Email, MealPrice, Rate, OrderType, Phone, Price, Uri, Id, Username, AccountType, objectId } from
     "./Types";
-import { Validator, IsNotEmpty, Length, IsInt, IsAlpha, IsUrl, IsArray, IsEmail, IsAlphanumeric, IsEnum, IsDate, IsString }
-    from
-    "class-validator";
+import { Validator, IsNotEmpty, Length, IsInt, IsAlpha, IsUrl, IsArray, IsEmail, IsAlphanumeric, IsEnum, IsDate,
+    IsString } from "class-validator";
 const valid = new Validator();
 const md5 = require("md5");
 export class User implements IUser {
@@ -266,19 +263,17 @@ export class Offer implements IOffer {
     constructor(id: string, provider: string, image: Uri, description: string, meal: string, discount: number,
                 duration: Duration);
     constructor(id: string, provider: string, image: Uri, description: string, meal: string, discount: number,
-                duration: Duration,
-                startDate: Date);
+                duration: Duration, startDate: Date);
     constructor(id: string, provider: string, image: Uri, description: string, meal: string, discount: number,
-                duration: Duration,
-                startDate: Date = new Date()) {
+                duration: Duration, startDate: Date = new Date()) {
         this._id = id;
         this.provider = provider;
         this.image = image;
         this.description = description;
         this.meal = meal;
         this.discount = discount;
-        this.startDate = this.endDate = startDate;
-        this.endDate.setHours(this.endDate.getHours() + duration);
+        this.startDate = new Date(startDate);
+        this.endDate = new Date(this.startDate.getTime() + duration * 3600000);
     }
 }
 export class Reservation implements IReservation {
