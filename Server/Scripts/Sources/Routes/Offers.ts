@@ -2,8 +2,9 @@
 {
     const offers = require("express").Router(), db = require("../Mongodb");
     offers
-        .get("/", (req: any, res: any) => db.Offers.Read(null, response => res.json(response)))
-        .get("/:id", (req, res) => db.Offers.Read({ _id: req.body.id }, response => res.json(response)))
+        .get("/", (req: any, res: any) => db.Offers.ReadAll(response => res.json(response)))
+        .get("/Read", (req: any, res: any) => db.Offers.ReadOffers(response => res.json(response)))
+        .get("/:id", (req, res) => db.Offers.Read({ _id: req.params.id }, response => res.json(response)))
         .delete("/:id", (req, res) => db.Offers.Delete({ _id: req.params.id }, response => res.json(response)))
         .post("/", (req, res) => {
             const offer = new Offer(db.objectId(),
