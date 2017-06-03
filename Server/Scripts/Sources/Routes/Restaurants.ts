@@ -36,7 +36,7 @@ const valid = new Validator();
                                         .address.city, req.body.branch.address.country, req.body.branch.address.street);
                                     const tempBranch = new Branch(db.objectId(), req.body.branch.name, branchManager,
                                         branchAddress, req.body.branch.email, req.body.branch.username, req.body.branch
-                                        .phones);
+                                        .phones,50);
                                     validate(tempBranch).then(errs2 => {
                                         if (errs2.length > 0) {
                                             const errors = Array<string>();

@@ -16,7 +16,7 @@ const valid = new Validator();
                 const tempAddress = new BranchAddress(req.body.branch.address.area, req.body.branch.address.city, req
                     .body.branch.address.country, req.body.branch.address.street);
                 const tempBranch = new Branch(db.objectId(), req.body.branch.name, tempManager, tempAddress, req.body
-                    .branch.email, req.body.branch.username, req.body.branch.phone);
+                    .branch.email, req.body.branch.username, req.body.branch.phone,50);
                 db.Branches.Create(tempBranch, req.body.branch.password, { _id: req.bodytempAddressrestaurant },
                     response => res.json(response));
             } else res.status(400).json({ success: false, msg: "Invalid Data" });
