@@ -15,7 +15,7 @@ module.exports = {
                         object.email,
                         object.username,
                         password);
-                    Collection("Tokens").update({ "_id": tempAuth._id },
+                    Collection("Authentications").update({ "_id": tempAuth._id },
                         { $setOnInsert: tempAuth },
                         { upsert: true },
                         (err, resp2) => {
@@ -49,7 +49,7 @@ module.exports = {
             (err, resp1) => {
                 if (err) return callback({ success: false, msg: "Error !!" });
                 if (resp1.result.nModified === 1) {
-                    Collection("Tokens").update({ _id: object._id },
+                    Collection("Authentications").update({ _id: object._id },
                         { $set: { "email": object.email, "username": object.username } as ILogin },
                         (err, resp2) => {
                             if (err) return callback({ success: false, msg: "Error !!" });
@@ -65,7 +65,7 @@ module.exports = {
             (err, resp1) => {
                 if (err) return callback({ success: false, msg: "Error !!" });
                 if (resp1.result.n === 1) {
-                    Collection("Tokens").removeOne({ _id: objectId(object._id) },
+                    Collection("Authentications").removeOne({ _id: objectId(object._id) },
                         (err, resp2) => {
                             if (err) return callback({ success: false, msg: "Error !!" });
                             if (resp2.result.n === 1)
@@ -100,8 +100,7 @@ module.exports = {
                 if (resp.result.ok) return callback({ success: true, data: resp.result });
                 else return callback({ success: false, data: object });
             });
-    }
-    ,
+    },
     DeleteFavorite(object: Id, callback: any) {
         Collection("Users").update({ "favorites._id": objectId(object._id) },
             { $pull: { "favorites": { "_id": objectId(object._id) } } },

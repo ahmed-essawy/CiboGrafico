@@ -1,6 +1,8 @@
 ﻿import { Branch, Manager, Address, BranchAddress } from "../Classes";
+import { validate, Validator, IsEmail, IsUrl } from "class-validator";
+const valid = new Validator();
 {
-    const branches = require("express").Router(), db = require("../Mongodb"), valid = require("class-validator");
+    const branches = require("express").Router(), db = require("../Mongodb");
     branches
         .get("/", (req: any, res: any) => db.Branches.ReadAll(response => res.json(response)))
         .get("/:id", (req, res) => db.Branches.Read({ _id: req.params.id }, response => res.json(response)))

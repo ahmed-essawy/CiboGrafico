@@ -1,5 +1,6 @@
 ﻿import { Restaurant, Owner, Address, Branch, Manager, BranchAddress } from "../Classes";
-import { validate, IsEmail } from "class-validator";
+import { validate, Validator, IsEmail } from "class-validator";
+const valid = new Validator();
 {
     const restaurants = require("express").Router(), db = require("../Mongodb");
     restaurants
@@ -68,7 +69,8 @@ import { validate, IsEmail } from "class-validator";
                                     if (req.body.owner.firstName) tempRest.owner.firstName = req.body.owner.firstName;
                                     if (req.body.owner.lastName) tempRest.owner.lastName = req.body.owner.lastName;
                                     if (Array.isArray(req.body.phones)) tempRest.owner.phones = req.body.phones;
-                                    if (IsEmail(req.body.owner.email)) tempRest.owner.email = req.body.owner.email;
+                                    if (valid.isEmail(req.body.owner
+                                        .email)) tempRest.owner.email = req.body.owner.email;
                                     if (req.body.owner.address) {
                                         if (req.body.owner.address
                                             .street) tempRest.owner.address.street = req.body.owner.address.street;
