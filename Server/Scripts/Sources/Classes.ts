@@ -1,6 +1,6 @@
 ﻿import {
     IUser, ISocialMedia, IRestaurant, IBranch, IRestaurantOwner, IBranchManager, IMeal, IOrder, ISubOrder, IOffer,
-    IReservation, IAuthentication, IAddress, IIngredient, IBranchAddress
+    IReservation, IAuthentication, IAddress, IIngredient, IBranchAddress,IReview
     } from "./Interfaces";
 import { Duration, Email, MealPrice, Rate, OrderType, Phone, Price, Uri, Id, Username, AccountType, objectId } from
     "./Types";
@@ -79,7 +79,7 @@ export class Restaurant implements IRestaurant {
     @IsArray()
     branches: Array<Branch>;
     @IsArray()
-    reviews: Array<{ _id: string; comment: string }>;
+    reviews: Array<Review>;
     @IsArray()
     rates: Array<{ _id: string; rate: Rate }>;
     @IsArray()
@@ -97,7 +97,7 @@ export class Restaurant implements IRestaurant {
         this.name = name;
         this.logo = logo;
         this.branches = Array<Branch>();
-        this.reviews = Array<{ _id: string; comment: string }>();
+        this.reviews = Array<Review>();
         this.rates = Array<{ _id: string; rate: Rate }>();
         if (branch) this.branches.pushIfNotExist(branch);
         this.meals = Array<Meal>();
@@ -106,7 +106,7 @@ export class Restaurant implements IRestaurant {
         this.reservations = Array<Reservation>();
     }
     addBranch(branch: Branch): void { this.branches.pushIfNotExist(branch); }
-    addReview(review: { _id: string; comment: string }): void { this.reviews.pushIfNotExist(review); }
+    addReview(review: Review): void { this.reviews.pushIfNotExist(review); }
     addRate(rate: { _id: string; rate: Rate }): void { this.rates.pushIfNotExist(rate); }
     addMeal(meal: Meal): void { this.meals.pushIfNotExist(meal); }
     addOffer(offer: Id): void { this.offers.pushIfNotExist(offer._id); }
@@ -130,13 +130,20 @@ export class Branch implements IBranch {
     username: Username;
     @IsArray()
     phones: Array<Phone>;
-    constructor(id: string, name: string, public manager: Manager, public address: BranchAddress, email: Email,
-                username: Username, phones: Array<Phone>) {
+    @IsInt()
+    guestsPerTable: number;
+    @IsInt()
+    maximumGuests: number;
+    constructor(id: string, name: string, manager: Manager, address: BranchAddress, email: Email, username: Username, phones: Array<Phone>, maximumGuests: number);
+    constructor(id: string, name: string, manager: Manager, address: BranchAddress, email: Email, username: Username, phones: Array<Phone>, maximumGuests: number, guestsPerTable: number);
+    constructor(id: string, name: string, public manager: Manager, public address: BranchAddress, email: Email, username: Username, phones: Array<Phone>, maximumGuests: number, guestsPerTable: number = 4) {
         this._id = objectId(id);
         this.name = name;
         this.email = email;
         this.username = username;
         this.phones = phones;
+        this.maximumGuests = maximumGuests;
+        this.guestsPerTable = guestsPerTable;
     }
     addPhone(phone: Phone): void { this.phones.pushIfNotExist(phone); }
 }
@@ -283,18 +290,21 @@ export class Offer implements IOffer {
 export class Reservation implements IReservation {
     _id: string;
     owner: string;
+    branch: string;
     @IsInt()
     guests: number;
-    @IsInt()
-    guestsPerTable: number;
-    tablesCount(): number { return this.guests / this.guestsPerTable; }
-    constructor(id: string, owner: string, guests: number, guestsPerTable: number);
-    constructor(id: string, owner: string, guests: number, guestsPerTable: number, order: string);
-    constructor(id: string, owner: string, guests: number, guestsPerTable: number, public order?: string) {
+    @IsDate()
+    date: Date;
+    time: Date;
+    constructor(id: string, owner: string, branch: string, guests: number, date: Date, time: Date);
+    constructor(id: string, owner: string, branch: string, guests: number, date: Date, time: Date,  order: string);
+    constructor(id: string, owner: string, branch: string, guests: number, date: Date, time: Date,  public order?: string) {
         this._id = id;
         this.owner = owner;
+        this.branch = branch;
         this.guests = guests;
-        this.guestsPerTable = guestsPerTable;
+        this.date = date;
+        this.time = time;
     }
 }
 export class Authentication implements IAuthentication {
@@ -350,5 +360,19 @@ export class Ingredient implements IIngredient {
         this._id = id;
         this.name = name;
         this.image = image;
+    }
+}
+export class Review implements IReview {
+    _id: string;
+    @IsString()
+    comment: string;
+    @IsDate()
+    date: Date;
+    constructor(id: string, comment: string);
+    constructor(id: string, comment: string, date: Date);
+    constructor(id: string, comment: string, date: Date = new Date()) {
+        this._id = id;
+        this.comment = comment;
+        this.date = date;
     }
 }
