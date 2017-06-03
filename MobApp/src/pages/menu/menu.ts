@@ -11,10 +11,11 @@ export class MenuPage {
     @ViewChild(Nav)
     nav: Nav;
     rootPage: any = HomePage;
+    pages: Array<{ title: string, component: any }>;
     constructor(private navCtrl: NavController, private navParams: NavParams) {
         this.pages = [{ title: "Home", component: HomePage },
-                { title: "Restaurants", component: RestaurantsListPage },
-                { title: "Account", component: AccountPage }];
+        { title: "Restaurants", component: RestaurantsListPage },
+        { title: "Account", component: AccountPage }];
     }
     openPage(page: any) { this.nav.push(page.component); }
 }

@@ -1,5 +1,6 @@
 ﻿import { NgModule, ErrorHandler } from "@angular/core";
 import { IonicApp, IonicModule, IonicErrorHandler } from "ionic-angular";
+import { Network } from "@ionic-native/network";
 import { HTTP } from "@ionic-native/http";
 import { MyApp } from "./app.component";
 import { HomePage } from "../pages/home/home";
@@ -16,8 +17,8 @@ import { SQLite } from "@ionic-native/sqlite";
 import { Users } from "../providers/users";
 import { RestaurantsListPage } from "../pages/RestaurantsList/RestaurantsList";
 import { RestaurantProfilePage } from "../pages/RestaurantProfile/RestaurantProfile";
-import {reservationPage} from "../pages/reservation/reservation"
-import { Ionic2RatingModule } from 'ionic2-rating';
+import { reservationPage } from "../pages/reservation/reservation"
+import { Ionic2RatingModule } from "ionic2-rating";
 @NgModule({
     declarations: [MyApp, HomePage, AccountPage, LoginTabs, IntroPage, MenuPage, LoginPage, SignupPage, RestaurantsListPage, RestaurantProfilePage, reservationPage],
     imports: [IonicModule.forRoot(MyApp), Ionic2RatingModule],
