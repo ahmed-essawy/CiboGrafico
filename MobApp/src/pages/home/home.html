@@ -1,7 +1,7 @@
 ﻿<ion-header no-border>
     <ion-toolbar color="danger" text-center>
         <ion-buttons left>
-            <button icon-onl ion-button large menuToggle>
+            <button icon-only ion-button large menuToggle>
                 <ion-icon name="menu"></ion-icon>
             </button>
         </ion-buttons>
@@ -14,11 +14,10 @@
     </ion-toolbar>
 </ion-header>
 <ion-content padding>
-    <ion-card text-center>
+    <ion-card text-center *ngIf="!isLogged">
         <ion-card-header text-wrap>Enjoy a personalized<br />ordering experience</ion-card-header>
         <ion-card-content>
             <button (click)="loginModal()" color="secondary" ion-button outline><ion-icon name="log-in"></ion-icon> Login</button>
-            <button (click)="fbConnect()" block ion-button small><ion-icon name="logo-facebook"></ion-icon> Log In with Facebook</button>
         </ion-card-content>
     </ion-card>
 </ion-content>

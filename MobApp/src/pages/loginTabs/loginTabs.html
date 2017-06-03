@@ -1,0 +1,14 @@
+﻿<ion-header no-border>
+    <ion-toolbar color="danger" text-center>
+        <ion-buttons left>
+            <button icon-onl ion-button large menuToggle>
+                <ion-icon name="menu"></ion-icon>
+            </button>
+        </ion-buttons>
+        <ion-title>Log In / Sign Up</ion-title>
+    </ion-toolbar>
+</ion-header>
+<ion-tabs tabsPlacement="top">
+    <ion-tab [root]="signin" tabTitle="Log In" tabIcon="log-in"></ion-tab>
+    <ion-tab [root]="signup" tabTitle="Sign Up" tabIcon="person-add"></ion-tab>
+</ion-tabs>

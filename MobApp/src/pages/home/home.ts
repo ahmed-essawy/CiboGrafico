@@ -1,17 +1,18 @@
 ﻿import { Component } from "@angular/core";
 import { AlertController, ModalController, NavController } from "ionic-angular";
 import { GoogleMap, LatLng } from "@ionic-native/google-maps";
-import { LoginPage } from "../login/login";
+import { LoginTabs } from "../loginTabs/loginTabs";
 import { Facebook, FacebookLoginResponse } from "@ionic-native/facebook";
+import { Users } from "../../providers/users";
 @Component({
     selector: "page-home",
     templateUrl: "home.html"
 })
 export class HomePage {
-    constructor(private navCtrl: NavController, private alertCtrl: AlertController, private modalCtrl: ModalController,
-                private fb: Facebook) {
-        new GoogleMap("map").getMyLocation().then(l => this.latLngUsage(l.latLng)).catch(err => console
-            .log(`Error: ${err}`));
+    isLogged: boolean;
+    constructor(private navCtrl: NavController, private user: Users, private alertCtrl: AlertController, private modalCtrl: ModalController) {
+        this.isLogged = this.user.isLogged;
+        new GoogleMap("map").getMyLocation().then(l => this.latLngUsage(l.latLng)).catch(err => console.log(`Error: ${err}`));
     }
     latLngUsage(pos: LatLng) {
         this.alertCtrl.create({
@@ -19,12 +20,5 @@ export class HomePage {
             buttons: ["OK"]
         }).present();
     }
-    fbConnect() {
-        this.fb.login(["public_profile", "user_friends", "email"]).then((res: FacebookLoginResponse) => {
-            console.log("Logged into Facebook!", res);
-            this.fb.logEvent(this.fb.EVENTS.EVENT_NAME_ADDED_TO_CART);
-        }).catch(e => console.log("Error logging into Facebook", e));
-    }
-    loginModal() { this.navCtrl.push(LoginPage); }
-    onLink(url: string) { window.open(url); }
+    loginModal() { this.navCtrl.push(LoginTabs); }
 }

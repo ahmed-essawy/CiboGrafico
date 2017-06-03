@@ -4,6 +4,7 @@
     </ion-navbar>
 </ion-header>
 <ion-content padding>
+    <button (click)="doFbLogin()" block ion-button icon-right>Log In with Facebook<ion-icon name="logo-facebook"></ion-icon></button>
     <ion-list>
         <ion-item>
             <ion-input [(ngModel)]="account.username" name="username" placeholder="Username or Email" type="username"></ion-input>
@@ -11,8 +12,6 @@
         <ion-item>
             <ion-input [(ngModel)]="account.password" name="password" placeholder="Password" type="password"></ion-input>
         </ion-item>
-        <button (click)="doLogin()" block ion-button>Sign In</button>
-        <ion-item>OR</ion-item>
-        <button (click)="doFbLogin()" block ion-button small><ion-icon name="logo-facebook"></ion-icon> Log In with Facebook</button>
     </ion-list>
+    <button (click)="doLogin()" block ion-button large color="secondary">Log In</button>
 </ion-content>
