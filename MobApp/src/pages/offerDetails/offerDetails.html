@@ -1,0 +1,24 @@
+﻿<!--
+Generated template for the NewPage page.
+
+See http://ionicframework.com/docs/v2/components/#navigation for more info on
+Ionic pages and navigation.
+-->
+<ion-header>
+  <ion-navbar>
+    <ion-title>offerDetails</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content padding>
+  <ion-card>
+    <img [src]="offer.image" />
+    <ion-card-content>
+      <h1>{{offer.restName}}</h1>
+      <ion-card-title>{{offer.discount*100}} % Discount</ion-card-title>
+      <b>Expires at : {{offer.endDate}}</b>
+      <b id="oldprice">{{offer.oldPrice}} L.E.</b>
+      <b>{{offer.oldPrice*(1-offer.discount)}} L.E.</b>
+      <p>{{offer.description}}</p>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
