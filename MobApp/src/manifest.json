@@ -1,13 +1,15 @@
-{
+﻿{
+  "background_color": "#4e8ef7",
+  "display": "standalone",
+  "icons": [
+    {
+      "sizes": "512x512",
+      "src": "assets/imgs/logo.png",
+      "type": "image/png"
+    }
+  ],
   "name": "Ionic",
   "short_name": "Ionic",
-  "start_url": "index.html",
-  "display": "standalone",
-  "icons": [{
-    "src": "assets/imgs/logo.png",
-    "sizes": "512x512",
-    "type": "image/png"
-  }],
-  "background_color": "#4e8ef7",
+  "starturl": "index.html",
   "theme_color": "#4e8ef7"
 }

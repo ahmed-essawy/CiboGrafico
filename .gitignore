@@ -260,8 +260,6 @@ paket-files/
 __pycache__/
 *.pyc
 /Prototype
-/MobAppxx
-/MobileApp/
 /Server/bin/
 /Server/node_modules/
 /Server/obj/
@@ -274,3 +272,4 @@ __pycache__/
 /MobApp/plugins/
 /MobApp/plugins/android.json
 /MobApp/plugins/ios.json
+/TEST

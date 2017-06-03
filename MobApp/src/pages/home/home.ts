@@ -1,14 +1,18 @@
 ﻿import { Component } from "@angular/core";
-import { AlertController } from "ionic-angular";
+import { AlertController, ModalController, NavController } from "ionic-angular";
 import { GoogleMap, LatLng } from "@ionic-native/google-maps";
+import { LoginTabs } from "../loginTabs/loginTabs";
+import { Facebook, FacebookLoginResponse } from "@ionic-native/facebook";
+import { Users } from "../../providers/users";
 @Component({
     selector: "page-home",
     templateUrl: "home.html"
 })
 export class HomePage {
-    constructor(private alertCtrl: AlertController) {
-        new GoogleMap("map").getMyLocation().then(l => this.latLngUsage(l.latLng)).catch(err => console
-            .log(`Error: ${err}`));
+    isLogged: boolean;
+    constructor(private navCtrl: NavController, private user: Users, private alertCtrl: AlertController, private modalCtrl: ModalController) {
+        this.isLogged = this.user.isLogged;
+        new GoogleMap("map").getMyLocation().then(l => this.latLngUsage(l.latLng)).catch(err => console.log(`Error: ${err}`));
     }
     latLngUsage(pos: LatLng) {
         this.alertCtrl.create({
@@ -16,5 +20,5 @@ export class HomePage {
             buttons: ["OK"]
         }).present();
     }
-    onLink(url: string) { window.open(url); }
+    loginModal() { this.navCtrl.push(LoginTabs); }
 }

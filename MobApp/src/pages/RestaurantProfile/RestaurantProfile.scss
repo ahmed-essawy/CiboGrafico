@@ -1,0 +1,19 @@
+﻿page-RestaurantProfile {
+  .slide-offer {
+    margin: auto;
+  }
+
+  ul {
+    padding: 0px;
+
+    &.rating li {
+      padding: 0px 2px !important;
+      background: none;
+      color: #ffb400;
+
+      ion-icon {
+        font-size: 20px;
+      }
+    }
+  }
+}

@@ -37,6 +37,10 @@ export interface IBranchAddress extends IAddress {
 export interface IIngredient extends IId, IName {
     image: string;
 }
+export interface IReview extends IId {
+    comment: string;
+    date:Date;
+}
 export interface IRestaurant extends IId, IName {
     logo: Uri;
     owner: IRestaurantOwner;
@@ -67,6 +71,8 @@ export interface IBranch extends ILogin, IId, IName {
     address: IBranchAddress;
     phones: Array<Phone>;
     addPhone(phone: Phone): void;
+    guestsPerTable: number;
+    maximumGuests:number;
 }
 export interface IOffer extends IId, IImage {
     provider: string;
@@ -94,9 +100,8 @@ export interface ISocialMedia {
 export interface IReservation extends IId {
     owner: string;
     guests: number;
-    guestsPerTable: number;
     order?: string;
-    tablesCount(): number;
+    branch:string;
 }
 export interface ISubOrder extends IId {
     num: number;

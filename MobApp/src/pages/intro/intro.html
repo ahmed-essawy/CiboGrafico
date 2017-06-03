@@ -1,7 +1,9 @@
 ﻿<ion-content>
     <div class="intro-loader" text-center>
         <ion-spinner *ngIf="!isReady" class="loader"></ion-spinner>
-        <button (click)="startApp()" *ngIf="isReady" class="btn" ion-button round>CONTINUE</button>
+        <button ion-button icon-right large (click)="startApp()" *ngIf="isReady" class="btn" color="danger">
+        CONTINUE<ion-icon name="arrow-forward"></ion-icon>
+      </button>
     </div>
     <ion-slides autoplay="3000" loop="true" speed="1000">
         <ion-slide *ngFor="let slide of slideData">

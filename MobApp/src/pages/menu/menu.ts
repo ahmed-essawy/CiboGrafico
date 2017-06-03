@@ -1,6 +1,8 @@
 ﻿import { Component, ViewChild } from "@angular/core";
 import { NavController, NavParams, Nav } from "ionic-angular";
 import { HomePage } from "../home/home";
+import { RestaurantsListPage } from "../RestaurantsList/RestaurantsList";
+import { AccountPage } from "../account/account";
 import { OffersPage } from "../offers/offers";
 @Component({
     selector: "page-menu",
@@ -11,10 +13,11 @@ export class MenuPage {
     nav: Nav;
     rootPage: any = HomePage;
     pages: Array<{ title: string, component: any }>;
-    constructor(public navCtrl: NavController, public navParams: NavParams) {
+    constructor(private navCtrl: NavController, private navParams: NavParams) {
         this.pages = [{ title: "Home", component: HomePage },
+        { title: "Restaurants", component: RestaurantsListPage },
         { title: "Offers", component: OffersPage },
-        { title: "Login", component: HomePage }];
+        { title: "Account", component: AccountPage }];
     }
-    openPage(page: any) { this.nav.setRoot(page.component); }
+    openPage(page: any) { this.nav.push(page.component); }
 }
