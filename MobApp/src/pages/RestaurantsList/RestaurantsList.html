@@ -1,0 +1,21 @@
+﻿
+<ion-header>
+
+    <ion-navbar>
+        <ion-title>Restaurants</ion-title>
+    </ion-navbar>
+
+</ion-header>
+
+<ion-content padding>
+    <ion-list>
+        <ion-item *ngFor="let rest of restaurants">
+            <ion-thumbnail item-left>
+                <img [src]="rest.logo">
+            </ion-thumbnail>
+            <h2>{{rest.name}}</h2>
+            <p>Category</p>
+            <button ion-button clear item-right (click)="details(rest._id)">View</button>
+        </ion-item>
+    </ion-list>
+</ion-content>

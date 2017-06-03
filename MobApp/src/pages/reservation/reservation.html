@@ -1,0 +1,34 @@
+﻿<ion-header>
+
+  <ion-navbar>
+    <ion-title>reservation</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+    <ion-list>
+
+        <ion-item>
+            <ion-label stacked>Name</ion-label>
+            <ion-input type="text"></ion-input>
+        </ion-item>
+
+        <ion-item>
+            <ion-label stacked>Party Size</ion-label>
+          <ion-input type="number"></ion-input>
+        </ion-item>
+    
+        <ion-item>
+            <ion-label stacked>Date</ion-label>
+          <ion-select [(ngModel)]="aa">
+            <ion-option *ngFor="let person of personNo">{{person.no}}</ion-option>
+          </ion-select>
+        </ion-item>
+
+    </ion-list>
+  <div text-center>
+    <button ion-button color="danger" round (click)="reserve()">Reserve</button>
+  </div>
+</ion-content>

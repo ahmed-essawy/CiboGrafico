@@ -3,7 +3,7 @@
     <name>CiboGrafico Beta</name>
     <description>An Ionic Framework and Cordova project for Visual Studio</description>
     <author email="vscordovatools@microsoft.com" href="http://taco.visualstudio.com">Visual Studio JS Mobile Tooling</author>
-    <content original-src="index.html" src="http://192.168.1.104:8100" />
+    <content original-src="index.html" src="http://169.254.80.80:8100" />
     <vs:toolsetVersion>6.3.1</vs:toolsetVersion>
     <vs:template-name>Ionic 2 Blank</vs:template-name>
     <access origin="*" />
@@ -91,9 +91,7 @@
     <feature name="StatusBar">
         <param name="ios-package" onload="true" value="CDVStatusBar" />
     </feature>
-    <allow-navigation href="http://172.16.2.19:8100" />
-    <allow-navigation href="http://192.168.100.79:8100" />
-    <allow-navigation href="http://192.168.1.104:8100" />
+    <allow-navigation href="http://169.254.80.80:8100" />
     <engine name="android" spec="^6.2.3" />
     <plugin name="cordova-plugin-console" spec="^1.0.5" />
     <plugin name="cordova-plugin-device" spec="^1.1.4" />
