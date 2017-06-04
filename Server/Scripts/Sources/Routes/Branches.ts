@@ -5,6 +5,7 @@ const valid = new Validator();
     const branches = require("express").Router(), db = require("../Mongodb");
     branches
         .get("/", (req: any, res: any) => db.Branches.ReadAll(response => res.json(response)))
+        .get("/ByRestauarnt/:id", (req, res) => db.Branches.ReadByRestauarnt({ _id: req.params.id }, response => res.json(response)))
         .get("/:id", (req, res) => db.Branches.Read({ _id: req.params.id }, response => res.json(response)))
         .delete("/:id", (req, res) => db.Branches.Delete({ _id: req.params.id }, response => res.json(response)))
         .post("/", (req, res) => {

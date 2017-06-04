@@ -31,6 +31,12 @@ module.exports = {
             else return callback({ success: false });
         });
     },
+    ReadByRestauarnt(object: Id, callback: any) {
+        Collection("Restaurants").findOne({ "_id": objectId(object._id) },(err, row: Restaurant) => {
+            if (row) return callback({ success: true, data: row.branches});
+            else return callback({ success: false, data: object._id });
+        });
+    },
     Update(object: Branch, callback: any) {
         object._id = objectId(object._id);
         Collection("Restaurants").update({ "branches._id": object._id }, { $set: { "branches.$": object } },
