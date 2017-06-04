@@ -9,7 +9,8 @@ import { Users } from "../../providers/users";
 })
 export class AccountPage {
     constructor(private navCtrl: NavController, private user: Users) {
-        console.log(this.user.isLogged)
-        if (!this.user.isLogged) { navCtrl.setRoot(MenuPage); navCtrl.push(LoginTabs) }
+        Users.isLogged().then(isLogged => {
+            if (!isLogged) { navCtrl.setRoot(MenuPage); navCtrl.push(LoginTabs) }
+        });
     }
 }

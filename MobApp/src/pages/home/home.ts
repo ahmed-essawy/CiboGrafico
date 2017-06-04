@@ -10,9 +10,11 @@ import { Users } from "../../providers/users";
 })
 export class HomePage {
     isLogged: boolean;
-    constructor(private navCtrl: NavController, private user: Users, private alertCtrl: AlertController, private modalCtrl: ModalController) {
-        this.isLogged = this.user.isLogged;
-        new GoogleMap("map").getMyLocation().then(l => this.latLngUsage(l.latLng)).catch(err => console.log(`Error: ${err}`));
+    constructor(private navCtrl: NavController, private user: Users, private alertCtrl: AlertController,
+                private modalCtrl: ModalController) {
+        Users.isLogged().then(isLogged => this.isLogged = isLogged);
+        new GoogleMap("map").getMyLocation().then(l => this.latLngUsage(l.latLng)).catch(err => console
+            .log(`Error: ${err}`));
     }
     latLngUsage(pos: LatLng) {
         this.alertCtrl.create({

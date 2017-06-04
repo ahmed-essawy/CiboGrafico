@@ -21,7 +21,7 @@ module.exports = {
                         (err, resp2) => {
                             if (err) return callback({ success: false, msg: "Error !!" });
                             if (resp2.result.upserted)
-                                return callback({ success: true, data1: resp1.result, data2: resp2.result });
+                                return callback({ success: true, data: resp1.result, data1: resp2.result });
                             else return callback({ success: false, msg: "Duplicated Data" });
                         });
                 } else return callback({ success: false, msg: "Duplicated Data" });
@@ -54,7 +54,7 @@ module.exports = {
                         (err, resp2) => {
                             if (err) return callback({ success: false, msg: "Error !!" });
                             if (resp2.result.ok)
-                                return callback({ success: true, data1: resp1.result, data2: resp2.result });
+                                return callback({ success: true, data: resp1.result, data1: resp2.result });
                             else return callback({ success: false, msg: "Data not modified" });
                         });
                 } else return callback({ success: false, msg: "Data not modified" });
@@ -68,9 +68,12 @@ module.exports = {
                     Collection("Authentications").removeOne({ _id: objectId(object._id) },
                         (err, resp2) => {
                             if (err) return callback({ success: false, msg: "Error !!" });
-                            if (resp2.result.n === 1)
-                                return callback({ success: true, data1: resp1.result, data2: resp2.result });
-                            else return callback({ success: false, msg: "Can't delete data" });
+                            if (resp2.result.n === 1) {
+                                return callback({
+                                    success: true, data: resp1.result,
+                                    : resp2.result
+                                });
+                            } else return callback({ success: false, msg: "Can't delete data" });
                         });
                 } else return callback({ success: false, msg: "Can't delete data" });
             });
