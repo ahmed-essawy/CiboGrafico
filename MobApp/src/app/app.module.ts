@@ -10,6 +10,7 @@ import { MenuPage } from "../pages/menu/menu";
 import { Facebook } from "@ionic-native/facebook";
 import { LoginPage } from "../pages/loginTabs/login/login";
 import { SignupPage } from "../pages/loginTabs/signup/signup";
+import { SQLite } from "@ionic-native/sqlite";
 import { Api } from "../providers/api";
 import { Sql } from "../providers/sql";
 import { Users } from "../providers/users";
