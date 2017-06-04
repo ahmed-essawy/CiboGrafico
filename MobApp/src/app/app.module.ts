@@ -1,7 +1,6 @@
 ﻿import { NgModule, ErrorHandler } from "@angular/core";
 import { IonicApp, IonicModule, IonicErrorHandler } from "ionic-angular";
 import { Network } from "@ionic-native/network";
-import { HTTP } from "@ionic-native/http";
 import { MyApp } from "./app.component";
 import { HomePage } from "../pages/home/home";
 import { AccountPage } from "../pages/account/account";
@@ -13,7 +12,6 @@ import { LoginPage } from "../pages/loginTabs/login/login";
 import { SignupPage } from "../pages/loginTabs/signup/signup";
 import { Api } from "../providers/api";
 import { Sql } from "../providers/sql";
-import { SQLite } from "@ionic-native/sqlite";
 import { Users } from "../providers/users";
 import { Restaurants } from "../providers/restaurants";
 import { Offers } from "../providers/offers";
@@ -33,9 +31,7 @@ import { offerDetailsPage } from "../pages/offerDetails/offerDetails";
     entryComponents: [MyApp, HomePage, AccountPage, LoginTabs, IntroPage, MenuPage, LoginPage, SignupPage,
         RestaurantsListPage, RestaurantProfilePage, reservationPage, OffersPage, TraditionalMenuPage,
         offerDetailsPage],
-    providers: [Network, Api, Sql, SQLite, Facebook, Users, Restaurants, Offers, HTTP, {
-        provide: ErrorHandler,
-        useClass: IonicErrorHandler
-    }]
+    providers: [Network, Api, Sql, SQLite, Facebook, Users, Restaurants, Offers, { provide: ErrorHandler,
+        useClass: IonicErrorHandler }]
 })
-export class AppModule { }
+export class AppModule {}

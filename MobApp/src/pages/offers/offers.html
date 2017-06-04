@@ -7,10 +7,10 @@
   <ion-list>
     <ion-item *ngFor="let offer of offers">
       <ion-thumbnail item-left>
-        <img [src]="offer.image">
+        <img [src]="offer?.image">
       </ion-thumbnail>
-      <h1>{{offer.restName}}</h1>
-      <h2>{{offer.discount*100}} %</h2>
+      <h1>{{offer?.restName}}</h1>
+      <h2>{{offer?.discount*100}} %</h2>
       <p>{{offer.description}}</p>
       <button (click)="selectOffer(offer)" clear ion-button item-right>View</button>
     </ion-item>
