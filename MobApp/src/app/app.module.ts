@@ -15,6 +15,7 @@ import { Api } from "../providers/api";
 import { Sql } from "../providers/sql";
 import { SQLite } from "@ionic-native/sqlite";
 import { Users } from "../providers/users";
+import {Restaurants } from "../providers/restaurants";
 import { RestaurantsListPage } from "../pages/RestaurantsList/RestaurantsList";
 import { RestaurantProfilePage } from "../pages/RestaurantProfile/RestaurantProfile";
 import { reservationPage } from "../pages/reservation/reservation"
@@ -31,7 +32,7 @@ import { offerDetailsPage } from "../pages/offerDetails/offerDetails";
         entryComponents: [MyApp, HomePage, AccountPage, LoginTabs, IntroPage, MenuPage, LoginPage, SignupPage,
             RestaurantsListPage, RestaurantProfilePage, reservationPage, OffersPage, TraditionalMenuPage,
             offerDetailsPage],
-        providers: [Network, Api, Sql, SQLite, Facebook, Users, HTTP, { provide: ErrorHandler,
+        providers: [Network, Api, Sql, SQLite, Facebook, Users, Restaurants, HTTP, { provide: ErrorHandler,
             useClass: IonicErrorHandler }]
     })
 export class AppModule {}

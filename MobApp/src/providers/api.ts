@@ -17,11 +17,14 @@ export class Api {
     }
     get(endpoint: string, params: any): Promise<any> {
         if (params) {
-            const p = new URLSearchParams();
-            params.forEach((item: any) => p.set(item, params[item]));
-            this.options.search = !this.options.search && p || this.options.search;
+            //const p = new URLSearchParams();
+            //params.forEach((item: any) => p.set(item, params[item]));
+            //this.options.search = !this.options.search && p || this.options.search;
+            return this.response(this.http.get(this.url + "/" + endpoint+"/"+params, this.options))
+        } else {
+            return this.response(this.http.get(this.url + "/" + endpoint, this.options))
         }
-        return this.response(this.http.get(this.url + "/" + endpoint, this.options))
+        
     }
     post(endpoint: string, body: any): Promise<any> {
         return this.response(this.http.post(this.url + "/" + endpoint, body, this.options))

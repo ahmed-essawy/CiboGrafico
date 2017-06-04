@@ -1,7 +1,7 @@
 ﻿<ion-header>
 
-  <ion-navbar>
-    <ion-title>reservation</ion-title>
+  <ion-navbar color="danger">
+    <ion-title>Reservation</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -17,16 +17,17 @@
 
         <ion-item>
             <ion-label stacked>Party Size</ion-label>
-          <ion-input type="number"></ion-input>
+          <ion-input type="number" min="1" max="8"></ion-input>
         </ion-item>
     
         <ion-item>
             <ion-label stacked>Date</ion-label>
-          <ion-select [(ngModel)]="aa">
-            <ion-option *ngFor="let person of personNo">{{person.no}}</ion-option>
-          </ion-select>
+          <ion-datetime displayFormat="D MMMM" [(ngModel)]="date"></ion-datetime>
         </ion-item>
-
+      <ion-item>
+        <ion-label stacked>Time</ion-label>
+        <ion-datetime displayFormat="h A" [(ngModel)]="time"></ion-datetime>
+      </ion-item>
     </ion-list>
   <div text-center>
     <button ion-button color="danger" round (click)="reserve()">Reserve</button>
