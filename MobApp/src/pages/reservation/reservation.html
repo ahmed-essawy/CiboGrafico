@@ -1,7 +1,7 @@
 ﻿<ion-header>
 
-  <ion-navbar color="danger">
-    <ion-title>Reservation</ion-title>
+  <ion-navbar color="danger" text-center>
+    <ion-title >Reservation</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -14,10 +14,18 @@
             <ion-label stacked>Name</ion-label>
             <ion-input type="text"></ion-input>
         </ion-item>
-
+      <ion-item>
+          <ion-label stacked>Branch</ion-label>
+        <ion-select interface="popover">
+            <!--<ion-option value="" *ngFor="let Branches of branches">{{Branches.name}}</ion-option>-->
+            <ion-option value="">aa</ion-option>
+          <ion-option value="">bb</ion-option>
+        </ion-select>
+      </ion-item>
         <ion-item>
             <ion-label stacked>Party Size</ion-label>
-          <ion-input type="number" min="1" max="8"></ion-input>
+            <ion-input type="number" min="1" max="branches.maximumGuests"></ion-input>
+          <!--<ion-input type="number" min="1" max="8"></ion-input>-->
         </ion-item>
     
         <ion-item>

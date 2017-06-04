@@ -1,11 +1,10 @@
 ﻿<ion-header>
 
-  <ion-navbar color="danger">
-    <ion-title>{{restaurant?.name}}</ion-title>
+  <ion-navbar color="danger" text-center>
+    <ion-title >{{restaurant?.name}}</ion-title>
   </ion-navbar>
 
 </ion-header>
-<!--value="{{restaurant?.rates?.rate}}"-->
 
 <ion-content padding>
    
@@ -28,8 +27,8 @@
     </ion-list> 
  
     <div text-center>
-        <button ion-button color="danger" outline round (click)="menu(restId)">Menu</button>
-        <button ion-button color="secondary" outline round (click)="reserve(restId)">Reserve</button>
+        <button ion-button color="danger" outline round (click)="menu(restaurant?._id)">Menu</button>
+        <button ion-button color="secondary" outline round (click)="reserve(restaurant?._id)">Reserve</button>
     </div>
    
     <div *ngIf="restaurant?.offers?.length > 0">
