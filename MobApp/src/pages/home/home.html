@@ -14,10 +14,10 @@
     </ion-toolbar>
 </ion-header>
 <ion-content padding>
-    <ion-card text-center *ngIf="!isLogged">
+    <ion-card *ngIf="!isLogged" text-center>
         <ion-card-header text-wrap>Enjoy a personalized<br />ordering experience</ion-card-header>
         <ion-card-content>
-            <button (click)="loginModal()" color="secondary" ion-button outline><ion-icon name="log-in"></ion-icon> Login</button>
+            <button (click)="loginModal()" color="secondary" icon-right ion-button outline>Login<ion-icon name="log-in"></ion-icon></button>
         </ion-card-content>
     </ion-card>
 </ion-content>

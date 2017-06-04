@@ -21,38 +21,49 @@ export class Sql {
     static insertOptions(data: { key: string, value: string }): Promise<PromiseResp> {
         return new Promise((resolve, reject) => {
             Sql.isExistsOptions(data.key).then(isExists => {
-                if (!isExists.response) Sql.query("INSERT INTO Options VALUES (?,?)", [data.key, data.value]).then(resp => resolve(new PromiseResp(true, resp.rowsAffected > 0))).catch(e => reject(new PromiseResp(false, e)));
-                else reject(new PromiseResp(false, "Data already exists !"));
+                if (!isExists.response) {
+                    Sql.query("INSERT INTO Options VALUES (?,?)", [data.key, data.value])
+                        .then(resp => resolve(new PromiseResp(true, resp.rowsAffected > 0)))
+                        .catch(e => reject(new PromiseResp(false, e)));
+                } else reject(new PromiseResp(false, "Data already exists !"));
             }).catch(e => reject(new PromiseResp(false, e)));
         });
     }
     static updateOptions(data: { key: string, value: string }): Promise<PromiseResp> {
         return new Promise((resolve, reject) => {
             Sql.isExistsOptions(data.key).then(isExists => {
-                if (isExists.response) Sql.query("UPDATE Options SET Value=? WHERE Key=?", [data.value, data.key]).then(resp => resolve(new PromiseResp(true, resp.rowsAffected > 0))).catch(e => reject(new PromiseResp(false, e)));
-                else reject(new PromiseResp(false, "Data doesn't exist !"));
+                if (isExists.response) {
+                    Sql.query("UPDATE Options SET Value=? WHERE Key=?", [data.value, data.key])
+                        .then(resp => resolve(new PromiseResp(true, resp.rowsAffected > 0)))
+                        .catch(e => reject(new PromiseResp(false, e)));
+                } else reject(new PromiseResp(false, "Data doesn't exist !"));
             });
         });
     }
     static insertOrUpdateOptions(data: { key: string, value: string }): Promise<PromiseResp> {
         return new Promise((resolve, reject) => {
             Sql.isExistsOptions(data.key).then(isExists => {
-                if (isExists.response) Sql.updateOptions(data).then(resp => resolve(resp)).catch(e => reject(new PromiseResp(false, e)));
-                else if (!isExists.response) Sql.insertOptions(data).then(resp => resolve(resp)).catch(e => reject(new PromiseResp(false, e)));
+                if (isExists.response)
+                    Sql.updateOptions(data).then(resp => resolve(resp)).catch(e => reject(new PromiseResp(false, e)));
+                else if (!isExists.response)
+                    Sql.insertOptions(data).then(resp => resolve(resp)).catch(e => reject(new PromiseResp(false, e)));
             });
         });
     }
     static deleteOptions(key: string): Promise<PromiseResp> {
         return new Promise((resolve, reject) => {
             Sql.isExistsOptions(key).then(isExists => {
-                if (isExists.response) Sql.query("DELETE FROM Options WHERE Key=?", [key]).then(resp => resolve(new PromiseResp(true, resp.rowsAffected > 0))).catch(e => reject(new PromiseResp(false, e)));
-                else reject(false);
+                if (isExists.response) {
+                    Sql.query("DELETE FROM Options WHERE Key=?", [key]).then(resp => resolve(new PromiseResp(true, resp
+                        .rowsAffected > 0))).catch(e => reject(new PromiseResp(false, e)));
+                } else reject(false);
             }).catch(e => reject(new PromiseResp(false, e)));
         });
     }
     static isExistsOptions(key: string): Promise<PromiseResp> {
         return new Promise((resolve, reject) => {
-            Sql.query("SELECT Value FROM Options WHERE Key=?", [key]).then(resp => resolve(new PromiseResp(true, resp.rows.length > 0))).catch(e => reject(new PromiseResp(false, e)));
+            Sql.query("SELECT Value FROM Options WHERE Key=?", [key]).then(resp => resolve(new PromiseResp(true, resp
+                .rows.length > 0))).catch(e => reject(new PromiseResp(false, e)));
         });
     }
     static query(query: string, data: any): Promise<any> {
@@ -60,7 +71,5 @@ export class Sql {
             Sql.db.executeSql(query, data).then(d => resolve(d)).catch(e => reject(e));
         });
     }
-    static drop(table: string) {
-        Sql.query("DROP TABLE " + table, {});
-    }
+    static drop(table: string) { Sql.query(`DROP TABLE ${table}`, {}); }
 }

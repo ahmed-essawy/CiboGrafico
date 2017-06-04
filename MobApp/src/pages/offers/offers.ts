@@ -10,7 +10,7 @@ export class OffersPage {
     offers: any;
     constructor(private http: HTTP, private navctrl: NavController) {
         console.log("hello offers");
-        this.http.get("http://localhost:8888/offers/Read", {}, {})
+        this.http.get("http://169.254.80.80:8888/offers/Read", {}, {})
             .then(data => {
                 this.offers = JSON.parse(data.data).data;
                 console.log(this.offers);
