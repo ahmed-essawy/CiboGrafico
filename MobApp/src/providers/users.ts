@@ -1,74 +1,86 @@
 ﻿import { Injectable } from "@angular/core";
 import { Network } from '@ionic-native/network';
 import { Api } from "./api";
-import { Sql } from "../providers/sql";
+import { Sql } from "./sql";
+import { PromiseResp } from "./classes";
 import { Facebook, FacebookLoginResponse } from "@ionic-native/facebook";
 @Injectable()
 export class Users {
-    isOnline: boolean;
-    isLogged: boolean;
+    static isOnline: boolean;
     constructor(private network: Network, private api: Api, private fb: Facebook) {
-        this.isOnline = network.type !== "none";
-        network.onConnect().subscribe(a => this.isOnline = a.type == "online")
-        network.onDisconnect().subscribe(a => this.isOnline = a.type == "online")
-        Sql.isExistsOptions("_id", resp => this.isLogged = resp);
+        Users.isOnline = network.type !== "none";
+        network.onConnect().subscribe(a => Users.isOnline = a.type == "online");
+        network.onDisconnect().subscribe(a => Users.isOnline = a.type == "online");
     }
-    login(params: { username: string, password: string }): Promise<boolean> {
+    static isLogged(): Promise<boolean> {
+        return new Promise(resolve => {
+            Sql.isExistsOptions("_id").then(resp => resolve(false/*resp.response*/));
+        });
+    }
+    login(params: { username: string, password: string }): Promise<PromiseResp> {
         return new Promise((resolve, reject) => {
-            this.api.post("Login", params).then((data: any) => {
-                if (data.token) {
-                    for (var key in data) if (data.hasOwnProperty(key)) Sql.insertOrUpdateOptions({ key: key, value: data[key] }, () => { });
-                    this.isLogged = true;
-                    resolve(true);
+            this.api.post("Login", params).then((resp: PromiseResp) => {
+                let data: any = resp.response;
+                if (data["token"]) {
+                    for (var key in data) if (data.hasOwnProperty(key)) Sql.insertOrUpdateOptions({ key: key, value: data[key] });
+                    resolve(new PromiseResp(true, "Log In Successfully"));
                 }
-                else reject(false);
-            });
+                else reject(new PromiseResp(false, "Log In Failed"));
+            }).catch(e => reject(new PromiseResp(e.success, "Log In Failed")));
         })
     }
-    readAll(): Promise<boolean> {
+    signup(params: { firstName: string, lastName: string, username: string, email: string, password: string }): Promise<PromiseResp> {
         return new Promise((resolve, reject) => {
-            this.api.get("Users", null).then((data: any) => {
-                if (Array.isArray(data)) resolve(new Array());
-                else reject(new Array());
+            this.api.post("Users", params).then((resp: PromiseResp) => {
+                let data: any = resp.response;
+                if (data["upserted"].length > 0) resolve(new PromiseResp(true, "Sign Up Successfully"));
+                else reject(new PromiseResp(false, "Sign Up Failed"));
+            }).catch(e => reject(new PromiseResp(e.success, "Sign Up Failed")));
+        })
+    }
+    readAll(): Promise<PromiseResp> {
+        return new Promise((resolve, reject) => {
+            this.api.get("Users", null).then((data: PromiseResp) => {
+                if (Array.isArray(data.response)) resolve(new PromiseResp(true, new Array()));
+                else reject(new PromiseResp(false, new Array()));
+            }).catch(e => reject(e));
+        });
+    }
+    read(params: any): Promise<PromiseResp> {
+        return new Promise((resolve, reject) => {
+            this.api.get("Users", params).then((data: PromiseResp) => {
+                if (Array.isArray(data.response)) resolve(new PromiseResp(true, data.response));
+                else reject(new PromiseResp(false, new Array()));
             });
         });
     }
-    read(params: any): Promise<boolean> {
-        return new Promise((resolve, reject) => {
-            this.api.get("Users", params).then((data: any) => {
-                if (Array.isArray(data)) resolve(data);
-                else reject(new Array());
-            });
-        });
-    }
-    fbLogin(): Promise<boolean> {
+    fbLogin(): Promise<PromiseResp> {
         return new Promise((resolve, reject) => {
             this.fb.login(["email"]).then((resp: FacebookLoginResponse) => {
                 if (resp.status === "connected") {
                     this.fbSaveStatus(resp.authResponse);
-                    resolve(true);
+                    resolve(new PromiseResp(true, "Log In Successfully"));
                 }
-                else reject(false);
-            }).catch(e => { reject(false) });
+                else reject(new PromiseResp(false, "Log In Failed"));
+            }).catch(e => reject(e));
         });
     }
-    fbIsConnected(): Promise<boolean> {
+    fbIsConnected(): Promise<PromiseResp> {
         return new Promise((resolve, reject) => {
             this.fb.getLoginStatus().then((resp: FacebookLoginResponse) => {
                 if (resp.status === "connected") {
                     this.fbSaveStatus(resp.authResponse);
-                    resolve(true);
+                    resolve(new PromiseResp(true, "Log In Successfully"));
                 }
-                else reject(false);
-            }).catch(e => { reject(false) });
+                else reject(new PromiseResp(false, "Log In Failed"));
+            }).catch(e => reject(e));
         });
     }
     fbSaveStatus(response) {
-        this.isLogged = true;
         let fbAuthData = { "id": response.userID, "AccessToken": response.accessToken, "ExpiresIn": response.expiresIn, "Image": "https://graph.facebook.com/" + response.userID + "/picture?width=1000&height=1000" }
-        for (var key in fbAuthData) if (fbAuthData.hasOwnProperty(key)) Sql.insertOrUpdateOptions({ key: "fb" + key, value: fbAuthData[key] }, () => { });
+        for (var key in fbAuthData) if (fbAuthData.hasOwnProperty(key)) Sql.insertOrUpdateOptions({ key: "fb" + key, value: fbAuthData[key] });
         this.fb.api("me?fields=id,first_name,last_name,email&accesstoken=" + response.accessToken, []).then(resp => {
-            for (var key in resp) if (resp.hasOwnProperty(key)) Sql.insertOrUpdateOptions({ key: "fb" + key, value: resp[key] }, () => { });
+            for (var key in resp) if (resp.hasOwnProperty(key)) Sql.insertOrUpdateOptions({ key: "fb" + key, value: resp[key] });
         });
     }
 }
