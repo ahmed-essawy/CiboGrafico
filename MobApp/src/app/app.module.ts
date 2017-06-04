@@ -15,7 +15,8 @@ import { Api } from "../providers/api";
 import { Sql } from "../providers/sql";
 import { SQLite } from "@ionic-native/sqlite";
 import { Users } from "../providers/users";
-import {Restaurants } from "../providers/restaurants";
+import { Restaurants } from "../providers/restaurants";
+import { Offers } from "../providers/offers";
 import { RestaurantsListPage } from "../pages/RestaurantsList/RestaurantsList";
 import { RestaurantProfilePage } from "../pages/RestaurantProfile/RestaurantProfile";
 import { reservationPage } from "../pages/reservation/reservation"
@@ -24,15 +25,17 @@ import { OffersPage } from "../pages/offers/offers";
 import { TraditionalMenuPage } from "../pages/traditionalMenu/traditionalMenu";
 import { offerDetailsPage } from "../pages/offerDetails/offerDetails";
 @NgModule({
-        declarations: [MyApp, HomePage, AccountPage, LoginTabs, IntroPage, MenuPage, LoginPage, SignupPage,
-            RestaurantsListPage, RestaurantProfilePage, reservationPage, OffersPage, TraditionalMenuPage,
-            offerDetailsPage],
-        imports: [IonicModule.forRoot(MyApp), Ionic2RatingModule],
-        bootstrap: [IonicApp],
-        entryComponents: [MyApp, HomePage, AccountPage, LoginTabs, IntroPage, MenuPage, LoginPage, SignupPage,
-            RestaurantsListPage, RestaurantProfilePage, reservationPage, OffersPage, TraditionalMenuPage,
-            offerDetailsPage],
-        providers: [Network, Api, Sql, SQLite, Facebook, Users, Restaurants, HTTP, { provide: ErrorHandler,
-            useClass: IonicErrorHandler }]
-    })
-export class AppModule {}
+    declarations: [MyApp, HomePage, AccountPage, LoginTabs, IntroPage, MenuPage, LoginPage, SignupPage,
+        RestaurantsListPage, RestaurantProfilePage, reservationPage, OffersPage, TraditionalMenuPage,
+        offerDetailsPage],
+    imports: [IonicModule.forRoot(MyApp), Ionic2RatingModule],
+    bootstrap: [IonicApp],
+    entryComponents: [MyApp, HomePage, AccountPage, LoginTabs, IntroPage, MenuPage, LoginPage, SignupPage,
+        RestaurantsListPage, RestaurantProfilePage, reservationPage, OffersPage, TraditionalMenuPage,
+        offerDetailsPage],
+    providers: [Network, Api, Sql, SQLite, Facebook, Users, Restaurants, Offers, HTTP, {
+        provide: ErrorHandler,
+        useClass: IonicErrorHandler
+    }]
+})
+export class AppModule { }

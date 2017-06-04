@@ -1,6 +1,7 @@
 ﻿import { Component } from '@angular/core';
 import { HTTP } from "@ionic-native/http";
 import { NavController } from 'ionic-angular';
+import { Offers } from "../../providers/offers";
 import { offerDetailsPage } from "../offerDetails/offerDetails";
 @Component({
     selector: 'page-offers',
@@ -8,14 +9,8 @@ import { offerDetailsPage } from "../offerDetails/offerDetails";
 })
 export class OffersPage {
     offers: any;
-    constructor(private http: HTTP, private navctrl: NavController) {
-        console.log("hello offers");
-        this.http.get("http://169.254.80.80:8888/offers/Read", {}, {})
-            .then(data => {
-                this.offers = JSON.parse(data.data).data;
-                console.log(this.offers);
-            })
-            .catch(err => console.log(`Error: ${err}`));
+    constructor(private offer: Offers, private navctrl: NavController) {
+        this.offer.readAll().then(resp => this.offers = resp.response).catch(err => console.log(err));
     }
     selectOffer(id) { this.navctrl.push(offerDetailsPage, { offerId: id }); }
 }
