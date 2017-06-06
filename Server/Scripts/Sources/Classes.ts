@@ -93,12 +93,12 @@ export class Restaurant implements IRestaurant {
         this.reservations = Array<Reservation>();
     }
     addBranch(branch: Branch): void { this.branches.pushIfNotExist(branch); }
-    addReview(review: Review): void { this.reviews.pushIfNotExist(review); }
-    addRate(rate: { _id: string; rate: Rate }): void { this.rates.pushIfNotExist(rate); }
+    addReview(review: Review): void { this.reviews.push(review); }
+    addRate(rate: { _id: string; rate: Rate }): void { this.rates.push(rate); }
     addMeal(meal: Meal): void { this.meals.pushIfNotExist(meal); }
     addOffer(offer: Id): void { this.offers.pushIfNotExist(offer._id); }
     addOrder(order: Id): void { this.orders.pushIfNotExist(order._id); }
-    addReservation(reservation: Reservation): void { this.reservations.pushIfNotExist(reservation); }
+    addReservation(reservation: Reservation): void { this.reservations.push(reservation); }
     branchesCount(): number { return this.branches.length; }
     reviewsCount(): number { return this.reviews.length; }
     ratesCount(): number { return this.rates.length; }

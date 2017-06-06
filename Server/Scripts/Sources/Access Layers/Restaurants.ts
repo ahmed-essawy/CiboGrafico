@@ -10,7 +10,7 @@ module.exports = {
                 else return callback({ success: false, data: object });
             });
     },
-    Read(object: Id, callback: any) {
+    ReadFull(object: Id, callback: any) {
         Collection("Restaurants").findOne(objectId(object._id), (err, row: Restaurant) => {
             if (err) return callback({ success: false, msg: "Error !!" });
             if (row) {
@@ -34,7 +34,13 @@ module.exports = {
                     callback({ success: true, data: row });
                 });
             }
-                //return callback({ success: true, data: row });
+            else return callback({ success: false, data: object });
+        });
+    },
+    Read(object: Id, callback: any) {
+        Collection("Restaurants").findOne(objectId(object._id), (err, row: Restaurant) => {
+            if (err) return callback({ success: false, msg: "Error !!" });
+            if (row) return callback({ success: true, data: row });
             else return callback({ success: false, data: object });
         });
     },

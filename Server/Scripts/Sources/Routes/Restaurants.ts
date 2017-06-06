@@ -5,7 +5,7 @@ const valid = new Validator();
     const restaurants = require("express").Router(), db = require("../Mongodb");
     restaurants
         .get("/", (req: any, res: any) => db.Restaurants.ReadAll(response => res.json(response)))
-        .get("/:id", (req, res) => db.Restaurants.Read({ _id: req.params.id }, response => res.json(response)))
+        .get("/:id", (req, res) => db.Restaurants.ReadFull({ _id: req.params.id }, response => res.json(response)))
         .delete("/:id", (req, res) => db.Restaurants.Delete({ _id: req.params.id }, response => res.json(response)))
         .post("/",
             (req, res) => {
@@ -91,14 +91,13 @@ const valid = new Validator();
         }, response => res.json(response)))
         .put("/Review",
             (req, res) => {
-                if (req.body.restaurant && req.body.comment) {
+                if (req.body.restaurant && req.body.review._id && req.body.review.comment) {
                     db.Restaurants.Read({ _id: req.body.restaurant },
                         response => {
                             if (response.success) {
                                 const tempRest: Restaurant = Restaurant.deserialize(response.data);
-                                let tempReview = new Review(db.objectId(), req.body.comment);
+                                let tempReview = new Review(req.body.review._id, req.body.comment);
                                 tempRest.addReview(tempReview);
-                                console.log(tempRest);
                                 db.Restaurants.Update(tempRest, response => res.json(response));
                             } else res.status(404).json({ success: false, msg: "Data Not Found" });
                         });
