@@ -1,10 +1,15 @@
-﻿import {Collection} from "../Mongodb";
+﻿import { Collection } from "../Mongodb";
 import { Authentication } from "../Classes";
 import { objectId, AccountType } from "../Types";
 module.exports = {
     Check(object: any, callback: any) {
-        Collection("Authentications").findOne({ $and: [{ "password": require("md5")(object.password) }, { $or: [{
-            "email": object.username }, { "username": object.username }] }] }, (err, resp: Authentication) => {
+        Collection("Authentications").findOne({
+            $and: [{ "password": require("md5")(object.password) }, {
+                $or: [{
+                    "email": object.username
+                }, { "username": object.username }]
+            }]
+        }, (err, resp: Authentication) => {
             if (err) return callback({ success: false });
             if (resp) {
                 require("../Mongodb").Users.Read({ _id: resp._id }, resp2 => {
@@ -18,11 +23,19 @@ module.exports = {
         });
     },
     fbLogin(object: any, callback: any) {
-        const fbObject = { "name": "facebook", "data": { "id": object.id, "accessToken": object.AccessToken,
-            "expiresIn": object.ExpiresIn } };
+        const fbObject = {
+            "name": "facebook", "data": {
+                "id": object.id, "accessToken": object.AccessToken,
+                "expiresIn": object.ExpiresIn
+            }
+        };
         if (object.isRegistered) {
-            Collection("Authentications").findOne({ "_id": objectId(object._id), "socials.data.id": { $eq: fbObject.data
-                    .id } },
+            Collection("Authentications").findOne({
+                "_id": objectId(object._id), "socials.data.id": {
+                    $eq: fbObject.data
+                        .id
+                }
+            },
                 (err, resp: Authentication) => {
                     console.log(err);
                     console.log(resp);
@@ -46,9 +59,7 @@ module.exports = {
             //    });
         } else {
             object["username"] = object.email;
-            let
-            Collection;
-            ("Users").update({ "username": object.username, "email": object.email },
+            Collection("Users").update({ "username": object.username, "email": object.email },
                 { $setOnInsert: object },
                 { upsert: true },
                 (err, resp1) => {
@@ -56,8 +67,12 @@ module.exports = {
                     if (resp1.result.upserted) {
                         const tempAuth = new Authentication(resp1.result.upserted[0]._id, AccountType.User, object
                             .email, object.username, object.username);
-                        tempAuth.addSocial({ "name": "facebook", "data": { "id": object.id, "accessToken": object
-                            .AccessToken, "expiresIn": object.ExpiresIn } });
+                        tempAuth.addSocial({
+                            "name": "facebook", "data": {
+                                "id": object.id, "accessToken": object
+                                    .AccessToken, "expiresIn": object.ExpiresIn
+                            }
+                        });
                         Collection("Authentications").update({ "_id": tempAuth._id },
                             { $setOnInsert: tempAuth },
                             { upsert: true },
