@@ -8,7 +8,7 @@ interface IName {
 interface IImage {
     image: Uri;
 }
-export interface IPerson {
+export interface IPerson{
     firstName: string;
     lastName: string;
     fullName(): string;
@@ -19,7 +19,7 @@ export interface ILogin {
     email: Email;
     username: Username;
 }
-export interface IAuthentication extends ILogin, IId {
+export interface IAuthentication extends ILogin, IId{
     type: AccountType;
     password: string;
     token: string;
@@ -83,20 +83,14 @@ export interface IOffer extends IId, IImage {
     meal: string;
 }
 export interface IUser extends IPerson, ILogin, IId, IImage {
-    socialMedia: Array<ISocialMedia>;
     points: number;
     favorites: Array<IMeal>;
     orders: Array<string>;
     favoritesCount(): number;
     ordersCount(): number;
-    addSocialMedia(socialMedia: ISocialMedia): void;
 }
 export interface IRestaurantOwner extends IPerson {}
 export interface IBranchManager extends IPerson {}
-export interface ISocialMedia {
-    provider: string;
-    uri: Uri;
-}
 export interface IReservation extends IId {
     owner: string;
     guests: number;
