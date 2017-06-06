@@ -24,7 +24,9 @@ export interface IAuthentication extends ILogin, IId {
     password: string;
     token: string;
     devices: Array<string>;
+    socials: Array<{ "name": string,"data": any }>;
     addDevice(device: string): void;
+    addSocial(social: { "name": string, "data": any }): void;
 }
 export interface IAddress {
     street: string;
@@ -39,7 +41,7 @@ export interface IIngredient extends IId, IName {
 }
 export interface IReview extends IId {
     comment: string;
-    date:Date;
+    date: Date;
 }
 export interface IRestaurant extends IId, IName {
     logo: Uri;
@@ -72,7 +74,7 @@ export interface IBranch extends ILogin, IId, IName {
     phones: Array<Phone>;
     addPhone(phone: Phone): void;
     guestsPerTable: number;
-    maximumGuests:number;
+    maximumGuests: number;
 }
 export interface IOffer extends IId, IImage {
     provider: string;
@@ -101,7 +103,7 @@ export interface IReservation extends IId {
     owner: string;
     guests: number;
     order?: string;
-    branch:string;
+    branch: string;
 }
 export interface ISubOrder extends IId {
     num: number;

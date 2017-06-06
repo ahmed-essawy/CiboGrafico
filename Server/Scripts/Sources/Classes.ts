@@ -8,14 +8,12 @@ const valid = new Validator();
 const md5 = require("md5");
 export class User implements IUser {
     _id: string;
-    @IsAlpha()
     firstName: string;
-    @IsAlpha()
     lastName: string;
     fullName(): string { return this.firstName + " " + this.lastName; }
     @IsEmail()
     email: Email;
-    @IsAlphanumeric()
+    @IsString()
     username: Username;
     @IsArray()
     phones: Array<Phone>;
@@ -70,7 +68,6 @@ export class SocialMedia implements ISocialMedia {
 }
 export class Restaurant implements IRestaurant {
     _id: string;
-    @IsAlpha()
     name: string;
     @IsUrl()
     logo: Uri;
@@ -120,11 +117,10 @@ export class Restaurant implements IRestaurant {
 }
 export class Branch implements IBranch {
     _id: string;
-    @IsAlpha()
     name: string;
     @IsEmail()
     email: Email;
-    @IsAlphanumeric()
+    @IsString()
     username: Username;
     @IsArray()
     phones: Array<Phone>;
@@ -132,9 +128,12 @@ export class Branch implements IBranch {
     guestsPerTable: number;
     @IsInt()
     maximumGuests: number;
-    constructor(id: string, name: string, manager: Manager, address: BranchAddress, email: Email, username: Username, phones: Array<Phone>, maximumGuests: number);
-    constructor(id: string, name: string, manager: Manager, address: BranchAddress, email: Email, username: Username, phones: Array<Phone>, maximumGuests: number, guestsPerTable: number);
-    constructor(id: string, name: string, public manager: Manager, public address: BranchAddress, email: Email, username: Username, phones: Array<Phone>, maximumGuests: number, guestsPerTable: number = 4) {
+    constructor(id: string, name: string, manager: Manager, address: BranchAddress, email: Email, username: Username,
+                phones: Array<Phone>, maximumGuests: number);
+    constructor(id: string, name: string, manager: Manager, address: BranchAddress, email: Email, username: Username,
+                phones: Array<Phone>, maximumGuests: number, guestsPerTable: number);
+    constructor(id: string, name: string, public manager: Manager, public address: BranchAddress, email: Email,
+                username: Username, phones: Array<Phone>, maximumGuests: number, guestsPerTable: number = 4) {
         this._id = objectId(id);
         this.name = name;
         this.email = email;
@@ -146,9 +145,7 @@ export class Branch implements IBranch {
     addPhone(phone: Phone): void { this.phones.pushIfNotExist(phone); }
 }
 export class Owner implements IRestaurantOwner {
-    @IsAlpha()
     firstName: string;
-    @IsAlpha()
     lastName: string;
     fullName(): string { return this.firstName + " " + this.lastName; }
     @IsArray()
@@ -192,7 +189,6 @@ export class Manager implements IBranchManager {
 }
 export class Meal implements IMeal {
     _id: string;
-    @IsAlpha()
     name: string;
     @IsUrl()
     image: Uri;
@@ -293,8 +289,9 @@ export class Reservation implements IReservation {
     date: Date;
     time: Date;
     constructor(id: string, owner: string, branch: string, guests: number, date: Date, time: Date);
-    constructor(id: string, owner: string, branch: string, guests: number, date: Date, time: Date,  order: string);
-    constructor(id: string, owner: string, branch: string, guests: number, date: Date, time: Date,  public order?: string) {
+    constructor(id: string, owner: string, branch: string, guests: number, date: Date, time: Date, order: string);
+    constructor(id: string, owner: string, branch: string, guests: number, date: Date, time: Date,
+                public order?: string) {
         this._id = id;
         this.owner = owner;
         this.branch = branch;
@@ -309,12 +306,14 @@ export class Authentication implements IAuthentication {
     type: AccountType;
     @IsEmail()
     email: Email;
-    @IsAlphanumeric()
+    @IsString()
     username: Username;
     password: string;
     token: string;
     @IsArray()
     devices: Array<string>;
+    @IsArray()
+    socials: Array<{ "name": string, "data": any }>;
     constructor(id: string, type: AccountType, email: Email, username: Username, password: string) {
         this._id = id;
         this.email = email;
@@ -324,6 +323,7 @@ export class Authentication implements IAuthentication {
         this.token = md5(this.type + this.username + this.password + "ITIGraduationProject" + new Date());
     }
     addDevice(device: string): void { this.devices.pushIfNotExist(device) }
+    addSocial(social: { "name": string, "data": any }): void { this.socials.pushIfNotExist(social) }
 }
 export class Address implements IAddress {
     constructor();
@@ -346,7 +346,6 @@ export class BranchAddress extends Address implements IBranchAddress {
 }
 export class Ingredient implements IIngredient {
     _id: string;
-    @IsAlpha()
     name: string;
     @IsUrl()
     image: Uri;

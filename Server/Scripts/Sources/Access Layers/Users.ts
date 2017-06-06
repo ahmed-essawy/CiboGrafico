@@ -4,7 +4,7 @@ import { objectId, Id, AccountType } from "../Types";
 import { ILogin } from "../Interfaces";
 module.exports = {
     Create(object: User, password: string, callback: any) {
-        Collection("Users").update({ "username": object.username },
+        Collection("Users").update({ $or: [{ "username": object.username }, { "email": object.email }] },
             { $setOnInsert: object },
             { upsert: true },
             (err, resp1) => {
