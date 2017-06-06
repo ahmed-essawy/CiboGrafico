@@ -37,7 +37,6 @@ import { validate } from "class-validator";
             //            }
             //        });
             //    } else res.status(400).json({ success: false, msg: "Invalid Data" });
-        };
-});
-module.exports = login;
+        });
+    module.exports = login;
 }
