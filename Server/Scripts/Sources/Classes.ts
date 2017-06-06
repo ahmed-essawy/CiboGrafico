@@ -1,4 +1,4 @@
-﻿import { IUser, ISocialMedia, IRestaurant, IBranch, IRestaurantOwner, IBranchManager, IMeal, IOrder, ISubOrder, IOffer,
+﻿import { IUser, IRestaurant, IBranch, IRestaurantOwner, IBranchManager, IMeal, IOrder, ISubOrder, IOffer,
     IReservation, IAuthentication, IAddress, IIngredient, IBranchAddress, IReview } from "./Interfaces";
 import { Duration, Email, MealPrice, Rate, OrderType, Phone, Price, Uri, Id, Username, AccountType, objectId } from
     "./Types";
@@ -20,8 +20,6 @@ export class User implements IUser {
     @IsArray()
     phones: Array<Phone>;
     image: Uri;
-    @IsArray()
-    socialMedia: Array<SocialMedia>;
     @IsInt()
     points: number;
     @IsArray()
@@ -35,11 +33,8 @@ export class User implements IUser {
                 address: Address);
     constructor(id: string, firstName: string, lastName: string, email: Email, username: Username, phones: Array<Phone>,
                 address: Address, image: Uri);
-    constructor(id: string, firstName: string, lastName: string, email: Email, username: Username, phones: Array<Phone>,
-                address: Address, image: Uri, socialMedia: Array<SocialMedia>);
     constructor(id: string, firstName: string, lastName: string, email: Email, username: Username,
-                phones: Array<Phone> = Array<Phone>(), public address: Address = new Address(), image: Uri = "",
-                socialMedia: Array<SocialMedia> = Array<SocialMedia>()) {
+                phones: Array<Phone> = Array<Phone>(), public address: Address = new Address(), image: Uri = "") {
         this._id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -51,21 +46,15 @@ export class User implements IUser {
         this.points = 0;
         this.favorites = Array<Meal>();
         this.orders = Array<string>();
-        this.socialMedia = socialMedia;
     }
     addPhone(phone: Phone): void { this.phones.pushIfNotExist(phone) }
-    addSocialMedia(socialMedia: SocialMedia): void { this.socialMedia.pushIfNotExist(socialMedia) }
     favoritesCount(): number { return this.favorites.length; }
     ordersCount(): number { return this.orders.length; }
-}
-export class SocialMedia implements ISocialMedia {
-    @IsString()
-    provider: string;
-    @IsUrl()
-    uri: string;
-    constructor(provider: string, uri: Uri) {
-        this.provider = provider;
-        this.uri = uri;
+    static deserialize(object: User): User {
+      let user:User=  new User(object._id, object.firstName, object.lastName, object.email, object.username, object.phones, object.address, object.image);
+      user.favorites = object.favorites;
+      user.orders = object.orders;
+        return user;
     }
 }
 export class Restaurant implements IRestaurant {
@@ -117,6 +106,17 @@ export class Restaurant implements IRestaurant {
     offersCount(): number { return this.offers.length; }
     ordersCount(): number { return this.orders.length; }
     reservationsCount(): number { return this.reservations.length; }
+    static deserialize(object: Restaurant): Restaurant {
+        let restaurant = new Restaurant(object._id, object.name, object.logo, object.owner);
+        restaurant.branches = object.branches;
+        restaurant.reviews = object.reviews;
+        restaurant.rates = object.rates;
+        restaurant.meals = object.meals;
+        restaurant.offers = object.offers;
+        restaurant.orders = object.orders;
+        restaurant.reservations = object.reservations;
+        return restaurant;
+    }
 }
 export class Branch implements IBranch {
     _id: string;
@@ -144,6 +144,7 @@ export class Branch implements IBranch {
         this.guestsPerTable = guestsPerTable;
     }
     addPhone(phone: Phone): void { this.phones.pushIfNotExist(phone); }
+    static deserialize(object: Branch): Branch { return new Branch(object._id,object.name,object.manager,object.address,object.email,object.username,object.phones,object.maximumGuests,object.guestsPerTable); }
 }
 export class Owner implements IRestaurantOwner {
     @IsAlpha()
@@ -166,6 +167,7 @@ export class Owner implements IRestaurantOwner {
         this.email = email;
     }
     addPhone(phone: Phone): void { this.phones.pushIfNotExist(phone); }
+    static deserialize(object: Owner): Owner { return new Owner(object.firstName,object.lastName,object.phones,object.email,object.address); }
 }
 export class Manager implements IBranchManager {
     @IsAlpha()
@@ -177,18 +179,18 @@ export class Manager implements IBranchManager {
     fullName(): string { return this.firstName + " " + this.lastName; }
     @IsArray()
     phones: Array<Phone>;
-    constructor(firstName: string, lastName: string, phone: Phone);
-    constructor(firstName: string, lastName: string, phone: Phone, email: Email);
-    constructor(firstName: string, lastName: string, phone: Phone, email: Email, address: Address);
-    constructor(firstName: string, lastName: string, phone: Phone, email: Email = "",
+    constructor(firstName: string, lastName: string, phones: Array<Phone>);
+    constructor(firstName: string, lastName: string, phones: Array<Phone>, email: Email);
+    constructor(firstName: string, lastName: string, phones: Array<Phone>, email: Email, address: Address);
+    constructor(firstName: string, lastName: string, phones: Array<Phone>, email: Email = "",
                 public address: Address = new Address()) {
         this.firstName = firstName;
         this.lastName = lastName;
+        this.phones = phones;
         this.email = email;
-        this.phones = Array<Phone>();
-        this.phones.pushIfNotExist(phone);
     }
     addPhone(phone: Phone): void { this.phones.pushIfNotExist(phone); }
+    static deserialize(object: Manager): Manager {return new Manager(object.firstName, object.lastName, object.phones, object.email, object.address);}
 }
 export class Meal implements IMeal {
     _id: string;
@@ -211,6 +213,11 @@ export class Meal implements IMeal {
     addIngredient(ingredient: Id): void { this.ingredients.pushIfNotExist(ingredient._id); }
     addIngredients(ingredients: Array<Id>): void {
         ingredients.forEach(item => this.ingredients.pushIfNotExist(item._id));
+    }
+    static deserialize(object: Meal): Meal {
+        let meal: Meal = new Meal(object._id, object.name, object.image, object.category, object.price);
+        meal.ingredients = object.ingredients;
+        return meal;
     }
 }
 export class SubOrder implements ISubOrder {
@@ -235,6 +242,11 @@ export class SubOrder implements ISubOrder {
     }
     mealsCount(): number { return this.meals.length; }
     addMeal(meal: MealPrice): void { this.meals.pushIfNotExist(meal) }
+    static deserialize(object: SubOrder): SubOrder {
+        let subOrder: SubOrder = new SubOrder(object._id,object.num,object.owner);
+        subOrder.meals = object.meals;
+        return subOrder;
+    }
 }
 export class Order extends SubOrder implements IOrder {
     @IsArray()
@@ -253,6 +265,12 @@ export class Order extends SubOrder implements IOrder {
     }
     addsubOrder(subOrder: Id): void { this.subOrders.pushIfNotExist(subOrder._id) }
     subOrdersCount(): number { return this.subOrders.length; }
+    static deserialize(object: Order): Order {
+        let type: OrderType = OrderType[object.type];
+        let order: Order = new Order(object._id, object.num, object.owner, object.restaurant,type,object.address);
+        order.subOrders = object.subOrders;
+        return order;
+    }
 }
 export class Offer implements IOffer {
     _id: string;
@@ -315,6 +333,8 @@ export class Authentication implements IAuthentication {
     token: string;
     @IsArray()
     devices: Array<string>;
+    @IsArray()
+    socials: Array<string>;
     constructor(id: string, type: AccountType, email: Email, username: Username, password: string) {
         this._id = id;
         this.email = email;
@@ -324,13 +344,20 @@ export class Authentication implements IAuthentication {
         this.token = md5(this.type + this.username + this.password + "ITIGraduationProject" + new Date());
     }
     addDevice(device: string): void { this.devices.pushIfNotExist(device) }
+    static deserialize(object: Authentication): Authentication {
+        let auth: Authentication = new Authentication(object._id, object.type, object.email, object.username, object.password);
+        auth.password = object.password;
+        auth.devices = object.devices;
+        auth.socials = object.socials;
+        return auth;
+    }
 }
 export class Address implements IAddress {
     constructor();
     constructor(street: string);
     constructor(street: string, city: string);
     constructor(street: string, city: string, country: string);
-    constructor(public street: string = "", public city: string = "Alexandria", public country: string = "Egypt") {}
+    constructor(public street: string = "", public city: string = "Alexandria", public country: string = "Egypt") { }
 }
 export class BranchAddress extends Address implements IBranchAddress {
     @IsString()
