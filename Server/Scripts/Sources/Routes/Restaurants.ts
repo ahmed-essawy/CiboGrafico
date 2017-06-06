@@ -1,11 +1,11 @@
-﻿import { Restaurant, Owner, Address, Branch, Manager, BranchAddress } from "../Classes";
+﻿import { Restaurant, Owner, Address, Branch, Manager, BranchAddress, Review} from "../Classes";
 import { validate, Validator, IsEmail } from "class-validator";
 const valid = new Validator();
 {
     const restaurants = require("express").Router(), db = require("../Mongodb");
     restaurants
         .get("/", (req: any, res: any) => db.Restaurants.ReadAll(response => res.json(response)))
-        .get("/:id", (req, res) => db.Restaurants.Read({ _id: req.params.id }, response => res.json(response)))
+        .get("/:id", (req, res) => db.Restaurants.ReadFull({ _id: req.params.id }, response => res.json(response)))
         .delete("/:id", (req, res) => db.Restaurants.Delete({ _id: req.params.id }, response => res.json(response)))
         .post("/",
             (req, res) => {
@@ -91,13 +91,13 @@ const valid = new Validator();
         }, response => res.json(response)))
         .put("/Review",
             (req, res) => {
-                if (req.body.restaurant) {
+                if (req.body.restaurant && req.body.review._id && req.body.review.comment) {
                     db.Restaurants.Read({ _id: req.body.restaurant },
                         response => {
                             if (response.success) {
-                                const tempRest: Restaurant = response.data;
-                                if (req.body.review && req.body.review._id && req.body.review
-                                    .comment) tempRest.addReview(req.body.review);
+                                const tempRest: Restaurant = Restaurant.deserialize(response.data);
+                                let tempReview = new Review(req.body.review._id, req.body.comment);
+                                tempRest.addReview(tempReview);
                                 db.Restaurants.Update(tempRest, response => res.json(response));
                             } else res.status(404).json({ success: false, msg: "Data Not Found" });
                         });
@@ -116,6 +116,21 @@ const valid = new Validator();
                             } else res.status(404).json({ success: false, msg: "Data Not Found" });
                         });
                 } else res.status(400).json({ success: false, msg: "Invalid Data" });
-            });
+        })
+      .put("/Reservation",
+        (req, res) => {
+            if (req.body.restaurant) {
+                db.Restaurants.Read({ _id: req.body.restaurant },
+                    response => {
+                        if (response.success) {
+                            const tempRest: Restaurant = response.data;
+                            if (req.body.reservation && req.body.reservation._id && req.body.reservation
+                                .owner && req.body.reservation.branch && req.body.reservation.guests &&
+                                req.body.reservation.date && req.body.reservation.time) tempRest.addReservation(req.body.reservation);
+                            db.Restaurants.Update(tempRest, response => res.json(response));
+                        } else res.status(404).json({ success: false, msg: "Data Not Found" });
+                    });
+            } else res.status(400).json({ success: false, msg: "Invalid Data" });
+        });
     module.exports = restaurants;
 }

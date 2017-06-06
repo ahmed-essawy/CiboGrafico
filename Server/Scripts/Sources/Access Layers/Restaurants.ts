@@ -1,5 +1,5 @@
 ﻿import { Collection } from "../Mongodb";
-import { Restaurant } from "../Classes";
+import { Restaurant,Review,User } from "../Classes";
 import { objectId, Id } from "../Types";
 module.exports = {
     Create(object: Restaurant, callback: any) {
@@ -9,6 +9,33 @@ module.exports = {
                 if (resp.result.ok) return callback({ success: true, data: resp.result });
                 else return callback({ success: false, data: object });
             });
+    },
+    ReadFull(object: Id, callback: any) {
+        Collection("Restaurants").findOne(objectId(object._id), (err, row: Restaurant) => {
+            if (err) return callback({ success: false, msg: "Error !!" });
+            if (row) {
+                const users = async function () {
+                    const reviews = Array<Review>();
+                    for (let i = 0; i < row.reviews.length; i++) {
+                        let review = row.reviews[i];
+                        await new Promise(resolve => {
+                            Collection("Users").findOne(objectId(review._id),
+                                (err, datarow: User) => {
+                                    if (err) return callback({ success: false, msg: "Error !!" });
+                                    review["name"] = datarow.firstName + " " + datarow.lastName;
+                                    resolve(review);
+                                });
+                        }).then(review => reviews.push(review as Review));
+                    }
+                    return reviews;
+                };
+                users().then(reviews => {
+                    row.reviews = reviews;
+                    callback({ success: true, data: row });
+                });
+            }
+            else return callback({ success: false, data: object });
+        });
     },
     Read(object: Id, callback: any) {
         Collection("Restaurants").findOne(objectId(object._id), (err, row: Restaurant) => {

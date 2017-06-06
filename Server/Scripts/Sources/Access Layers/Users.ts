@@ -1,5 +1,5 @@
 ﻿import { Collection } from "../Mongodb";
-import { User, Authentication, SocialMedia, Meal } from "../Classes";
+import { User, Authentication, Meal } from "../Classes";
 import { objectId, Id, AccountType } from "../Types";
 import { ILogin } from "../Interfaces";
 module.exports = {
@@ -75,16 +75,7 @@ module.exports = {
                 } else return callback({ success: false, msg: "Can't delete data" });
             });
     },
-    AddSocial(object: SocialMedia, UserId: Id, callback: any) {
-        Collection("Users").update({ _id: objectId(UserId._id), "socialMedia.provider": { $ne: object.provider } },
-            { $addToSet: { "socialMedia": object } },
-            (err, resp) => {
-                if (resp.result.ok) return callback({ success: true, data: resp.result });
-                else return callback({ success: false, data: object });
-            }
-        );
-    },
-    AddFavurite(object: Meal, UserId: Id, callback: any) {
+    AddFavorite(object: Meal, UserId: Id, callback: any) {
         Collection("Users").update({ _id: objectId(UserId._id), "favorites._id": { $ne: object._id } },
             { $addToSet: { "favorites": object } },
             (err, resp) => {
@@ -92,14 +83,6 @@ module.exports = {
                 else return callback({ success: false, data: object });
             }
         );
-    },
-    DeleteSocial(object: Id, provider: string, callback: any) {
-        Collection("Users").update({ "_id": objectId(object._id) },
-            { $pull: { "socialMedia": { "socialMedia.provider": provider } } },
-            (err, resp) => {
-                if (resp.result.ok) return callback({ success: true, data: resp.result });
-                else return callback({ success: false, data: object });
-            });
     },
     DeleteFavorite(object: Id, callback: any) {
         Collection("Users").update({ "favorites._id": objectId(object._id) },
