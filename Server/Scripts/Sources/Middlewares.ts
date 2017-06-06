@@ -6,6 +6,7 @@ middlewares
     .use("/Restaurant/Meals", require("./Routes/Meals"))
     .use("/Orders", require("./Routes/Orders"))
     .use("/SubOrders", require("./Routes/SubOrders"))
+    .use("/Meals", require("./Routes/Meals"))
     .use("/Offers", require("./Routes/Offers"))
     .use("/Users", require("./Routes/Users"))
     .use("/Locations", require("./Routes/Locations"));
