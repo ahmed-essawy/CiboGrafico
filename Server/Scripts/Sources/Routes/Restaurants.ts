@@ -1,5 +1,6 @@
-﻿import { Restaurant, Owner, Address, Branch, Manager, BranchAddress, Review} from "../Classes";
+﻿import { Restaurant, Owner, Address, Branch, Manager, BranchAddress, Review,Reservation} from "../Classes";
 import { validate, Validator, IsEmail } from "class-validator";
+import {objectId} from "../Types";
 const valid = new Validator();
 {
     const restaurants = require("express").Router(), db = require("../Mongodb");
@@ -96,7 +97,7 @@ const valid = new Validator();
                         response => {
                             if (response.success) {
                                 const tempRest: Restaurant = Restaurant.deserialize(response.data);
-                                let tempReview = new Review(req.body.review._id, req.body.comment);
+                                let tempReview = new Review(objectId(req.body.review._id), req.body.review.comment);
                                 tempRest.addReview(tempReview);
                                 db.Restaurants.Update(tempRest, response => res.json(response));
                             } else res.status(404).json({ success: false, msg: "Data Not Found" });
@@ -105,13 +106,14 @@ const valid = new Validator();
             })
         .put("/Rate",
             (req, res) => {
-                if (req.body.restaurant) {
+                if (req.body.restaurant && req.body.rate && req.body.rate._id && req.body.rate
+                    .rate) {
                     db.Restaurants.Read({ _id: req.body.restaurant },
                         response => {
                             if (response.success) {
-                                const tempRest: Restaurant = response.data;
-                                if (req.body.rate && req.body.rate._id && req.body.rate
-                                    .rate) tempRest.addRate(req.body.rate);
+                                const tempRest: Restaurant = Restaurant.deserialize(response.data);
+                                req.body.rate._id=objectId(req.body.rate._id);
+                                tempRest.addRate(req.body.rate);
                                 db.Restaurants.Update(tempRest, response => res.json(response));
                             } else res.status(404).json({ success: false, msg: "Data Not Found" });
                         });
@@ -119,14 +121,17 @@ const valid = new Validator();
         })
       .put("/Reservation",
         (req, res) => {
-            if (req.body.restaurant) {
+            if (req.body.restaurant && req.body.reservation && req.body.reservation.owner
+                && req.body.reservation.branch && req.body.reservation.guests &&
+                req.body.reservation.date && req.body.reservation.time) {
                 db.Restaurants.Read({ _id: req.body.restaurant },
                     response => {
                         if (response.success) {
-                            const tempRest: Restaurant = response.data;
-                            if (req.body.reservation && req.body.reservation._id && req.body.reservation
-                                .owner && req.body.reservation.branch && req.body.reservation.guests &&
-                                req.body.reservation.date && req.body.reservation.time) tempRest.addReservation(req.body.reservation);
+                            const tempRest: Restaurant = Restaurant.deserialize(response.data);
+                            let tempReservation = new Reservation(db.objectId(), objectId(req.body.reservation
+                                .owner), objectId(req.body.reservation.branch),req.body.reservation.guests,
+                                req.body.reservation.date, req.body.reservation.time);
+                            tempRest.addReservation(tempReservation);
                             db.Restaurants.Update(tempRest, response => res.json(response));
                         } else res.status(404).json({ success: false, msg: "Data Not Found" });
                     });
