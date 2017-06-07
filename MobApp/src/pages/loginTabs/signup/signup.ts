@@ -8,11 +8,11 @@ import { Users } from "../../../providers/users";
 })
 export class SignupPage {
     loader: any;
-    account: { firstName: string, lastName: string, username: string, email: string, password: string, pasCheck: string
-    };
+    account: { firstName: string, lastName: string, username: string, email: string, password: string, pasCheck: string };
     constructor(private navCtrl: NavController, private loadingCtrl: LoadingController, private user: Users) {
-        this.account = { firstName: "Ahmed", lastName: "Mohamed", username: "ahmed", email: "dd@gmail.com",
-            password: "1234", pasCheck: "1234" };
+        this.account = {
+            firstName: "Ahmed", lastName: "El-Essawy", username: "aa", email: "aa@gmail.com", password: "1234", pasCheck: "1234"
+        };
     }
     doSignUp() {
         this.showLoader();

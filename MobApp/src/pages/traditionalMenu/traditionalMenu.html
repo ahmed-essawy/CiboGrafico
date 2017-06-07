@@ -5,35 +5,35 @@ See http://ionicframework.com/docs/v2/components/#navigation for more info on
 Ionic pages and navigation.
 -->
 <ion-header>
-  <ion-navbar>
-    <ion-title>Restaurant Menu</ion-title>
+  <ion-navbar color="danger" text-center>
+    <ion-title>{{restaurant?.name}} Menu</ion-title>
+    <ion-buttons end>
+      <button (click)="Reset()" clear ion-button>
+        Reset
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 <ion-content padding>
   <ion-list>
-    <ion-item-sliding>
-      <ion-item>
-        <ion-avatar item-left>
-          <img src="">
-        </ion-avatar>
-        <h2>Slimer</h2>
-      </ion-item>
-      <ion-item-options side="left">
-        <button color="Dark" ion-button>
-          <ion-icon md="md-add-circle"></ion-icon>
-          Add
-        </button>
-        <button color="danger" ion-button>
-          <ion-icon md="md-remove-circle"></ion-icon>
-          Remove
-        </button>
-      </ion-item-options>
-      <!--<ion-item-options side="right">
-          <button color="primary" ion-button>
-              <ion-icon name="mail"></ion-icon>
-              Email
-          </button>
-      </ion-item-options>-->
-    </ion-item-sliding>
+    <ion-item *ngFor="let meal of restaurant?.meals">
+      <ion-thumbnail (click)="Show(meal.ingredients)" item-left>
+        <img [src]="meal.image">
+      </ion-thumbnail>
+      <h2>{{meal.name}}</h2>
+      <p>{{meal.category}}</p>
+      <p>{{meal.price}} L.E</p>
+      <button (click)="Remove(meal._id)" icon-only id="remove" ion-button item-right>
+        <ion-icon clear name="remove-circle" padding></ion-icon>
+      </button>
+      <!--<div [innerHTML]="countHtml"></div>-->
+      <b item-right>{{ordersCount[meal._id]}}</b>
+      <button (click)="Add(meal._id)" icon-only id="add" ion-button item-right>
+        <ion-icon clear name="add-circle" padding></ion-icon>
+      </button>
+    </ion-item>
   </ion-list>
+  <ion-fab bottom right>
+    <button (click)="Order()" [disabled]="!isOnline" color="danger" ion-fab>Order</button>
+  </ion-fab>
 </ion-content>

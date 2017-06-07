@@ -2,9 +2,10 @@
 import { Http, RequestOptions, URLSearchParams, RequestOptionsArgs, ResponseContentType, Headers } from "@angular/http";
 import { Network } from "@ionic-native/network";
 import { PromiseResp } from "./classes";
+import 'rxjs/add/operator/timeout';
 @Injectable()
 export class Api {
-    url = "http://169.254.80.80:8888";
+    url = "http://localhost:8888";
     options: RequestOptions;
     isOnline: boolean;
     constructor(private http: Http, network: Network) {
@@ -36,14 +37,14 @@ export class Api {
     response(command: any): Promise<PromiseResp> {
         return new Promise((resolve, reject) => {
             if (!this.isOnline) reject(new PromiseResp(false, "Mobile not connected to network"));
-            command.subscribe((data: any) => {
+            command.timeout(2000).subscribe((data: any) => {
                 const resp = typeof data["_body"] === "string" ? JSON.parse(data["_body"]) : data["_body"];
                 if (data.status === 200) {
                     if (resp.success === true) resolve(new PromiseResp(resp.success, resp.data));
                     else if (resp.success === false) reject(new PromiseResp(resp.success, resp.msg));
                     else reject(new PromiseResp(resp.success, "Data doesn't exist"));
                 } else reject(new PromiseResp(false, data));
-            });
+            }, err => reject(new PromiseResp(false, err)));
         });
     }
 }

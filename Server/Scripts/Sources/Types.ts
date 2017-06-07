@@ -6,6 +6,7 @@ export type MealPrice = { _id: string, price: Price };
 export type Order_Rate = { _id: string, rate: string };
 export enum Rate { None, VeryBad, Bad, Good, VeryGood, Excellent }
 export enum OrderType { Delivery, OnTheWay, Inside }
+export enum JoinState { Accepted, Pending, Rejected }
 export type Phone = string;
 export type Price = number;
 export type Uri = string;

@@ -1,9 +1,11 @@
-﻿import { IUser, IRestaurant, IBranch, IRestaurantOwner, IBranchManager, IMeal, IOrder, ISubOrder, IOffer,
-    IReservation, IAuthentication, IAddress, IIngredient, IBranchAddress, IReview } from "./Interfaces";
-import { Duration, Email, MealPrice, Rate, OrderType, Phone, Price, Uri, Id, Username, AccountType, objectId } from
-    "./Types";
-import { Validator, IsNotEmpty, Length, IsInt, IsAlpha, IsUrl, IsArray, IsEmail, IsAlphanumeric, IsEnum, IsDate,
-    IsString } from "class-validator";
+﻿import { IUser, IRestaurant, IBranch, IRestaurantOwner, IBranchManager, IMeal, IOrder, ISubOrder, IOffer, IReservation,
+    IAuthentication, IAddress, IIngredient, IBranchAddress, IReview } from "./Interfaces";
+import { Duration, Email, MealPrice, Rate, OrderType, Phone, Price, Uri, Id, Username, AccountType, objectId, JoinState
+    } from "./Types";
+import {
+    Validator, IsNotEmpty, Length, IsInt, IsAlpha, IsUrl, IsArray, IsEmail, IsAlphanumeric, IsEnum, IsDate,
+    IsString
+    } from "class-validator";
 const valid = new Validator();
 const md5 = require("md5");
 export class User implements IUser {
@@ -241,15 +243,18 @@ export class SubOrder implements ISubOrder {
     rate: string;
     @IsDate()
     time: Date;
+    state: JoinState;
     price(): Price { return this.meals.reduce((a, b) => a + b.price, 0); }
     constructor(id: string, num: number, owner: string);
     constructor(id: string, num: number, owner: string, meals: Array<MealPrice>);
     constructor(id: string, num: number, owner: string, meals: Array<MealPrice> = new Array<MealPrice>()) {
         this._id = id;
+        this.num = num;
         this.owner = owner;
         this.meals = meals;
         this.rate = Rate[Rate.None];
         this.time = new Date();
+        this.state = JoinState.Pending;
     }
     mealsCount(): number { return this.meals.length; }
     addMeal(meal: MealPrice): void { this.meals.pushIfNotExist(meal) }
