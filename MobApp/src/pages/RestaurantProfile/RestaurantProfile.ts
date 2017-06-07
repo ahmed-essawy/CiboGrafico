@@ -27,10 +27,21 @@ export class RestaurantProfilePage {
         this.navCtrl.push(TraditionalMenuPage, { Id: restId });
     }
     submit(data) {
-        data.value._id = this.userId;
-        console.log(data.value);
-        this.rest.addReview({"restaurant": this.params.get("Id"),"review": data.value})
-            .then((resp: PromiseResp) => console.log(resp)).catch(err => console.log(err));
+        let obj = { "_id": this.userId, "comment": data.value.comment };
+        this.rest.addReview({ "restaurant": this.params.get("Id"), "review": obj})
+            .then((resp: PromiseResp) => {
+                if (resp.success) {
+                    Sql.selectOptions("firstName")
+                        .then(resp1 => Sql.selectOptions("lastName")
+                            .then(resp2 => {
+                                const name = resp1.response + " " + resp2.response;
+                                this.restaurant.reviews.push({ "_id": obj._id, "comment": obj.comment,"name":name,"date":new Date().toISOString()});
+                            })
+                            .catch(error => console.log(error)))
+                        .catch(err => console.log(err));
+                    
+                }
+            }).catch(err => console.log(err));
         this.comment = "";
     }
 

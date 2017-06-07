@@ -42,7 +42,7 @@
     <h1>Reviews</h1>
     <ion-card *ngFor="let review of restaurant?.reviews">
         <ion-item>
-            <span item-left>{{review?.name}}</span>
+            <span item-left text-nowrap>{{review?.name}}</span>
             <p item-right>{{review?.date.slice(0, 10)}}</p>
         </ion-item>
         <ion-card-content>{{review?.comment}}</ion-card-content>
