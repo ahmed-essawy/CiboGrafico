@@ -29,6 +29,7 @@ module.exports = {
     },
     Create(object: Order, callback: any) {
         object.owner = objectId(object.owner);
+        object.meals.forEach(meal => meal._id = objectId(meal._id));
         object.restaurant = objectId(object.restaurant);
         Collection("Orders").update({ "num": object.num }, { $setOnInsert: object }, { upsert: true }, (err, resp) => {
             if (err) return callback({ success: false, msg: "Error !!" });
@@ -65,8 +66,16 @@ module.exports = {
             (err, row: Order) => {
                 if (err) return callback({ success: false, msg: "Error !!" });
                 if (row) {
-                    this.Collection().update({ "num": object.num, "subOrders": { $exists: true } }, { $addToSet: {
-                        "subOrders": object._id } });
+                    this.Collection().update({ "num": object.num, "subOrders": { $exists: true } }, {
+                        $addToSet: {
+                            "subOrders": object._id
+                        }
+                    });
+                    Collection("Users").update({ "_id": object.owner }, {
+                        $addToSet: {
+                            "orders": object._id
+                        }
+                    });
                     return callback({ success: true, data: row });
                 }
                 return callback({ success: false });
