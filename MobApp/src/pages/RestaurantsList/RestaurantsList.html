@@ -9,13 +9,13 @@
 
 <ion-content padding>
     <ion-list>
-        <ion-item *ngFor="let rest of restaurants">
+        <ion-item *ngFor="let rest of restaurants" (click)="details(rest._id)">
             <ion-thumbnail item-left>
                 <img [src]="rest.logo">
             </ion-thumbnail>
             <h2>{{rest.name}}</h2>
             <p>Category</p>
-            <button ion-button clear item-right (click)="details(rest._id)">View</button>
+           <ion-icon ios="ios-arrow-forward" md="ios-arrow-forward" item-right></ion-icon>
         </ion-item>
     </ion-list>
 </ion-content>

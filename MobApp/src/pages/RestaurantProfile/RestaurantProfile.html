@@ -27,8 +27,8 @@
     </ion-list> 
  
     <div text-center>
-        <button ion-button color="danger" outline round (click)="menu(restaurant?._id)">Menu</button>
-        <button ion-button color="secondary" outline round (click)="reserve(restaurant?._id)">Reserve</button>
+        <button ion-button color="danger" outline (click)="menu(restaurant?._id)">Menu</button>
+        <button ion-button color="secondary" outline (click)="reserve(restaurant?._id)" *ngIf="isLogged">Reserve</button>
     </div>
    
     <div *ngIf="restaurant?.offers?.length > 0">
@@ -42,18 +42,20 @@
     <h1>Reviews</h1>
     <ion-card *ngFor="let review of restaurant?.reviews">
         <ion-item>
-            <p>{{review?.date}}</p>
+            <span item-left>{{review?.name}}</span>
+            <p item-right>{{review?.date.slice(0, 10)}}</p>
         </ion-item>
         <ion-card-content>{{review?.comment}}</ion-card-content>
     </ion-card>
-  <ion-list>
-      <ion-item>
+    <ion-list *ngIf="isLogged">
+      <form #form='ngForm' (ngSubmit)="submit(form)">
+        <ion-item>
           <ion-label floating class="su-input">Add your review here</ion-label>
-          <ion-input type="text"></ion-input>
-      </ion-item>
-    <div text-center>
-      <button ion-button color="primary" (click)="submit()">Submit</button>
-    </div>
-
-  </ion-list>
+          <ion-input type="text" [(ngModel)]="comment" name="comment"></ion-input>
+        </ion-item>
+        <div text-center>
+          <button ion-button color="primary">Submit</button>
+        </div>
+      </form>
+    </ion-list>
 </ion-content>
