@@ -21,10 +21,11 @@ import { Order_Rate, objectId, OrderType } from "../Types";
                 Array.isArray(req.body
                     .meals)) {
                 let tempAddress = new Address();
-                if (req.body.address)
+                if (req.body.address) {
                     tempAddress = new Address(req.body.address.street,
                         req.body.address.city,
                         req.body.address.country);
+                }
                 const tempOrder = new Order(db.objectId(),
                     req.body.num,
                     req.body.owner,
@@ -40,8 +41,8 @@ import { Order_Rate, objectId, OrderType } from "../Types";
         (req, res) => {
             if (req.body.num && req.body.owner) {
                 const tempSubOrder = new SubOrder(db.objectId(), req.body.num, req.body.owner);
-                db.Orders.Create(tempSubOrder, response => res.json(response));
                 if (Array.isArray(req.body.meals)) tempSubOrder.meals = req.body.meals;
+                db.Orders.CreateSubOrder(tempSubOrder, response => res.json(response));
             } else res.status(400).json({ success: false, msg: "Invalid Data" });
         })
         .put("/",

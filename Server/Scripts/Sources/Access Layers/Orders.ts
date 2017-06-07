@@ -61,24 +61,44 @@ module.exports = {
             });
     },
     CreateSubOrder(object: SubOrder, callback: any) {
+        object.owner = objectId(object.owner);
         object._id = objectId(object._id);
-        Collection("Orders").insertOne(object,
+        Collection("Orders").findOne({ "num": object.num, "subOrders": { $exists: true } },
             (err, row: Order) => {
                 if (err) return callback({ success: false, msg: "Error !!" });
                 if (row) {
-                    this.Collection().update({ "num": object.num, "subOrders": { $exists: true } }, {
-                        $addToSet: {
-                            "subOrders": object._id
-                        }
-                    });
-                    Collection("Users").update({ "_id": object.owner }, {
-                        $addToSet: {
-                            "orders": object._id
-                        }
-                    });
-                    return callback({ success: true, data: row });
-                }
-                return callback({ success: false });
+                    Collection("Orders").insertOne(object,
+                        (err, resp1) => {
+                            if (err) return callback({ success: false, msg: "Error !!" });
+                            if (resp1.result.n > 1) {
+                                Collection("Orders").update({ "num": object.num, "subOrders": { $exists: true } }, {
+                                    $addToSet: { "subOrders": object._id }
+                                }, (err, resp2) => {
+                                    if (err) return callback({ success: false, msg: "Error !!" });
+                                    if (resp2.result.nModified > 1) {
+                                        Collection("Users").update({ "_id": object.owner }, {
+                                                $addToSet: {
+                                                    "orders": object._id
+                                                }
+                                            },
+                                            (err, resp3) => {
+                                                if (err) return callback({ success: false, msg: "Error !!" });
+                                                if (resp3.result.nModified > 1) {
+                                                    console.log("resp3");
+                                                    console.log(resp3);
+                                                    return callback({
+                                                        success: true, data: {
+                                                            "insertSubOrder": resp1,
+                                                            "addToOrder": resp2, "addToUser": resp3
+                                                        }
+                                                    });
+                                                } else return callback({ success: false });
+                                            });
+                                    } else return callback({ success: false });
+                                });
+                            } else return callback({ success: false });
+                        });
+                } else return callback({ success: true, data: false });
             });
     },
     GetSubOrders(num: number, callback: any) {
@@ -86,7 +106,7 @@ module.exports = {
             .toArray((err, row: Order[]) => {
                 if (err) return callback({ success: false, msg: "Error !!" });
                 if (row) return callback({ success: true, data: row });
-                return callback({ success: false });
+                else return callback({ success: false });
             });
     },
     ReadAllByUser(object: Id, callback: any) {
