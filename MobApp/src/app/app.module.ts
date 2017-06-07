@@ -16,23 +16,29 @@ import { Sql } from "../providers/sql";
 import { Users } from "../providers/users";
 import { Restaurants } from "../providers/restaurants";
 import { Offers } from "../providers/offers";
+import { Meals } from "../providers/meals";
+import { Orders } from "../providers/orders";
 import { RestaurantsListPage } from "../pages/RestaurantsList/RestaurantsList";
 import { RestaurantProfilePage } from "../pages/RestaurantProfile/RestaurantProfile";
 import { reservationPage } from "../pages/reservation/reservation"
 import { Ionic2RatingModule } from "ionic2-rating";
 import { OffersPage } from "../pages/offers/offers";
 import { TraditionalMenuPage } from "../pages/traditionalMenu/traditionalMenu";
+import { orderPage } from "../pages/order/order";
+import { joinOrderPage } from "../pages/joinOrder/joinOrder";
 import { offerDetailsPage } from "../pages/offerDetails/offerDetails";
 @NgModule({
     declarations: [MyApp, HomePage, AccountPage, LoginTabs, IntroPage, MenuPage, LoginPage, SignupPage,
         RestaurantsListPage, RestaurantProfilePage, reservationPage, OffersPage, TraditionalMenuPage,
-        offerDetailsPage],
+        offerDetailsPage, orderPage, joinOrderPage],
     imports: [IonicModule.forRoot(MyApp), Ionic2RatingModule],
     bootstrap: [IonicApp],
     entryComponents: [MyApp, HomePage, AccountPage, LoginTabs, IntroPage, MenuPage, LoginPage, SignupPage,
         RestaurantsListPage, RestaurantProfilePage, reservationPage, OffersPage, TraditionalMenuPage,
-        offerDetailsPage],
-    providers: [Network, Api, Sql, SQLite, Facebook, Users, Restaurants, Offers, { provide: ErrorHandler,
-        useClass: IonicErrorHandler }]
+        offerDetailsPage, orderPage, joinOrderPage],
+    providers: [Network, Api, Sql, SQLite, Facebook, Users, Restaurants, Offers, Meals, Orders, {
+        provide: ErrorHandler,
+        useClass: IonicErrorHandler
+    }]
 })
-export class AppModule {}
+export class AppModule { }
