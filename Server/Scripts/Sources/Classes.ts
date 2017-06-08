@@ -1,9 +1,11 @@
-﻿import { IUser, IRestaurant, IBranch, IRestaurantOwner, IBranchManager, IMeal, IOrder, ISubOrder, IOffer,
-    IReservation, IAuthentication, IAddress, IIngredient, IBranchAddress, IReview } from "./Interfaces";
-import { Duration, Email, MealPrice, Rate, OrderType, Phone, Price, Uri, Id, Username, AccountType, objectId } from
-    "./Types";
-import { Validator, IsNotEmpty, Length, IsInt, IsAlpha, IsUrl, IsArray, IsEmail, IsAlphanumeric, IsEnum, IsDate,
-    IsString } from "class-validator";
+﻿import { IUser, IRestaurant, IBranch, IRestaurantOwner, IBranchManager, IMeal, IOrder, ISubOrder, IOffer, IReservation,
+    IAuthentication, IAddress, IIngredient, IBranchAddress, IReview } from "./Interfaces";
+import { Duration, Email, MealPrice, Rate, OrderType, Phone, Price, Uri, Id, Username, AccountType, objectId, JoinState
+    } from "./Types";
+import {
+    Validator, IsNotEmpty, Length, IsInt, IsAlpha, IsUrl, IsArray, IsEmail, IsAlphanumeric, IsEnum, IsDate,
+    IsString
+    } from "class-validator";
 const valid = new Validator();
 const md5 = require("md5");
 export class User implements IUser {
@@ -41,7 +43,7 @@ export class User implements IUser {
         this.email = email;
         this.username = username;
         this.phones = phones;
-        this.image = "http://imgur.com/a/WEVjy";
+        this.image = "http://i.imgur.com/fWdUR5r.png";
         if (valid.isURL(image)) this.image = image;
         this.points = 0;
         this.favorites = Array<Meal>();
@@ -70,6 +72,7 @@ export class Restaurant implements IRestaurant {
     reviews: Array<Review>;
     @IsArray()
     rates: Array<{ _id: string; rate: Rate }>;
+    rate: number;
     @IsArray()
     meals: Array<Meal>;
     @IsArray()
@@ -87,6 +90,7 @@ export class Restaurant implements IRestaurant {
         this.branches = Array<Branch>();
         this.reviews = Array<Review>();
         this.rates = Array<{ _id: string; rate: Rate }>();
+        this.rate = Rate.None;
         if (branch) this.branches.pushIfNotExist(branch);
         this.meals = Array<Meal>();
         this.offers = Array<string>();
@@ -95,7 +99,10 @@ export class Restaurant implements IRestaurant {
     }
     addBranch(branch: Branch): void { this.branches.pushIfNotExist(branch); }
     addReview(review: Review): void { this.reviews.push(review); }
-    addRate(rate: { _id: string; rate: Rate }): void { this.rates.push(rate); }
+    addRate(rate: { _id: string; rate: Rate }): void {
+        this.rates.push(rate);
+        this.rate = this.rates.reduce((a, b) => a + b.rate, 0) / this.rates.length;
+    }
     addMeal(meal: Meal): void { this.meals.pushIfNotExist(meal); }
     addOffer(offer: Id): void { this.offers.pushIfNotExist(offer._id); }
     addOrder(order: Id): void { this.orders.pushIfNotExist(order._id); }
@@ -112,6 +119,7 @@ export class Restaurant implements IRestaurant {
         restaurant.branches = object.branches;
         restaurant.reviews = object.reviews;
         restaurant.rates = object.rates;
+        restaurant.rate = object.rate;
         restaurant.meals = object.meals;
         restaurant.offers = object.offers;
         restaurant.orders = object.orders;
@@ -241,15 +249,18 @@ export class SubOrder implements ISubOrder {
     rate: string;
     @IsDate()
     time: Date;
+    state: JoinState;
     price(): Price { return this.meals.reduce((a, b) => a + b.price, 0); }
     constructor(id: string, num: number, owner: string);
     constructor(id: string, num: number, owner: string, meals: Array<MealPrice>);
     constructor(id: string, num: number, owner: string, meals: Array<MealPrice> = new Array<MealPrice>()) {
         this._id = id;
+        this.num = num;
         this.owner = owner;
         this.meals = meals;
         this.rate = Rate[Rate.None];
         this.time = new Date();
+        this.state = JoinState.Pending;
     }
     mealsCount(): number { return this.meals.length; }
     addMeal(meal: MealPrice): void { this.meals.pushIfNotExist(meal) }

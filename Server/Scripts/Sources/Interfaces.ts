@@ -1,4 +1,4 @@
-﻿import { Duration, Email, MealPrice, Phone, Price, Uri, Username, Id, AccountType, Rate } from "./Types";
+﻿import { Duration, Email, MealPrice, Phone, Price, Uri, Username, Id, AccountType, Rate, JoinState } from "./Types";
 interface IId {
     _id: string;
 }
@@ -8,7 +8,7 @@ interface IName {
 interface IImage {
     image: Uri;
 }
-export interface IPerson{
+export interface IPerson {
     firstName: string;
     lastName: string;
     fullName(): string;
@@ -19,12 +19,12 @@ export interface ILogin {
     email: Email;
     username: Username;
 }
-export interface IAuthentication extends ILogin, IId{
+export interface IAuthentication extends ILogin, IId {
     type: AccountType;
     password: string;
     token: string;
     devices: Array<string>;
-    socials: Array<{ "name": string,"data": any }>;
+    socials: Array<{ "name": string, "data": any }>;
     addDevice(device: string): void;
     addSocial(social: { "name": string, "data": any }): void;
 }
@@ -55,6 +55,7 @@ export interface IRestaurant extends IId, IName {
     reservations: Array<IReservation>;
     branchesCount(): number;
     reviewsCount(): number;
+    rate: number;
     ratesCount(): number;
     mealsCount(): number;
     offersCount(): number;
@@ -105,6 +106,7 @@ export interface ISubOrder extends IId {
     price(): Price;
     owner: string;
     meals: Array<MealPrice>;
+    state: JoinState;
     mealsCount(): number;
     addMeal(meal: MealPrice): void;
 }

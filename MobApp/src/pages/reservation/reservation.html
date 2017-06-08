@@ -8,36 +8,34 @@
 
 
 <ion-content padding>
-    <ion-list>
-
-        <ion-item>
-            <ion-label stacked>Name</ion-label>
-            <ion-input type="text"></ion-input>
-        </ion-item>
+  <ion-list>
+    <form #form='ngForm' (ngSubmit)="reserve(form)">
       <ion-item>
-          <ion-label stacked>Branch</ion-label>
-        <ion-select interface="popover">
-            <!--<ion-option value="" *ngFor="let Branches of branches">{{Branches.name}}</ion-option>-->
-            <ion-option value="">aa</ion-option>
-          <ion-option value="">bb</ion-option>
+        <ion-label stacked>Name</ion-label>
+        <ion-input type="text" [(ngModel)]="owner" name="owner" disabled="true"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label stacked>Branch</ion-label>
+        <ion-select [(ngModel)]="branch" name="branch" >
+          <ion-option value="{{branch._id}}" *ngFor="let branch of branches" [selected]="branch._id==branches[0]._id">{{branch.name}}</ion-option>
         </ion-select>
       </ion-item>
-        <ion-item>
-            <ion-label stacked>Party Size</ion-label>
-            <ion-input type="number" min="1" max="branches.maximumGuests"></ion-input>
-          <!--<ion-input type="number" min="1" max="8"></ion-input>-->
-        </ion-item>
-    
-        <ion-item>
-            <ion-label stacked>Date</ion-label>
-          <ion-datetime displayFormat="D MMMM" [(ngModel)]="date"></ion-datetime>
-        </ion-item>
+      <ion-item>
+        <ion-label stacked>Party Size</ion-label>
+        <ion-input type="number" min="1" max="6" [(ngModel)]="guests" name="guests"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label stacked>Date</ion-label>
+        <ion-datetime yearValues="2017" [(ngModel)]="date" name="date"></ion-datetime>
+      </ion-item>
       <ion-item>
         <ion-label stacked>Time</ion-label>
-        <ion-datetime displayFormat="h A" [(ngModel)]="time"></ion-datetime>
+        <ion-datetime displayFormat="h A" [(ngModel)]="time" name="time"></ion-datetime>
       </ion-item>
-    </ion-list>
-  <div text-center>
-    <button ion-button color="danger" round (click)="reserve()">Reserve</button>
-  </div>
+    <div text-center>
+        <button ion-button color="secondary" block>Reserve</button>
+    </div>
+      </form>
+  </ion-list>
 </ion-content>

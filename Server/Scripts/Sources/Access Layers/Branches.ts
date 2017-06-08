@@ -4,12 +4,12 @@ import { Collection, Functions } from "../Mongodb";
 module.exports = {
     Create(object: Branch, password: string, restaurant: Id, callback: any) {
         Collection("Restaurants").update({
-            _id: objectId(restaurant._id), "branches.username": { $ne: object.username }
-        },
+                _id: objectId(restaurant._id), "branches.username": { $ne: object.username }
+            },
             { $addToSet: { "branches": object } }, (err, resp1) => {
                 if (err) return callback({ success: false, msg: "Error !!" });
                 if (resp1.result.nModified > 0) {
-                    const tempAuth = new Authentication(object._id, AccountType.User, object.email, object
+                    const tempAuth = new Authentication(object._id, AccountType.Branch, object.email, object
                         .username, password);
                     console.log(tempAuth);
                     Functions("addAuth", tempAuth);
@@ -32,8 +32,8 @@ module.exports = {
         });
     },
     ReadByRestauarnt(object: Id, callback: any) {
-        Collection("Restaurants").findOne({ "_id": objectId(object._id) },(err, row: Restaurant) => {
-            if (row) return callback({ success: true, data: row.branches});
+        Collection("Restaurants").findOne({ "_id": objectId(object._id) }, (err, row: Restaurant) => {
+            if (row) return callback({ success: true, data: row.branches });
             else return callback({ success: false, data: object._id });
         });
     },

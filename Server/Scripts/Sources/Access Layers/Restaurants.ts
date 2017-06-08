@@ -1,5 +1,5 @@
 ﻿import { Collection } from "../Mongodb";
-import { Restaurant,Review,User } from "../Classes";
+import { Restaurant, Review, User, Offer } from "../Classes";
 import { objectId, Id } from "../Types";
 module.exports = {
     Create(object: Restaurant, callback: any) {
@@ -11,30 +11,41 @@ module.exports = {
             });
     },
     ReadFull(object: Id, callback: any) {
-        Collection("Restaurants").findOne(objectId(object._id), (err, row: Restaurant) => {
+        Collection("Restaurants").findOne(objectId(object._id), (err, row) => {
             if (err) return callback({ success: false, msg: "Error !!" });
             if (row) {
                 const users = async function () {
                     const reviews = Array<Review>();
                     for (let i = 0; i < row.reviews.length; i++) {
-                        let review = row.reviews[i];
+                        const review = row.reviews[i];
                         await new Promise(resolve => {
                             Collection("Users").findOne(objectId(review._id),
                                 (err, datarow: User) => {
                                     if (err) return callback({ success: false, msg: "Error !!" });
                                     review["name"] = datarow.firstName + " " + datarow.lastName;
+                                    review["userImg"] = datarow.image;
                                     resolve(review);
                                 });
                         }).then(review => reviews.push(review as Review));
                     }
-                    return reviews;
+                    const offers = Array<Offer>();
+                    for (let i = 0; i < row.offers.length; i++) {
+                        await new Promise(resolve => {
+                            Collection("Offers").findOne(objectId(row.offers[i]),
+                                (err, datarow: Offer) => {
+                                    if (err) return callback({ success: false, msg: "Error !!" });
+                                    resolve(datarow);
+                                });
+                        }).then(offer => offers.push(offer as Offer));
+                    }
+                    return { reviews: reviews, offers: offers };
                 };
-                users().then(reviews => {
-                    row.reviews = reviews;
+                users().then(object => {
+                    row.reviews = object.reviews;
+                    row.offers = object.offers;
                     callback({ success: true, data: row });
                 });
-            }
-            else return callback({ success: false, data: object });
+            } else return callback({ success: false, data: object });
         });
     },
     Read(object: Id, callback: any) {
