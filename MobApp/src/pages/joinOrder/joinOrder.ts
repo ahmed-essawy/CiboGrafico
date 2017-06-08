@@ -1,13 +1,8 @@
 ﻿import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
-import { Meals, PromiseResp } from "../../providers/meals";
-import { Orders, PromiseResp as PromiseRespOrder } from "../../providers/orders";
-/*
-  Generated class for the joinOrder page.
-
-  See http://ionicframework.com/docs/v2/components/#navigation for more info on
-  Ionic pages and navigation.
-*/
+import { Meals } from "../../providers/meals";
+import { Orders } from "../../providers/orders";
+import { PromiseResp } from "../../providers/classes";
 @Component({
     selector: 'page-joinOrder',
     templateUrl: 'joinOrder.html'
@@ -38,7 +33,7 @@ export class joinOrderPage {
             num: Number(this.OrderNum),
             owner: "5922d1aab1772d2744cc251a", meals: this.Meals
         }
-        this.orders.joinOrder(SubOrder).then((resp: PromiseRespOrder) => { console.log(resp); })
+        this.orders.joinOrder(SubOrder).then((resp: PromiseResp) => { console.log(resp); })
             .catch(err => console.log(err));
     }
 }

@@ -5,19 +5,18 @@ import { Users } from "../../providers/users";
 import { MenuPage } from "../menu/menu";
 import { LoginTabs } from "../loginTabs/loginTabs";
 
-
-import { accounthomePage } from '../accounthome/accounthome';
-import { favouritePage } from '../favourite/favourite';
-import { ordersPage } from '../orders/orders';
-import { Orders } from "../../providers/orders";
+// import { accounthomePage } from '../accounthome/accounthome';
+// import { favouritePage } from '../favourite/favourite';
+// import { ordersPage } from '../orders/orders';
+// import { Orders } from "../../providers/orders";
 
 @Component({
   selector: 'page-account',
   templateUrl: 'account.html'
 })
 export class AccountPage {
-  tab1Root: any = favouritePage;
-  tab2Root: any = ordersPage;
+  // tab1Root: any = favouritePage;
+  // tab2Root: any = ordersPage;
   account: { _id: string, firstName: string, lastName: string, image: string, email: string, username: string, address: { street: string, city: string, country: string }, phones: string[] } = { _id: "", firstName: "", lastName: "", image: "", email: "", username: "", address: { street: "", city: "", country: "" }, phones: Array<string>() };
   button: string = "Edit";
   visable: boolean = true;
