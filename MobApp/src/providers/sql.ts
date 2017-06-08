@@ -60,6 +60,12 @@ export class Sql {
             }).catch(e => reject(new PromiseResp(false, e)));
         });
     }
+    static truncateOptions(): Promise<PromiseResp> {
+        return new Promise((resolve, reject) => {
+            Sql.query("DELETE FROM Options", {}).then(resp => resolve(new PromiseResp(true, resp
+                .rowsAffected > 0))).catch(e => reject(new PromiseResp(false, e)));
+        });
+    }
     static isExistsOptions(key: string): Promise<PromiseResp> {
         return new Promise((resolve, reject) => {
             Sql.query("SELECT Value FROM Options WHERE Key=?", [key]).then(resp => resolve(new PromiseResp(true, resp

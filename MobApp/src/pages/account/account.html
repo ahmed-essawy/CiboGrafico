@@ -1,3 +1,80 @@
+<ion-header>
+  <ion-navbar color="danger" text-center>
+    <ion-title>Profile</ion-title>
+    <ion-buttons end>
+      <button (click)="buttonToggle()" clear ion-button>{{button}}</button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
 <ion-content padding>
-    User Account
+  <ion-list>
+    <ion-item>
+      <ion-avatar>
+        <img src="{{account.image}}">
+        <ion-label>{{account.username}}</ion-label>
+      </ion-avatar>
+    </ion-item>
+
+    <ion-item>
+      <ion-label floating>First Name</ion-label>
+      <ion-input type="text" [(ngModel)]='account.firstName' readonly='{{visable}}'></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label floating>Last Name</ion-label>
+      <ion-input type="text" [(ngModel)]='account.lastName' readonly='{{visable}}'></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label floating>Email</ion-label>
+      <ion-input type="text" [(ngModel)]='account.email' readonly='{{visable}}'></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label floating>Street</ion-label>
+      <ion-input type="text" [(ngModel)]='account.address.street' readonly='{{visable}}'></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label floating>City</ion-label>
+      <ion-input type="text" [(ngModel)]='account.address.city' readonly='{{visable}}'></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label floating>Country</ion-label>
+      <ion-input type="text" [(ngModel)]='account.address.country' readonly='{{visable}}'></ion-input>
+    </ion-item>
+
+    <ion-item *ngIf="account.phones.length > 0">
+      <ion-label floating>Phones</ion-label>
+      <ion-input type="text" *ngFor='let phone of account.phones' readonly='{{visable}}'></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-grid>
+        <ion-row>
+          <ion-col width-50><button style="width:100%" (click)="doFbLogin()" ion-button icon-right>Connect Facebook<ion-icon name="logo-facebook"></ion-icon></button></ion-col>
+          <ion-col width-50><button style="width:100%" (click)="doSignOut()" ion-button color="danger">Sign Out</button></ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+
+  </ion-list>
+
+  <ion-segment [ngSwitch]="segment">
+    <ion-segment-button value="favorites">Favorites</ion-segment-button>
+    <ion-segment-button value="orders">Orders</ion-segment-button>
+  </ion-segment>
+
+  <ion-list *ngSwitchWhen="'favorites'">
+    <ion-item>favorites</ion-item>
+  </ion-list>
+  <ion-list *ngSwitchWhen="'orders'">
+    <ion-item>orders</ion-item>
+  </ion-list>
+  <!--<ion-tabs>
+    <ion-tab [root]="tab1Root" tabTitle="favourite" tabIcon="information-circle"></ion-tab>
+    <ion-tab [root]="tab2Root" tabTitle="orders" tabIcon="contacts"></ion-tab>
+  </ion-tabs>-->
 </ion-content>
