@@ -43,7 +43,7 @@ export class User implements IUser {
         this.email = email;
         this.username = username;
         this.phones = phones;
-        this.image = "http://imgur.com/a/WEVjy";
+        this.image = "http://i.imgur.com/fWdUR5r.png";
         if (valid.isURL(image)) this.image = image;
         this.points = 0;
         this.favorites = Array<Meal>();
