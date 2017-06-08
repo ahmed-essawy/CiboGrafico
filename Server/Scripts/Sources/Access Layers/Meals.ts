@@ -15,7 +15,9 @@ module.exports = {
     Read(object: Id, callback: any) {
         this.Collection().findOne({ "meals._id": objectId(object._id) },
             (err, row: Restaurant) => {
-                if (row) return callback({ success: true, data: row.meals.filter(b => b._id == object._id)[0] });
+                if (row)
+                    return callback({ success: true, data: row.meals.filter(b => b._id.toString() === object._id
+                        .toString())[0] });
                 else return callback({ success: false, data: object._id });
             });
     },
@@ -77,7 +79,8 @@ module.exports = {
                                     (err, rest: Restaurant) => {
                                         if (err) return callback({ success: false, msg: "Error !!" });
                                         if (rest) {
-                                            meal["name"] = rest.meals.filter(b => b._id.toString() === meal._id.toString())[0].name;
+                                            meal["name"] = rest.meals.filter(b => b._id.toString() === meal._id
+                                                .toString())[0].name;
                                             resolve(meal);
                                         } else return callback({ success: false, data: meal._id });
                                     });
@@ -87,7 +90,7 @@ module.exports = {
                     };
                     order().then(meals => {
                         row.meals = meals;
-                        callback({ success: true, data: row })
+                        callback({ success: true, data: row });
                     });
                 } else return callback({ success: false });
             });

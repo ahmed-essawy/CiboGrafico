@@ -125,14 +125,25 @@ const valid = new Validator();
                     && req.body.reservation.branch && req.body.reservation.guests &&
                     req.body.reservation.date && req.body.reservation.time) {
                     db.Restaurants.Read({ _id: req.body.restaurant },
-                        response => {
-                            if (response.success) {
-                                const tempRest = Restaurant.deserialize(response.data);
+                        response1 => {
+                            if (response1.success) {
+                                const tempRest = Restaurant.deserialize(response1.data);
                                 const tempReservation = new Reservation(db.objectId(), objectId(req.body.reservation
                                         .owner), objectId(req.body.reservation.branch), req.body.reservation.guests,
                                     req.body.reservation.date, req.body.reservation.time);
                                 tempRest.addReservation(tempReservation);
-                                db.Restaurants.Update(tempRest, response => res.json(response));
+                                db.Restaurants.Update(tempRest, response2 => {
+                                    db.Restaurants.Read({ _id: req.body.restaurant },
+                                        response3 => {
+                                            if (response3.success) {
+                                                const tempRest = Restaurant.deserialize(response3.data);
+                                                tempRest.addReservation(tempReservation);
+                                                db.Users.Update(tempRest, response4 => res.json({ success: response4
+                                                    .success, data: { "addToRestaurant": response2.data,
+                                                    "addToUser": response4.data } }));
+                                            } else res.status(404).json({ success: false, msg: "Data Not Found" });
+                                        });
+                                });
                             } else res.status(404).json({ success: false, msg: "Data Not Found" });
                         });
                 } else res.status(400).json({ success: false, msg: "Invalid Data" });

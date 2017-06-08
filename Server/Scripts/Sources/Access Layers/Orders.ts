@@ -28,16 +28,34 @@ module.exports = {
         });
     },
     Create(object: Order, callback: any) {
-        object.owner = objectId(object.owner);
         object.meals.forEach(meal => meal._id = objectId(meal._id));
+        object.owner = objectId(object.owner);
+        console.log(object);
         object.restaurant = objectId(object.restaurant);
-        Collection("Orders").update({ "num": object.num }, { $setOnInsert: object }, { upsert: true }, (err, resp) => {
+        Collection("Orders").update({ "num": object.num }, { $setOnInsert: object }, { upsert: true }, (err, resp1) => {
             if (err) return callback({ success: false, msg: "Error !!" });
-            if (resp.result.upserted) {
+            if (resp1.result.upserted) {
                 Collection("Users").update({ "_id": object.owner },
-                    { $addToSet: { "orders": resp.result.upserted[0]._id } },
-                    (err, resp) => { console.log(resp) });
-                return callback({ success: true, data: resp });
+                    { $addToSet: { "orders": resp1.result.upserted[0]._id } },
+                    (err, resp2) => {
+                        if (err) return callback({ success: false, msg: "Error !!" });
+                        if (resp2.result.nModified > 0) {
+                            Collection("Restaurants").update({ "_id": object.restaurant },
+                                { $addToSet: { "orders": resp1.result.upserted[0]._id } },
+                                (err, resp3) => {
+                                    if (err) return callback({ success: false, msg: "Error !!" });
+                                    if (resp3.result.nModified > 0) {
+                                        return callback({
+                                            success: true, data: {
+                                                "number": object.num, "insertOrder": resp1,
+                                                "addToUser": resp2,
+                                                "addToRestaurant": resp3
+                                            }
+                                        });
+                                    } else return callback({ success: true, data: "Data doesn't exist" });
+                                });
+                        } else return callback({ success: true, data: "Data doesn't exist" });
+                    });
             } else return callback({ success: false });
         });
     },
@@ -70,12 +88,12 @@ module.exports = {
                     Collection("Orders").insertOne(object,
                         (err, resp1) => {
                             if (err) return callback({ success: false, msg: "Error !!" });
-                            if (resp1.result.n > 1) {
+                            if (resp1.result.n > 0) {
                                 Collection("Orders").update({ "num": object.num, "subOrders": { $exists: true } }, {
                                     $addToSet: { "subOrders": object._id }
                                 }, (err, resp2) => {
                                     if (err) return callback({ success: false, msg: "Error !!" });
-                                    if (resp2.result.nModified > 1) {
+                                    if (resp2.result.nModified > 0) {
                                         Collection("Users").update({ "_id": object.owner }, {
                                                 $addToSet: {
                                                     "orders": object._id
@@ -83,9 +101,7 @@ module.exports = {
                                             },
                                             (err, resp3) => {
                                                 if (err) return callback({ success: false, msg: "Error !!" });
-                                                if (resp3.result.nModified > 1) {
-                                                    console.log("resp3");
-                                                    console.log(resp3);
+                                                if (resp3.result.nModified > 0) {
                                                     return callback({
                                                         success: true, data: {
                                                             "insertSubOrder": resp1,

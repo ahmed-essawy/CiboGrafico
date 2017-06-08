@@ -1,8 +1,16 @@
 ﻿let collection = {};
 export let Collection = (table: any): any => collection[table];
-export let Functions = (funcName, object): any => Collection("db").eval("return " + Collection("Functions")[funcName] + "(" + JSON.stringify(object) + ")");
+export let Functions = (funcName: any, object: any): any => Collection("db")
+    .eval(`return ${Collection("Functions")[funcName]}(${JSON.stringify(object)})`);
 module.exports = {
     objectId: () => require("mongodb").ObjectId(),
+    lastOrderNum: (): Promise<number> => new Promise((resolve: any, reject: any) => {
+        Collection("Orders").find().sort({ num: -1 }).limit(1).toArray((err, res) => {
+            if (err) reject(10000);
+            if (res[0]) resolve(++res[0].num);
+            else resolve(10000);
+        });
+    }),
     connectToServer: function (callback: any) {
         require("mongodb").MongoClient.connect("mongodb://localhost:27017/Project",
             (err, db) => {
@@ -14,7 +22,7 @@ module.exports = {
                 collection["SubOrders"] = db.collection("SubOrders");
                 collection["Offers"] = db.collection("Offers");
                 collection["Ingredients"] = db.collection("Ingredients");
-                collection["Functions"] = {}
+                collection["Functions"] = {};
                 db.collection("system.js").find()
                     .toArray((a, b) => { b.forEach(c => { collection["Functions"][c._id] = c.value.code }); });
                 console.log(`\nConnected to Database:${db.databaseName} successfully.`);

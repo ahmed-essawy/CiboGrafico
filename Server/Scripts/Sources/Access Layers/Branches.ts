@@ -19,7 +19,9 @@ module.exports = {
     },
     Read(object: Id, callback: any) {
         Collection("Restaurants").findOne({ "branches._id": objectId(object._id) }, (err, row: Restaurant) => {
-            if (row) return callback({ success: true, data: row.branches.filter(b => b._id === object._id)[0] });
+            if (row)
+                return callback({ success: true, data: row.branches.filter(b => b._id.toString() === object._id
+                    .toString())[0] });
             else return callback({ success: false, data: object._id });
         });
     },

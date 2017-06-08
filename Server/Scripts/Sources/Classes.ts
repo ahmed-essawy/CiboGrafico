@@ -28,6 +28,8 @@ export class User implements IUser {
     favorites: Array<Meal>;
     @IsArray()
     orders: Array<string>;
+    @IsArray()
+    reservations: Array<string>;
     constructor(id: string, firstName: string, lastName: string, email: Email, username: Username);
     constructor(id: string, firstName: string, lastName: string, email: Email, username: Username,
                 phones: Array<Phone>);
@@ -48,15 +50,18 @@ export class User implements IUser {
         this.points = 0;
         this.favorites = Array<Meal>();
         this.orders = Array<string>();
+        this.reservations = Array<string>();
     }
     addPhone(phone: Phone): void { this.phones.pushIfNotExist(phone) }
     favoritesCount(): number { return this.favorites.length; }
     ordersCount(): number { return this.orders.length; }
+    reservationsCount(): number { return this.reservations.length; }
     static deserialize(object: User): User {
         const user = new User(object._id, object.firstName, object.lastName, object.email, object.username, object
             .phones, object.address, object.image);
         user.favorites = object.favorites;
         user.orders = object.orders;
+        user.reservations = object.reservations;
         return user;
     }
 }
@@ -282,6 +287,7 @@ export class Order extends SubOrder implements IOrder {
     constructor(id: string, num: number, owner: string, restaurant: string, type: OrderType, public address: Address,
                 meals: Array<MealPrice> = new Array<MealPrice>()) {
         super(id, num, owner, meals);
+        this.restaurant = restaurant;
         this.subOrders = Array<string>();
         this.type = OrderType[type];
     }

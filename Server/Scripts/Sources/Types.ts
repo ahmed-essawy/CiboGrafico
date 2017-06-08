@@ -11,7 +11,11 @@ export type Phone = string;
 export type Price = number;
 export type Uri = string;
 export type Username = string;
-export let objectId = (id: any) => require("mongodb").ObjectId(id);
+export let objectId = (id: any) => {
+    if (id) return require("mongodb").ObjectId(id);
+    console.log("Given ObjectId can't be undefined");
+    return false;
+};
 declare global {
     interface Array<T> {
         pushIfNotExist(element: T): Array<T>;
@@ -29,4 +33,4 @@ if (!Array.prototype.pushIfNotExist) {
 if (!String.prototype.isEmail) {
     String.prototype.isEmail = <T>(email: string): Boolean =>
         /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email);
-}
+};

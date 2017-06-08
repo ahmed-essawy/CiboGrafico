@@ -89,8 +89,10 @@ export interface IUser extends IPerson, ILogin, IId, IImage {
     points: number;
     favorites: Array<IMeal>;
     orders: Array<string>;
+    reservations: Array<string>;
     favoritesCount(): number;
     ordersCount(): number;
+    reservationsCount(): number;
 }
 export interface IRestaurantOwner extends IPerson {}
 export interface IBranchManager extends IPerson {}
