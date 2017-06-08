@@ -13,7 +13,7 @@ export class Users {
         network.onDisconnect().subscribe(a => Users.isOnline = a.type == "online");
     }
     static isLogged(): Promise<boolean> {
-        return new Promise(resolve => { Sql.isExistsOptions("_id").then(resp => resolve(false /*resp.response*/)); });
+        return new Promise(resolve => { Sql.isExistsOptions("_id").then(resp => resolve(resp.response)); });
     }
     login(params: { username: string, password: string }): Promise<PromiseResp> {
         return new Promise((resolve, reject) => {
@@ -86,5 +86,19 @@ export class Users {
                 for (let key in resp)
                     if (resp.hasOwnProperty(key)) Sql.insertOrUpdateOptions({ key: `fb${key}`, value: resp[key] });
             });
+    }
+    updateUser(params: any): Promise<PromiseResp> {
+        return new Promise((resolve, reject) => {
+            this.api.put("Users", params).then((resp: PromiseResp) => {
+                if (resp.success) {
+                    for (let key in params)
+                        if (params.hasOwnProperty(key)) {
+                            Sql.insertOrUpdateOptions({ key: key, value: params[key] });
+                        }
+                    resolve(new PromiseResp(true, resp.response));
+                }
+                else reject(new PromiseResp(false, ""));
+            }).catch(e => reject(e));
+        });
     }
 }

@@ -16,6 +16,7 @@ import { Sql } from "../providers/sql";
 import { Users } from "../providers/users";
 import { Restaurants } from "../providers/restaurants";
 import { Offers } from "../providers/offers";
+import { Orders } from "../providers/orders";
 import { RestaurantsListPage } from "../pages/RestaurantsList/RestaurantsList";
 import { RestaurantProfilePage } from "../pages/RestaurantProfile/RestaurantProfile";
 import { reservationPage } from "../pages/reservation/reservation"
@@ -23,16 +24,23 @@ import { Ionic2RatingModule } from "ionic2-rating";
 import { OffersPage } from "../pages/offers/offers";
 import { TraditionalMenuPage } from "../pages/traditionalMenu/traditionalMenu";
 import { offerDetailsPage } from "../pages/offerDetails/offerDetails";
+import { ordersPage } from '../pages/orders/orders';
+import { favouritePage } from '../pages/favourite/favourite';
+import { accounthomePage } from '../pages/accounthome/accounthome';
+import { orderDetailsPage } from '../pages/orderDetails/orderDetails';
+
 @NgModule({
     declarations: [MyApp, HomePage, AccountPage, LoginTabs, IntroPage, MenuPage, LoginPage, SignupPage,
         RestaurantsListPage, RestaurantProfilePage, reservationPage, OffersPage, TraditionalMenuPage,
-        offerDetailsPage],
+        offerDetailsPage, ordersPage, favouritePage, accounthomePage, orderDetailsPage],
     imports: [IonicModule.forRoot(MyApp), Ionic2RatingModule],
     bootstrap: [IonicApp],
     entryComponents: [MyApp, HomePage, AccountPage, LoginTabs, IntroPage, MenuPage, LoginPage, SignupPage,
         RestaurantsListPage, RestaurantProfilePage, reservationPage, OffersPage, TraditionalMenuPage,
-        offerDetailsPage],
-    providers: [Network, Api, Sql, SQLite, Facebook, Users, Restaurants, Offers, { provide: ErrorHandler,
-        useClass: IonicErrorHandler }]
+        offerDetailsPage, ordersPage, favouritePage, accounthomePage, orderDetailsPage],
+    providers: [Network, Api, Sql, SQLite, Facebook, Users, Restaurants, Offers, Orders, {
+        provide: ErrorHandler,
+        useClass: IonicErrorHandler
+    }]
 })
-export class AppModule {}
+export class AppModule { }
