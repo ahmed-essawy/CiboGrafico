@@ -55,6 +55,7 @@ export interface IRestaurant extends IId, IName {
     reservations: Array<IReservation>;
     branchesCount(): number;
     reviewsCount(): number;
+    rate: number;
     ratesCount(): number;
     mealsCount(): number;
     offersCount(): number;
@@ -91,8 +92,8 @@ export interface IUser extends IPerson, ILogin, IId, IImage {
     favoritesCount(): number;
     ordersCount(): number;
 }
-export interface IRestaurantOwner extends IPerson { }
-export interface IBranchManager extends IPerson { }
+export interface IRestaurantOwner extends IPerson {}
+export interface IBranchManager extends IPerson {}
 export interface IReservation extends IId {
     owner: string;
     guests: number;

@@ -72,6 +72,7 @@ export class Restaurant implements IRestaurant {
     reviews: Array<Review>;
     @IsArray()
     rates: Array<{ _id: string; rate: Rate }>;
+    rate: number;
     @IsArray()
     meals: Array<Meal>;
     @IsArray()
@@ -89,6 +90,7 @@ export class Restaurant implements IRestaurant {
         this.branches = Array<Branch>();
         this.reviews = Array<Review>();
         this.rates = Array<{ _id: string; rate: Rate }>();
+        this.rate = Rate.None;
         if (branch) this.branches.pushIfNotExist(branch);
         this.meals = Array<Meal>();
         this.offers = Array<string>();
@@ -97,7 +99,10 @@ export class Restaurant implements IRestaurant {
     }
     addBranch(branch: Branch): void { this.branches.pushIfNotExist(branch); }
     addReview(review: Review): void { this.reviews.push(review); }
-    addRate(rate: { _id: string; rate: Rate }): void { this.rates.push(rate); }
+    addRate(rate: { _id: string; rate: Rate }): void {
+        this.rates.push(rate);
+        this.rate = this.rates.reduce((a, b) => a + b.rate, 0) / this.rates.length;
+    }
     addMeal(meal: Meal): void { this.meals.pushIfNotExist(meal); }
     addOffer(offer: Id): void { this.offers.pushIfNotExist(offer._id); }
     addOrder(order: Id): void { this.orders.pushIfNotExist(order._id); }
@@ -114,6 +119,7 @@ export class Restaurant implements IRestaurant {
         restaurant.branches = object.branches;
         restaurant.reviews = object.reviews;
         restaurant.rates = object.rates;
+        restaurant.rate = object.rate;
         restaurant.meals = object.meals;
         restaurant.offers = object.offers;
         restaurant.orders = object.orders;

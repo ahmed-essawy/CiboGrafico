@@ -1,4 +1,4 @@
-﻿import { Restaurant, Owner, Address, Branch, Manager, BranchAddress, Review,Reservation} from "../Classes";
+﻿import { Restaurant, Owner, Address, Branch, Manager, BranchAddress, Review, Reservation} from "../Classes";
 import { validate, Validator, IsEmail } from "class-validator";
 import {objectId} from "../Types";
 const valid = new Validator();
@@ -37,7 +37,7 @@ const valid = new Validator();
                                         .address.city, req.body.branch.address.country, req.body.branch.address.street);
                                     const tempBranch = new Branch(db.objectId(), req.body.branch.name, branchManager,
                                         branchAddress, req.body.branch.email, req.body.branch.username, req.body.branch
-                                        .phones,50);
+                                        .phones, 50);
                                     validate(tempBranch).then(errs2 => {
                                         if (errs2.length > 0) {
                                             const errors = Array<string>();
@@ -90,52 +90,52 @@ const valid = new Validator();
             "branches.address.country": req.params.country,
             "branches.address.city": req.params.city, "branches.address.area": req.params.area
         }, response => res.json(response)))
-        .put("/Review",
+        .post("/Review",
             (req, res) => {
                 if (req.body.restaurant && req.body.review._id && req.body.review.comment) {
                     db.Restaurants.Read({ _id: req.body.restaurant },
                         response => {
                             if (response.success) {
-                                const tempRest: Restaurant = Restaurant.deserialize(response.data);
-                                let tempReview = new Review(objectId(req.body.review._id), req.body.review.comment);
+                                const tempRest = Restaurant.deserialize(response.data);
+                                const tempReview = new Review(objectId(req.body.review._id), req.body.review.comment);
                                 tempRest.addReview(tempReview);
                                 db.Restaurants.Update(tempRest, response => res.json(response));
                             } else res.status(404).json({ success: false, msg: "Data Not Found" });
                         });
                 } else res.status(400).json({ success: false, msg: "Invalid Data" });
             })
-        .put("/Rate",
+        .post("/Rate",
             (req, res) => {
                 if (req.body.restaurant && req.body.rate && req.body.rate._id && req.body.rate
                     .rate) {
                     db.Restaurants.Read({ _id: req.body.restaurant },
                         response => {
                             if (response.success) {
-                                const tempRest: Restaurant = Restaurant.deserialize(response.data);
-                                req.body.rate._id=objectId(req.body.rate._id);
+                                const tempRest = Restaurant.deserialize(response.data);
+                                req.body.rate._id = objectId(req.body.rate._id);
                                 tempRest.addRate(req.body.rate);
                                 db.Restaurants.Update(tempRest, response => res.json(response));
                             } else res.status(404).json({ success: false, msg: "Data Not Found" });
                         });
                 } else res.status(400).json({ success: false, msg: "Invalid Data" });
-        })
-      .put("/Reservation",
-        (req, res) => {
-            if (req.body.restaurant && req.body.reservation && req.body.reservation.owner
-                && req.body.reservation.branch && req.body.reservation.guests &&
-                req.body.reservation.date && req.body.reservation.time) {
-                db.Restaurants.Read({ _id: req.body.restaurant },
-                    response => {
-                        if (response.success) {
-                            const tempRest: Restaurant = Restaurant.deserialize(response.data);
-                            let tempReservation = new Reservation(db.objectId(), objectId(req.body.reservation
-                                .owner), objectId(req.body.reservation.branch),req.body.reservation.guests,
-                                req.body.reservation.date, req.body.reservation.time);
-                            tempRest.addReservation(tempReservation);
-                            db.Restaurants.Update(tempRest, response => res.json(response));
-                        } else res.status(404).json({ success: false, msg: "Data Not Found" });
-                    });
-            } else res.status(400).json({ success: false, msg: "Invalid Data" });
-        });
+            })
+        .post("/Reservation",
+            (req, res) => {
+                if (req.body.restaurant && req.body.reservation && req.body.reservation.owner
+                    && req.body.reservation.branch && req.body.reservation.guests &&
+                    req.body.reservation.date && req.body.reservation.time) {
+                    db.Restaurants.Read({ _id: req.body.restaurant },
+                        response => {
+                            if (response.success) {
+                                const tempRest = Restaurant.deserialize(response.data);
+                                const tempReservation = new Reservation(db.objectId(), objectId(req.body.reservation
+                                        .owner), objectId(req.body.reservation.branch), req.body.reservation.guests,
+                                    req.body.reservation.date, req.body.reservation.time);
+                                tempRest.addReservation(tempReservation);
+                                db.Restaurants.Update(tempRest, response => res.json(response));
+                            } else res.status(404).json({ success: false, msg: "Data Not Found" });
+                        });
+                } else res.status(400).json({ success: false, msg: "Invalid Data" });
+            });
     module.exports = restaurants;
 }
