@@ -21,12 +21,10 @@ export class LoginPage {
         this.user.fbLogin().then(res => this.success(res)).catch(err => this.failed(err));
     }
     success(response) {
-        console.log(response);
         Utilities.hideLoader();
-        Utilities.showToast("Login Successfully.");
+        Utilities.showToast("Login Successfully.", () => this.navCtrl.pop());
     }
     failed(response) {
-        console.log(response);
         Utilities.hideLoader();
         Utilities.showToast("Login Failed.");
     }

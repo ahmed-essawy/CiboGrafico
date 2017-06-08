@@ -13,7 +13,7 @@ export class Users {
         network.onDisconnect().subscribe(a => Users.isOnline = a.type == "online");
     }
     static isLogged(): Promise<boolean> {
-        return new Promise(resolve => { Sql.isExistsOptions("_id").then(resp => resolve(false /*resp.response*/)); });
+        return new Promise(resolve => { Sql.isExistsOptions("_id").then(resp => resolve(resp.response)); });
     }
     login(params: { username: string, password: string }): Promise<PromiseResp> {
         return new Promise((resolve, reject) => {
@@ -23,8 +23,8 @@ export class Users {
         });
     }
     signup(params: {
-        firstName: string, lastName: string, username: string, email: string, password: string
-    }): Promise<PromiseResp> {
+               firstName: string, lastName: string, username: string, email: string, password: string;
+           }): Promise<PromiseResp> {
         return new Promise((resolve, reject) => {
             this.api.post("Users", params).then((resp: PromiseResp) => {
                 const data: any = resp.response;
@@ -74,31 +74,37 @@ export class Users {
         });
     }
     fbSaveStatus(response: any): Promise<PromiseResp> {
-        const fbAuthData = { "id": response.userID, "AccessToken": response.accessToken, "ExpiresIn": response.expiresIn, "Image": `https://graph.facebook.com/${response.userID}/picture?width=1000&height=1000` };
-        for (let key in fbAuthData) if (fbAuthData.hasOwnProperty(key)) Sql.insertOrUpdateOptions({ key: `fb${key}`, value: fbAuthData[key] });
+        const fbAuthData = {
+            "id": response.userID, "AccessToken": response.accessToken, "ExpiresIn": response
+                .expiresIn, "Image": `https://graph.facebook.com/${response.userID}/picture?width=1000&height=1000`
+        };
+        for (let key in fbAuthData)
+            if (fbAuthData.hasOwnProperty(key)) Sql.insertOrUpdateOptions({ key: `fb${key}`, value: fbAuthData[key] });
         return new Promise((resolve, reject) => {
-            this.fb.api(`me?fields=id,first_name,last_name,email&accesstoken=${response.accessToken}`, []).then(resp => {
-                for (let key in fbAuthData) if (fbAuthData.hasOwnProperty(key)) resp[key] = fbAuthData[key];
-                Sql.selectOptions("_id").then(id => {
-                    resp["isRegistered"] = id.success;
-                    resp["_id"] = id.response;
-                    sendData();
-                }).catch(err => {
-                    resp["isRegistered"] = err.success;
-                    sendData();
-                })
-                let sendData = () => {
-                    if (resp.id && resp.email) {
-                        this.api.post("Login/fbLogin", resp).then((resp: PromiseResp) => {
-                            this.saveLoginState(resp.response).then(r => resolve(r)).catch(e => reject(e));
-                        }).catch(e => reject(new PromiseResp(false, "Failed retrieve data from Facebook!")));
-                    }
-                    else reject(new PromiseResp(false, "Failed retrieve data from Facebook!"));
-                }
-            });
+            this.fb.api(`me?fields=id,first_name,last_name,email&accesstoken=${response.accessToken}`, [])
+                .then(resp => {
+                    for (let key in fbAuthData) if (fbAuthData.hasOwnProperty(key)) resp[key] = fbAuthData[key];
+                    Sql.selectOptions("_id").then(id => {
+                        resp["isRegistered"] = id.success;
+                        resp["_id"] = id.response;
+                        sendData();
+                    }).catch(err => {
+                        resp["isRegistered"] = err.success;
+                        sendData();
+                    });
+                    const sendData = () => {
+                        if (resp.id && resp.email) {
+                            this.api.post("Login/fbLogin", resp)
+                                .then((resp: PromiseResp) => {
+                                    this.saveLoginState(resp.response).then(r => resolve(r)).catch(e => reject(e));
+                                }).catch(e => reject(new PromiseResp(false, "Failed retrieve data from Facebook!")));
+                        } else reject(new PromiseResp(false, "Failed retrieve data from Facebook!"));
+                    };
+                });
         });
     }
-    saveLoginState(data: { _id, email, username, token, firstName, lastName, image, address }): Promise<PromiseResp> {
+    saveLoginState(data: { _id: string, email: string, username: string, token: string, firstName: string,
+                       lastName: string, image: string, address: any, phones: string[] }): Promise<PromiseResp> {
         data.address = JSON.stringify(data.address);
         return new Promise((resolve, reject) => {
             if (data.token) {
@@ -106,6 +112,6 @@ export class Users {
                     if (data.hasOwnProperty(key)) Sql.insertOrUpdateOptions({ key: key, value: data[key] });
                 resolve(new PromiseResp(true, "Log In Successfully"));
             } else reject(new PromiseResp(false, "Log In Failed"));
-        })
+        });
     }
 }
