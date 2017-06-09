@@ -257,7 +257,7 @@ export class SubOrder implements ISubOrder {
     rate: string;
     @IsDate()
     time: Date;
-    private state: JoinState;
+    state: JoinState;
     price(): Price { return this.meals.reduce((a, b) => a + b.price, 0); }
     constructor(id: string, num: number, owner: string);
     constructor(id: string, num: number, owner: string, meals: Array<MealPrice>);
