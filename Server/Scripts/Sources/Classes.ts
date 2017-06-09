@@ -6,6 +6,7 @@ import {
     Validator, IsNotEmpty, Length, IsInt, IsAlpha, IsUrl, IsArray, IsEmail, IsAlphanumeric, IsEnum, IsDate,
     IsString
     } from "class-validator";
+import * as Interfaces from "Interfaces";
 const valid = new Validator();
 const md5 = require("md5");
 export class User implements IUser {
@@ -53,6 +54,9 @@ export class User implements IUser {
         this.reservations = Array<string>();
     }
     addPhone(phone: Phone): void { this.phones.pushIfNotExist(phone) }
+    addFavorite(meal: Interfaces.IMeal): void { this.favorites.pushIfNotExist(meal) }
+    addOrder(order: string): void { this.orders.pushIfNotExist(order) }
+    addReservation(reservation: string): void { this.reservations.pushIfNotExist(reservation) }
     favoritesCount(): number { return this.favorites.length; }
     ordersCount(): number { return this.orders.length; }
     reservationsCount(): number { return this.reservations.length; }
@@ -111,7 +115,7 @@ export class Restaurant implements IRestaurant {
     addMeal(meal: Meal): void { this.meals.pushIfNotExist(meal); }
     addOffer(offer: Id): void { this.offers.pushIfNotExist(offer._id); }
     addOrder(order: Id): void { this.orders.pushIfNotExist(order._id); }
-    addReservation(reservation: Reservation): void { this.reservations.push(reservation); }
+    addReservation(reservation: Reservation): void { this.reservations.pushIfNotExist(reservation); }
     branchesCount(): number { return this.branches.length; }
     reviewsCount(): number { return this.reviews.length; }
     ratesCount(): number { return this.rates.length; }

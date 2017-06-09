@@ -1,4 +1,4 @@
-﻿import { Restaurant, Owner, Address, Branch, Manager, BranchAddress, Review, Reservation} from "../Classes";
+﻿import { Restaurant, Owner, Address, Branch, Manager, BranchAddress, Review, Reservation, User} from "../Classes";
 import { validate, Validator, IsEmail } from "class-validator";
 import {objectId} from "../Types";
 const valid = new Validator();
@@ -133,11 +133,11 @@ const valid = new Validator();
                                     req.body.reservation.date, req.body.reservation.time);
                                 tempRest.addReservation(tempReservation);
                                 db.Restaurants.Update(tempRest, response2 => {
-                                    db.Restaurants.Read({ _id: req.body.restaurant },
+                                    db.Users.Read({ _id: req.body.owner },
                                         response3 => {
                                             if (response3.success) {
-                                                const tempRest = Restaurant.deserialize(response3.data);
-                                                tempRest.addReservation(tempReservation);
+                                                const tempUser = User.deserialize(response3.data);
+                                                tempUser.addReservation(tempReservation._id);
                                                 db.Users.Update(tempRest, response4 => res.json({ success: response4
                                                     .success, data: { "addToRestaurant": response2.data,
                                                     "addToUser": response4.data } }));

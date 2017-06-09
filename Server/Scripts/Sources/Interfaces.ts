@@ -93,6 +93,9 @@ export interface IUser extends IPerson, ILogin, IId, IImage {
     favoritesCount(): number;
     ordersCount(): number;
     reservationsCount(): number;
+    addFavorite(meal: IMeal): void;
+    addOrder(order: string): void;
+    addReservation(reservation: string): void;
 }
 export interface IRestaurantOwner extends IPerson {}
 export interface IBranchManager extends IPerson {}
