@@ -14,7 +14,6 @@
     //        });
     //}
     if (req.method === "OPTIONS") res.sendStatus(200);
-    else if (!req.is("application/json") && ["PUT", "POST"].indexOf(req.method) !==
-        -1) res.status(400).send({ success: false, msg: "Content-type must be 'application/json'" });
+    else if (!req.is("application/json") && ["PUT", "POST"].indexOf(req.method) !== -1) res.status(400).send({ success: false, msg: "Content-type must be 'application/json'" });
     else next();
 };

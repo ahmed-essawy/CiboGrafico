@@ -1,13 +1,7 @@
-﻿import { IUser, IRestaurant, IBranch, IRestaurantOwner, IBranchManager, IMeal, IOrder, ISubOrder, IOffer, IReservation,
-    IAuthentication, IAddress, IIngredient, IBranchAddress, IReview } from "./Interfaces";
-import { Duration, Email, MealPrice, Rate, OrderType, Phone, Price, Uri, Id, Username, AccountType, objectId, JoinState
-    } from "./Types";
-import {
-    Validator, IsNotEmpty, Length, IsInt, IsAlpha, IsUrl, IsArray, IsEmail, IsAlphanumeric, IsEnum, IsDate,
-    IsString
-    } from "class-validator";
+﻿import { IUser, IRestaurant, IBranch, IRestaurantOwner, IBranchManager, IMeal, IOrder, ISubOrder, IOffer, IReservation, IAuthentication, IAddress, IIngredient, IBranchAddress, IReview } from "./Interfaces";
+import { Duration, Email, MealPrice, Rate, OrderType, Phone, Price, Uri, Id, Username, AccountType, objectId, JoinState} from "./Types";
+import {Validator, IsNotEmpty, Length, IsInt, IsAlpha, IsUrl, IsArray, IsEmail, IsAlphanumeric, IsEnum, IsDate, IsString} from "class-validator";
 const valid = new Validator();
-const md5 = require("md5");
 export class User implements IUser {
     _id: string;
     @IsString()
@@ -31,14 +25,10 @@ export class User implements IUser {
     @IsArray()
     reservations: Array<string>;
     constructor(id: string, firstName: string, lastName: string, email: Email, username: Username);
-    constructor(id: string, firstName: string, lastName: string, email: Email, username: Username,
-                phones: Array<Phone>);
-    constructor(id: string, firstName: string, lastName: string, email: Email, username: Username, phones: Array<Phone>,
-                address: Address);
-    constructor(id: string, firstName: string, lastName: string, email: Email, username: Username, phones: Array<Phone>,
-                address: Address, image: Uri);
-    constructor(id: string, firstName: string, lastName: string, email: Email, username: Username,
-                phones: Array<Phone> = Array<Phone>(), public address: Address = new Address(), image: Uri = "") {
+    constructor(id: string, firstName: string, lastName: string, email: Email, username: Username, phones: Array<Phone>);
+    constructor(id: string, firstName: string, lastName: string, email: Email, username: Username, phones: Array<Phone>, address: Address);
+    constructor(id: string, firstName: string, lastName: string, email: Email, username: Username, phones: Array<Phone>, address: Address, image: Uri);
+    constructor(id: string, firstName: string, lastName: string, email: Email, username: Username, phones: Array<Phone> = Array<Phone>(), public address: Address = new Address(), image: Uri = "") {
         this._id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -60,8 +50,7 @@ export class User implements IUser {
     ordersCount(): number { return this.orders.length; }
     reservationsCount(): number { return this.reservations.length; }
     static deserialize(object: User): User {
-        const user = new User(object._id, object.firstName, object.lastName, object.email, object.username, object
-            .phones, object.address, object.image);
+        const user = new User(object._id, object.firstName, object.lastName, object.email, object.username, object.phones, object.address, object.image);
         if (object.favorites) user.favorites = object.favorites;
         if (object.orders) user.orders = object.orders;
         if (object.reservations) user.reservations = object.reservations;
@@ -149,12 +138,9 @@ export class Branch implements IBranch {
     guestsPerTable: number;
     @IsInt()
     maximumGuests: number;
-    constructor(id: string, name: string, manager: Manager, address: BranchAddress, email: Email, username: Username,
-                phones: Array<Phone>, maximumGuests: number);
-    constructor(id: string, name: string, manager: Manager, address: BranchAddress, email: Email, username: Username,
-                phones: Array<Phone>, maximumGuests: number, guestsPerTable: number);
-    constructor(id: string, name: string, public manager: Manager, public address: BranchAddress, email: Email,
-                username: Username, phones: Array<Phone>, maximumGuests: number, guestsPerTable: number = 4) {
+    constructor(id: string, name: string, manager: Manager, address: BranchAddress, email: Email, username: Username, phones: Array<Phone>, maximumGuests: number);
+    constructor(id: string, name: string, manager: Manager, address: BranchAddress, email: Email, username: Username, phones: Array<Phone>, maximumGuests: number, guestsPerTable: number);
+    constructor(id: string, name: string, public manager: Manager, public address: BranchAddress, email: Email, username: Username, phones: Array<Phone>, maximumGuests: number, guestsPerTable: number = 4) {
         this._id = objectId(id);
         this.name = name;
         this.email = email;
@@ -164,10 +150,7 @@ export class Branch implements IBranch {
         this.guestsPerTable = guestsPerTable;
     }
     addPhone(phone: Phone): void { this.phones.push(phone); }
-    static deserialize(object: Branch): Branch {
-        return new Branch(object._id, object.name, object.manager, object.address, object.email, object.username, object
-            .phones, object.maximumGuests, object.guestsPerTable);
-    }
+    static deserialize(object: Branch): Branch { return new Branch(object._id, object.name, object.manager, object.address, object.email, object.username, object.phones, object.maximumGuests, object.guestsPerTable); }
 }
 export class Owner implements IRestaurantOwner {
     @IsString()
@@ -182,17 +165,14 @@ export class Owner implements IRestaurantOwner {
     constructor(firstName: string, lastName: string, phones: Array<Phone>);
     constructor(firstName: string, lastName: string, phones: Array<Phone>, email: Email);
     constructor(firstName: string, lastName: string, phones: Array<Phone>, email: Email, address: Address);
-    constructor(firstName: string, lastName: string, phones: Array<Phone>, email: Email = "",
-                public address: Address = new Address()) {
+    constructor(firstName: string, lastName: string, phones: Array<Phone>, email: Email = "", public address: Address = new Address()) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.phones = phones;
         this.email = email;
     }
     addPhone(phone: Phone): void { this.phones.push(phone); }
-    static deserialize(object: Owner): Owner {
-        return new Owner(object.firstName, object.lastName, object.phones, object.email, object.address);
-    }
+    static deserialize(object: Owner): Owner { return new Owner(object.firstName, object.lastName, object.phones, object.email, object.address); }
 }
 export class Manager implements IBranchManager {
     @IsString()
@@ -207,17 +187,14 @@ export class Manager implements IBranchManager {
     constructor(firstName: string, lastName: string, phones: Array<Phone>);
     constructor(firstName: string, lastName: string, phones: Array<Phone>, email: Email);
     constructor(firstName: string, lastName: string, phones: Array<Phone>, email: Email, address: Address);
-    constructor(firstName: string, lastName: string, phones: Array<Phone>, email: Email = "",
-                public address: Address = new Address()) {
+    constructor(firstName: string, lastName: string, phones: Array<Phone>, email: Email = "", public address: Address = new Address()) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.phones = phones;
         this.email = email;
     }
     addPhone(phone: Phone): void { this.phones.push(phone); }
-    static deserialize(object: Manager): Manager {
-        return new Manager(object.firstName, object.lastName, object.phones, object.email, object.address);
-    }
+    static deserialize(object: Manager): Manager { return new Manager(object.firstName, object.lastName, object.phones, object.email, object.address); }
 }
 export class Meal implements IMeal {
     _id: string;
@@ -283,10 +260,8 @@ export class Order extends SubOrder implements IOrder {
     type: string;
     restaurant: string;
     constructor(id: string, num: number, owner: string, restaurant: string, type: OrderType, address: Address);
-    constructor(id: string, num: number, owner: string, restaurant: string, type: OrderType, address: Address,
-                meals: Array<MealPrice>);
-    constructor(id: string, num: number, owner: string, restaurant: string, type: OrderType, public address: Address,
-                meals: Array<MealPrice> = new Array<MealPrice>()) {
+    constructor(id: string, num: number, owner: string, restaurant: string, type: OrderType, address: Address, meals: Array<MealPrice>);
+    constructor(id: string, num: number, owner: string, restaurant: string, type: OrderType, public address: Address, meals: Array<MealPrice> = new Array<MealPrice>()) {
         super(id, num, owner, meals);
         this.restaurant = restaurant;
         this.subOrders = Array<string>();
@@ -314,12 +289,9 @@ export class Offer implements IOffer {
     startDate: Date;
     meal: string;
     endDate: Date;
-    constructor(id: string, provider: string, image: Uri, description: string, meal: string, discount: number,
-                duration: Duration);
-    constructor(id: string, provider: string, image: Uri, description: string, meal: string, discount: number,
-                duration: Duration, startDate: Date);
-    constructor(id: string, provider: string, image: Uri, description: string, meal: string, discount: number,
-                duration: Duration, startDate: Date = new Date()) {
+    constructor(id: string, provider: string, image: Uri, description: string, meal: string, discount: number, duration: Duration);
+    constructor(id: string, provider: string, image: Uri, description: string, meal: string, discount: number, duration: Duration, startDate: Date);
+    constructor(id: string, provider: string, image: Uri, description: string, meal: string, discount: number, duration: Duration, startDate: Date = new Date()) {
         this._id = id;
         this.provider = provider;
         this.image = image;
@@ -341,8 +313,7 @@ export class Reservation implements IReservation {
     time: Date;
     constructor(id: string, owner: string, branch: string, guests: number, date: Date, time: Date);
     constructor(id: string, owner: string, branch: string, guests: number, date: Date, time: Date, order: string);
-    constructor(id: string, owner: string, branch: string, guests: number, date: Date, time: Date,
-                public order?: string) {
+    constructor(id: string, owner: string, branch: string, guests: number, date: Date, time: Date, public order?: string) {
         this._id = id;
         this.owner = owner;
         this.branch = branch;
@@ -370,6 +341,7 @@ export class Authentication implements IAuthentication {
         this.email = email;
         this.username = username;
         this.devices = Array<string>();
+        const md5 = require("md5");
         this.password = md5(password);
         this.token = md5(this.type + this.username + this.password + "ITIGraduationProject" + new Date());
     }
@@ -396,8 +368,7 @@ export class BranchAddress extends Address implements IBranchAddress {
     constructor(area: string, city: string);
     constructor(area: string, city: string, country: string);
     constructor(area: string, city: string, country: string, street: string);
-    constructor(area: string, public city: string, public country: string = "Egypt",
-                public street: string = "") {
+    constructor(area: string, public city: string, public country: string = "Egypt", public street: string = "") {
         super(street, city, country);
         this.area = area;
     }
