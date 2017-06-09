@@ -6,7 +6,6 @@ import {
     Validator, IsNotEmpty, Length, IsInt, IsAlpha, IsUrl, IsArray, IsEmail, IsAlphanumeric, IsEnum, IsDate,
     IsString
     } from "class-validator";
-import * as Interfaces from "Interfaces";
 const valid = new Validator();
 const md5 = require("md5");
 export class User implements IUser {
@@ -54,7 +53,7 @@ export class User implements IUser {
         this.reservations = Array<string>();
     }
     addPhone(phone: Phone): void { this.phones.pushIfNotExist(phone) }
-    addFavorite(meal: Interfaces.IMeal): void { this.favorites.pushIfNotExist(meal) }
+    addFavorite(meal: IMeal): void { this.favorites.pushIfNotExist(meal) }
     addOrder(order: string): void { this.orders.pushIfNotExist(order) }
     addReservation(reservation: string): void { this.reservations.pushIfNotExist(reservation) }
     favoritesCount(): number { return this.favorites.length; }
@@ -258,7 +257,7 @@ export class SubOrder implements ISubOrder {
     rate: string;
     @IsDate()
     time: Date;
-    state: JoinState;
+    private state: JoinState;
     price(): Price { return this.meals.reduce((a, b) => a + b.price, 0); }
     constructor(id: string, num: number, owner: string);
     constructor(id: string, num: number, owner: string, meals: Array<MealPrice>);
