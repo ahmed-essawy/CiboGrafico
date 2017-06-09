@@ -52,19 +52,19 @@ export class User implements IUser {
         this.orders = Array<string>();
         this.reservations = Array<string>();
     }
-    addPhone(phone: Phone): void { this.phones.pushIfNotExist(phone) }
-    addFavorite(meal: IMeal): void { this.favorites.pushIfNotExist(meal) }
-    addOrder(order: string): void { this.orders.pushIfNotExist(order) }
-    addReservation(reservation: string): void { this.reservations.pushIfNotExist(reservation) }
+    addPhone(phone: Phone): void { this.phones.push(phone) }
+    addFavorite(meal: IMeal): void { this.favorites.push(meal) }
+    addOrder(order: string): void { this.orders.push(order) }
+    addReservation(reservation: string): void { this.reservations.push(reservation) }
     favoritesCount(): number { return this.favorites.length; }
     ordersCount(): number { return this.orders.length; }
     reservationsCount(): number { return this.reservations.length; }
     static deserialize(object: User): User {
         const user = new User(object._id, object.firstName, object.lastName, object.email, object.username, object
             .phones, object.address, object.image);
-        user.favorites = object.favorites;
-        user.orders = object.orders;
-        user.reservations = object.reservations;
+        if (object.favorites) user.favorites = object.favorites;
+        if (object.orders) user.orders = object.orders;
+        if (object.reservations) user.reservations = object.reservations;
         return user;
     }
 }
@@ -99,22 +99,22 @@ export class Restaurant implements IRestaurant {
         this.reviews = Array<Review>();
         this.rates = Array<{ _id: string; rate: Rate }>();
         this.rate = Rate.None;
-        if (branch) this.branches.pushIfNotExist(branch);
+        if (branch) this.branches.push(branch);
         this.meals = Array<Meal>();
         this.offers = Array<string>();
         this.orders = Array<string>();
         this.reservations = Array<Reservation>();
     }
-    addBranch(branch: Branch): void { this.branches.pushIfNotExist(branch); }
+    addBranch(branch: Branch): void { this.branches.push(branch); }
     addReview(review: Review): void { this.reviews.push(review); }
     addRate(rate: { _id: string; rate: Rate }): void {
         this.rates.push(rate);
         this.rate = this.rates.reduce((a, b) => a + b.rate, 0) / this.rates.length;
     }
-    addMeal(meal: Meal): void { this.meals.pushIfNotExist(meal); }
-    addOffer(offer: Id): void { this.offers.pushIfNotExist(offer._id); }
-    addOrder(order: Id): void { this.orders.pushIfNotExist(order._id); }
-    addReservation(reservation: Reservation): void { this.reservations.pushIfNotExist(reservation); }
+    addMeal(meal: Meal): void { this.meals.push(meal); }
+    addOffer(offer: Id): void { this.offers.push(offer._id); }
+    addOrder(order: Id): void { this.orders.push(order._id); }
+    addReservation(reservation: Reservation): void { this.reservations.push(reservation); }
     branchesCount(): number { return this.branches.length; }
     reviewsCount(): number { return this.reviews.length; }
     ratesCount(): number { return this.rates.length; }
@@ -124,14 +124,14 @@ export class Restaurant implements IRestaurant {
     reservationsCount(): number { return this.reservations.length; }
     static deserialize(object: Restaurant): Restaurant {
         const restaurant = new Restaurant(object._id, object.name, object.logo, object.owner);
-        restaurant.branches = object.branches;
-        restaurant.reviews = object.reviews;
-        restaurant.rates = object.rates;
-        restaurant.rate = object.rate;
-        restaurant.meals = object.meals;
-        restaurant.offers = object.offers;
-        restaurant.orders = object.orders;
-        restaurant.reservations = object.reservations;
+        if (object.branches) restaurant.branches = object.branches;
+        if (object.reviews) restaurant.reviews = object.reviews;
+        if (object.rates) restaurant.rates = object.rates;
+        if (object.rate) restaurant.rate = object.rate;
+        if (object.meals) restaurant.meals = object.meals;
+        if (object.offers) restaurant.offers = object.offers;
+        if (object.orders) restaurant.orders = object.orders;
+        if (object.reservations) restaurant.reservations = object.reservations;
         return restaurant;
     }
 }
@@ -163,7 +163,7 @@ export class Branch implements IBranch {
         this.maximumGuests = maximumGuests;
         this.guestsPerTable = guestsPerTable;
     }
-    addPhone(phone: Phone): void { this.phones.pushIfNotExist(phone); }
+    addPhone(phone: Phone): void { this.phones.push(phone); }
     static deserialize(object: Branch): Branch {
         return new Branch(object._id, object.name, object.manager, object.address, object.email, object.username, object
             .phones, object.maximumGuests, object.guestsPerTable);
@@ -189,7 +189,7 @@ export class Owner implements IRestaurantOwner {
         this.phones = phones;
         this.email = email;
     }
-    addPhone(phone: Phone): void { this.phones.pushIfNotExist(phone); }
+    addPhone(phone: Phone): void { this.phones.push(phone); }
     static deserialize(object: Owner): Owner {
         return new Owner(object.firstName, object.lastName, object.phones, object.email, object.address);
     }
@@ -214,7 +214,7 @@ export class Manager implements IBranchManager {
         this.phones = phones;
         this.email = email;
     }
-    addPhone(phone: Phone): void { this.phones.pushIfNotExist(phone); }
+    addPhone(phone: Phone): void { this.phones.push(phone); }
     static deserialize(object: Manager): Manager {
         return new Manager(object.firstName, object.lastName, object.phones, object.email, object.address);
     }
@@ -237,13 +237,11 @@ export class Meal implements IMeal {
         this.price = price;
         this.ingredients = new Array<string>();
     }
-    addIngredient(ingredient: Id): void { this.ingredients.pushIfNotExist(ingredient._id); }
-    addIngredients(ingredients: Array<Id>): void {
-        ingredients.forEach(item => this.ingredients.pushIfNotExist(item._id));
-    }
+    addIngredient(ingredient: Id): void { this.ingredients.push(ingredient._id); }
+    addIngredients(ingredients: Array<Id>): void { ingredients.forEach(item => this.ingredients.push(item._id)); }
     static deserialize(object: Meal): Meal {
         const meal = new Meal(object._id, object.name, object.image, object.category, object.price);
-        meal.ingredients = object.ingredients;
+        if (object.ingredients) meal.ingredients = object.ingredients;
         return meal;
     }
 }
@@ -271,10 +269,10 @@ export class SubOrder implements ISubOrder {
         this.state = JoinState.Pending;
     }
     mealsCount(): number { return this.meals.length; }
-    addMeal(meal: MealPrice): void { this.meals.pushIfNotExist(meal) }
+    addMeal(meal: MealPrice): void { this.meals.push(meal) }
     static deserialize(object: SubOrder): SubOrder {
         const subOrder = new SubOrder(object._id, object.num, object.owner);
-        subOrder.meals = object.meals;
+        if (object.meals) subOrder.meals = object.meals;
         return subOrder;
     }
 }
@@ -294,12 +292,12 @@ export class Order extends SubOrder implements IOrder {
         this.subOrders = Array<string>();
         this.type = OrderType[type];
     }
-    addsubOrder(subOrder: Id): void { this.subOrders.pushIfNotExist(subOrder._id) }
+    addsubOrder(subOrder: Id): void { this.subOrders.push(subOrder._id) }
     subOrdersCount(): number { return this.subOrders.length; }
     static deserialize(object: Order): Order {
         const type: OrderType = OrderType[object.type];
         const order = new Order(object._id, object.num, object.owner, object.restaurant, type, object.address);
-        order.subOrders = object.subOrders;
+        if (object.meals) order.subOrders = object.subOrders;
         return order;
     }
 }
@@ -375,13 +373,13 @@ export class Authentication implements IAuthentication {
         this.password = md5(password);
         this.token = md5(this.type + this.username + this.password + "ITIGraduationProject" + new Date());
     }
-    addDevice(device: string): void { this.devices.pushIfNotExist(device) }
-    addSocial(social: { "name": string, "data": any }): void { this.socials.pushIfNotExist(social) }
+    addDevice(device: string): void { this.devices.push(device) }
+    addSocial(social: { "name": string, "data": any }): void { this.socials.push(social) }
     static deserialize(object: Authentication): Authentication {
         const auth = new Authentication(object._id, object.type, object.email, object.username, object.password);
-        auth.password = object.password;
-        auth.devices = object.devices;
-        auth.socials = object.socials;
+        if (object.password) auth.password = object.password;
+        if (object.devices) auth.devices = object.devices;
+        if (object.socials) auth.socials = object.socials;
         return auth;
     }
 }
