@@ -1,20 +1,15 @@
-﻿
-<ion-header>
-
+﻿<ion-header>
   <ion-navbar color="danger"  text-center>
     <ion-title>Restaurants</ion-title>
   </ion-navbar>
-
 </ion-header>
 
 <ion-content padding>
     <ion-list>
         <ion-item *ngFor="let rest of restaurants" (click)="details(rest._id)">
-            <ion-thumbnail item-left>
-                <img [src]="rest.logo">
-            </ion-thumbnail>
-            <h2>{{rest.name}}</h2>
-            <p>Category</p>
+            <ion-thumbnail item-left><img [src]="rest?.logo"></ion-thumbnail>
+            <h1>{{rest.name}}</h1>
+            <ion-rating [numStars]="5" [readOnly]="true" [value]="rest?.rate"></ion-rating>
            <ion-icon ios="ios-arrow-forward" md="ios-arrow-forward" item-right></ion-icon>
         </ion-item>
     </ion-list>

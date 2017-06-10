@@ -104,6 +104,7 @@ export interface IReservation extends IId {
     guests: number;
     order?: string;
     branch: string;
+    date: Date;
 }
 export interface ISubOrderProp extends IId {
     num: number;

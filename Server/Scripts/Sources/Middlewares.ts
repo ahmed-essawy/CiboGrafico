@@ -2,7 +2,7 @@
 middlewares
     .use("/Login", require("./Routes/Login"))
     .use("/Restaurants", require("./Routes/Restaurants"))
-    .use("Branches", require("./Routes/Branches"))
+    .use("/Branches", require("./Routes/Branches"))
     .use("/Orders", require("./Routes/Orders"))
     .use("/SubOrders", require("./Routes/SubOrders"))
     .use("/Meals", require("./Routes/Meals"))
