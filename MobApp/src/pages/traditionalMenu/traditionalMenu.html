@@ -1,10 +1,4 @@
-﻿<!--
-Generated template for the NewPage page.
-
-See http://ionicframework.com/docs/v2/components/#navigation for more info on
-Ionic pages and navigation.
--->
-<ion-header>
+﻿<ion-header>
   <ion-navbar color="danger" text-center>
     <ion-title>{{restaurant?.name}} Menu</ion-title>
     <ion-buttons end>
@@ -20,7 +14,7 @@ Ionic pages and navigation.
       <ion-thumbnail (click)="Show(meal)" item-left>
         <img [src]="meal.image">
       </ion-thumbnail>
-      <h2>{{meal.name}}</h2>
+      <h2 (click)="Show(meal)">{{meal.name}}</h2>
       <p>{{meal.category}}</p>
       <p>{{meal.price}} L.E</p>
       <button (click)="Remove(meal._id)" icon-only id="remove" ion-button item-right>

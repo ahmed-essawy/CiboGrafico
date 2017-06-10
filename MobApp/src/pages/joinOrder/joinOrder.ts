@@ -25,7 +25,7 @@ export class joinOrderPage {
         this.Orders = navParams.get("orders");
         Sql.selectOptions("_id").then(resp => this.userId = resp.response).catch(err => console.log(err));
         for (let key in this.Orders) {
-            this.meals.read(key).then((resp: PromiseResp) => {
+            this.meals.Read(key).then((resp: PromiseResp) => {
                 this.Meals.push({ "_id": resp.response._id, "price": resp.response.price, "quantity": this.Orders[key] });
                 resp.response.quantity = this.Orders[key];
                 this.total += (resp.response.quantity * resp.response.price);

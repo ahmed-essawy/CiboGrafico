@@ -1,12 +1,6 @@
-﻿<!--
-Generated template for the NewPage page.
-
-See http://ionicframework.com/docs/v2/components/#navigation for more info on
-Ionic pages and navigation.
--->
-<ion-header>
+﻿<ion-header>
   <ion-navbar color="danger" text-center>
-    <ion-title>{{Meal.name}} Details</ion-title>
+    <ion-title>{{meal?.name}} Details</ion-title>
     <ion-buttons end>
       <button (click)="Close()" clear ion-button>
         Close
@@ -16,15 +10,18 @@ Ionic pages and navigation.
 </ion-header>
 <ion-content padding>
   <ion-card>
-    <img [src]="Meal.image" class="mealImage" />
+    <img [src]="meal?.image" class="mealImage" />
     <ion-card-content>
       <ion-card-title>
-        {{Meal.name}}
+        {{meal?.name}}
       </ion-card-title>
-      <b>{{Meal.price | currency:'EGP':true:'1.2-2'}}</b>
-      <p>
-        {{Meal.ingredients}}
-      </p>
+      <b>{{meal?.price | currency:'EGP':true:'1.2-2'}}</b>
+      <ion-list>
+        <ion-item *ngFor="let ingredient of meal.ingredients">
+          <ion-thumbnail item-start><img src="{{ingredient?.image}}"></ion-thumbnail>
+          <h2>{{ingredient?.name}}</h2>
+        </ion-item>
+      </ion-list>
     </ion-card-content>
   </ion-card>
 </ion-content>

@@ -1,14 +1,13 @@
 ﻿page-offers {
-}
+  .offerCard {
+    margin-bottom: 20px;
+  }
 
-.offerCard {
-  margin-bottom: 20px;
-}
+  .offerDetail {
+    padding: 10px;
+  }
 
-.offerDetail {
-  padding: 10px;
-}
-
-#discount {
-  color: darkred;
+  #discount {
+    color: darkred;
+  }
 }

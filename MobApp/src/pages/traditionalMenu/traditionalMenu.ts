@@ -25,10 +25,7 @@ export class TraditionalMenuPage {
         network.onConnect().subscribe(a => this.isOnline = a.type == "online");
         network.onDisconnect().subscribe(a => this.isOnline = a.type == "online");
     }
-    Show(meal: any) {
-        let modal = this.modalCtrl.create(mealDetailsPage, { Meal: meal });
-        modal.present();
-    }
+    Show(meal: any) { this.modalCtrl.create(mealDetailsPage, { meal: meal._id }).present(); }
     Add(id: any) {
         Sql.selectOptions("order-" + this.restaurant._id).then(object => {
             object.response = JSON.parse(object.response);
