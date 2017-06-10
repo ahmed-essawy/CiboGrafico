@@ -12,32 +12,33 @@ module.exports = {
             });
     },
     ReadFull(object: Id, callback: any) {
-        Collection("Orders").findOne({ "_id": objectId(object._id) }, (err, row: Order) => {
-            if (err) return callback({ success: false, msg: "Error !!" });
-            if (row) {
-                const order = async function () {
-                    const meals = Array<Meal>();
-                    for (let i = 0; i < row.meals.length; i++) {
-                        const meal = row.meals[i];
-                        await new Promise((resolve, reject) => {
-                            Collection("Restaurants").findOne({ "_id": objectId(row.restaurant) }, (err, rest: Restaurant) => {
-                                if (err) return callback({ success: false, msg: "Error !!" });
-                                if (rest) {
-                                    meal["name"] = rest.meals.filter(b => b._id.toString() === meal._id.toString())[0].name;
-                                    resolve(meal);
-                                }
-                                reject({ success: false, data: meal._id });
-                            });
-                        }).then(meal => meals.push(meal as Meal)).catch(() => {});
-                    }
-                    return meals;
-                };
-                order().then(meals => {
-                    row.meals = meals;
-                    callback({ success: true, data: row });
-                });
-            } else return callback({ success: false });
-        });
+        return callback({ success: false });
+        //Collection("Orders").findOne({ "_id": objectId(object._id) }, (err, row: Order) => {
+        //    if (err) return callback({ success: false, msg: "Error !!" });
+        //    if (row) {
+        //        const order = async function () {
+        //            const meals = Array<Meal>();
+        //            for (let i = 0; i < row.meals.length; i++) {
+        //                const meal = row.meals[i];
+        //                await new Promise((resolve, reject) => {
+        //                    Collection("Restaurants").findOne({ "_id": objectId(row.restaurant) }, (err, rest: Restaurant) => {
+        //                        if (err) return callback({ success: false, msg: "Error !!" });
+        //                        if (rest) {
+        //                            meal["name"] = rest.meals.filter(b => b._id.toString() === meal._id.toString())[0].name;
+        //                            resolve(meal);
+        //                        }
+        //                        reject({ success: false, data: meal._id });
+        //                    });
+        //                }).then(meal => meals.push(meal as Meal)).catch(() => {});
+        //            }
+        //            return meals;
+        //        };
+        //        order().then(meals => {
+        //            row.meals = meals;
+        //            callback({ success: true, data: row });
+        //        });
+        //    } else return callback({ success: false });
+        //});
     },
     ReadAll(callback: any) {
         Collection("Orders").find().toArray((err, row: Order[]) => {
