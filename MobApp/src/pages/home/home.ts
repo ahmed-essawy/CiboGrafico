@@ -1,24 +1,25 @@
 ﻿import { Component } from "@angular/core";
-import { AlertController, ModalController, NavController } from "ionic-angular";
+import { AlertController, NavController } from "ionic-angular";
 import { GoogleMap, LatLng } from "@ionic-native/google-maps";
-import { LoginTabs } from "../loginTabs/loginTabs";
-import { Facebook, FacebookLoginResponse } from "@ionic-native/facebook";
+import { Utilities } from "../../providers/utilities";
 import { Users } from "../../providers/users";
+import { LoginTabs } from "../loginTabs/loginTabs";
 @Component({
     selector: "page-home",
     templateUrl: "home.html"
 })
 export class HomePage {
     isLogged: boolean;
-    constructor(private navCtrl: NavController, private user: Users, private alertCtrl: AlertController,
-                private modalCtrl: ModalController) {
+    constructor(private navCtrl: NavController, private alertCtrl: AlertController) {
         Users.isLogged().then(isLogged => this.isLogged = isLogged);
-        new GoogleMap("map").getMyLocation().then(l => this.latLngUsage(l.latLng)).catch(err => console
-            .log(`Error: ${err}`));
+        Utilities.eventsCtrl.subscribe("User:Login", res => this.isLogged = true);
+        Utilities.eventsCtrl.subscribe("User:Logout", res => this.isLogged = false);
+        new GoogleMap("map").getMyLocation().then(l => this.latLngUsage(l.latLng)).catch(err => console.log(`Error: ${err}`));
     }
     latLngUsage(pos: LatLng) {
         this.alertCtrl.create({
-            title: "Position detected!", subTitle: `Your Position is ${pos}`,
+            title: "Position detected!",
+            subTitle: `Your Position is ${pos}`,
             buttons: ["OK"]
         }).present();
     }

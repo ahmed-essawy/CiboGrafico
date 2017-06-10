@@ -5,7 +5,7 @@ export * from "./classes";
 @Injectable()
 export class Meals {
     constructor(private api: Api) { }
-    read(params: any): Promise<PromiseResp> {
+    Read(params: any): Promise<PromiseResp> {
         return new Promise((resolve, reject) => {
             this.api.get("Restaurant/Meals", params).then((resp: PromiseResp) => {
                 let data: any = resp.response;

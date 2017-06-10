@@ -3,15 +3,17 @@
         <ion-title>{{offer?.restName}}</ion-title>
     </ion-navbar>
 </ion-header>
-<ion-content padding>
-    <ion-card>
-        <img [src]="offer.image" />
+<ion-content>
+    <ion-card class="offer">
+        <img [src]="offer.image" class="offerImage" />
         <ion-card-content>
+            <div style="float: right">
+                <h2 id="oldprice">{{offer?.oldPrice | currency:'EGP':true:'1.2-2' }}</h2>
+                <h1 color="danger">{{offer?.oldPrice*(1-offer?.discount) | currency:'EGP':true:'1.2-2' }}</h1>
+            </div>
             <h1>{{offer?.restName}}</h1>
-            <ion-card-title>{{offer?.discount*100}} % Discount</ion-card-title>
-            <b>Expires at : {{offer?.endDate}}</b>
-            <b id="oldprice">{{offer?.oldPrice}} L.E.</b>
-            <b>{{offer?.oldPrice*(1-offer?.discount)}} L.E.</b>
+            <ion-card-title id="discount">{{offer?.discount*100}}% Discount</ion-card-title>
+            <b>Expires at : {{offer?.endDate | date: 'dd-MM-yyyy'}}</b>
             <p>{{offer?.description}}</p>
         </ion-card-content>
     </ion-card>
