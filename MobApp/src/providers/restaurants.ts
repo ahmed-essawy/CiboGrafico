@@ -32,30 +32,41 @@ export class Restaurants {
             }).catch(e => reject(e));
         });
     }
-
-    addReservation(body): Promise<PromiseResp> {
-        console.log("out body")
-        console.log(body)
+    readBranch(params: any): Promise<PromiseResp> {
         return new Promise((resolve, reject) => {
-            console.log("in body")
-            console.log(body)
-            this.api.put("Restaurants/Reservation", body).then((resp: PromiseResp) => {
-                console.log("in promise")
+            this.api.get("Restaurant/Branches", params).then((resp: PromiseResp) => {
                 let data: any = resp.response;
-                console.log(data)
+                if (data._id) resolve(new PromiseResp(true, data));
+                else reject(new PromiseResp(false, new Array()));
+            }).catch(e => reject(e));
+        });
+    }
+    addReservation(body): Promise<PromiseResp> {
+        return new Promise((resolve, reject) => {
+            this.api.post("Restaurants/Reservation", body).then((resp: PromiseResp) => {
+                console.log("in promise")
+                let data: any = resp.response.addToRestaurant;
                 if (data["nModified"] > 0) resolve(new PromiseResp(true, "Reservation added"));
                 else reject(new PromiseResp(false, "Can't reserve"));
             }).catch(e => reject(new PromiseResp(e.success, "Can't reserve")));
         });
     }
-
     addReview(body): Promise<PromiseResp> {
         return new Promise((resolve, reject) => {
-            this.api.put("Restaurants/Review", body).then((resp: PromiseResp) => {
+            this.api.post("Restaurants/Review", body).then((resp: PromiseResp) => {
                 let data: any = resp.response;
                 if (data["nModified"] > 0) resolve(new PromiseResp(true, "Review added"));
                 else reject(new PromiseResp(false, "Can't add review"));
             }).catch(e => reject(new PromiseResp(e.success, "Can't add review")));
+        });
+    }
+    addRate(body): Promise<PromiseResp> {
+        return new Promise((resolve, reject) => {
+            this.api.post("Restaurants/Rate", body).then((resp: PromiseResp) => {
+                let data: any = resp.response;
+                if (data["nModified"] > 0) resolve(new PromiseResp(true, "Rate added"));
+                else reject(new PromiseResp(false, "Can't add rate"));
+            }).catch(e => reject(new PromiseResp(e.success, "Can't add rate")));
         });
     }
 }

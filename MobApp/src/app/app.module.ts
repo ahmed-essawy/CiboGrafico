@@ -2,6 +2,7 @@
 import { IonicApp, IonicModule, IonicErrorHandler } from "ionic-angular";
 import { Network } from "@ionic-native/network";
 import { MyApp } from "./app.component";
+import { IonRating } from '../components/ion-rating/ion-rating';
 import { HomePage } from "../pages/home/home";
 import { AccountPage } from "../pages/account/account";
 import { LoginTabs } from "../pages/loginTabs/loginTabs";
@@ -21,19 +22,18 @@ import { Orders } from "../providers/orders";
 import { RestaurantsListPage } from "../pages/RestaurantsList/RestaurantsList";
 import { RestaurantProfilePage } from "../pages/RestaurantProfile/RestaurantProfile";
 import { reservationPage } from "../pages/reservation/reservation"
-import { Ionic2RatingModule } from "ionic2-rating";
 import { OffersPage } from "../pages/offers/offers";
 import { TraditionalMenuPage } from "../pages/traditionalMenu/traditionalMenu";
 import { orderPage } from "../pages/order/order";
 import { joinOrderPage } from "../pages/joinOrder/joinOrder";
 import { offerDetailsPage } from "../pages/offerDetails/offerDetails";
 @NgModule({
-    declarations: [MyApp, HomePage, AccountPage, LoginTabs, IntroPage, MenuPage, LoginPage, SignupPage,
+    declarations: [IonRating,MyApp, HomePage, AccountPage, LoginTabs, IntroPage, MenuPage, LoginPage, SignupPage,
         RestaurantsListPage, RestaurantProfilePage, reservationPage, OffersPage, TraditionalMenuPage,
         offerDetailsPage, orderPage, joinOrderPage],
-    imports: [IonicModule.forRoot(MyApp), Ionic2RatingModule],
+    imports: [IonicModule.forRoot(MyApp)],
     bootstrap: [IonicApp],
-    entryComponents: [MyApp, HomePage, AccountPage, LoginTabs, IntroPage, MenuPage, LoginPage, SignupPage,
+    entryComponents: [IonRating,MyApp, HomePage, AccountPage, LoginTabs, IntroPage, MenuPage, LoginPage, SignupPage,
         RestaurantsListPage, RestaurantProfilePage, reservationPage, OffersPage, TraditionalMenuPage,
         offerDetailsPage, orderPage, joinOrderPage],
     providers: [Network, Api, Sql, SQLite, Facebook, Users, Restaurants, Offers, Meals, Orders, {
