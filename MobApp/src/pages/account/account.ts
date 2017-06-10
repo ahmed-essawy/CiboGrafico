@@ -8,22 +8,18 @@ import { Utilities } from "../../providers/utilities";
 
 import { FavoritesPage } from './favorites/favorites';
 import { OrdersPage } from './orders/orders';
-import { Orders } from "../../providers/orders";
 
 @Component({
     selector: 'page-account',
     templateUrl: 'account.html'
 })
 export class AccountPage {
-    tab1Root: any = FavoritesPage;
-    tab2Root: any = OrdersPage;
     account: { _id: string, firstName: string, lastName: string, image: string, email: string, username: string, address: { street: string, city: string, country: string }, phones: string[] } = { _id: "", firstName: "", lastName: "", image: "", email: "", username: "", address: { street: "", city: "", country: "" }, phones: Array<string>() };
     button: string = "Edit";
-    visible: boolean = true;
-    segment;
+    visible: boolean = true
     constructor(private navCtrl: NavController, private user: Users) {
         Users.isLogged().then(isLogged => {
-            if (!isLogged) { navCtrl.setRoot(MenuPage); navCtrl.push(LoginTabs) }
+            if (!isLogged) { navCtrl.setPages([MenuPage, LoginTabs]) }
         });
         Sql.selectOptions("_id").then(res => this.account._id = res.response).catch(err => console.log(err));
         Sql.selectOptions("firstName").then(res => this.account.firstName = res.response).catch(err => console.log(err));
@@ -32,8 +28,7 @@ export class AccountPage {
         Sql.selectOptions("email").then(res => this.account.email = res.response).catch(err => console.log(err));
         Sql.selectOptions("username").then(res => this.account.username = res.response).catch(err => console.log(err));
         Sql.selectOptions("address").then(res => this.account.address = JSON.parse(res.response)).catch(err => console.log(err));
-        Sql.selectOptions("phones").then(res => this.account.username = res.response).catch(err => console.log(err));
-        this.segment = "favorites";
+        Sql.selectOptions("phones").then(res => this.account.phones = res.response).catch(err => console.log(err));
     }
 
     buttonToggle() {

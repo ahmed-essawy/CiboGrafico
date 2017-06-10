@@ -1,9 +1,8 @@
 <ion-content padding>
   <ion-list>
     <ion-item *ngFor="let order of orders">
-
       <h1>{{order?.restName}}</h1>
-      <h2>{{order?.time.slice(0,10)}} </h2>
+      <h2>{{order?.time | date: 'dd-MM-yyyy'}} </h2>
       <button ion-button clear item-right (click)="orderDetails(order._id,order.restName)">View</button>
     </ion-item>
   </ion-list>

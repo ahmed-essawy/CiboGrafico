@@ -1,6 +1,6 @@
 ﻿import { Component } from '@angular/core';
-
 import { NavController } from 'ionic-angular';
+import { Sql } from "../../../providers/sql";
 import { Orders } from "../../../providers/orders";
 import { orderDetailsPage } from "../../orderDetails/orderDetails";
 @Component({
@@ -8,18 +8,13 @@ import { orderDetailsPage } from "../../orderDetails/orderDetails";
     templateUrl: 'orders.html'
 })
 export class OrdersPage {
-    orders: any
-    id: string = "5922d1aab1772d2744cc251a"
-    constructor(private order: Orders, public navCtrl: NavController) {
-        console.log("tmam")
-        this.order.readUserOrders(this.id).then(res => {
-            this.orders = res.response;
-            console.log(this.orders)
-        }).catch(err => console.log(err))
+    orders: any;
+    constructor(order: Orders, private navCtrl: NavController) {
+        Sql.selectOptions("_id").then(resp => {
+            order.readUserOrders(resp.response).then(res => this.orders = res.response).catch(err => console.log(err));
+        }).catch(err => console.log(err));
     }
-
     orderDetails(orderId: any, restName: any) {
         this.navCtrl.push(orderDetailsPage, { Id: orderId, restName: restName });
-        console.log("tmam")
     }
 }
