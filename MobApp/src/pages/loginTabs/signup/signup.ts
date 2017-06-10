@@ -1,50 +1,42 @@
 ﻿import { Component } from "@angular/core";
-import { NavController, NavParams, Nav, LoadingController } from "ionic-angular";
-import { Facebook, FacebookLoginResponse } from "@ionic-native/facebook";
+import { NavController } from "ionic-angular";
 import { Users } from "../../../providers/users";
+import { Utilities } from "../../../providers/utilities";
 @Component({
     selector: "page-signup",
     templateUrl: "signup.html"
 })
 export class SignupPage {
-    loader: any;
-    account: { firstName: string, lastName: string, username: string, email: string, password: string, pasCheck: string };
-    constructor(private navCtrl: NavController, private loadingCtrl: LoadingController, private user: Users) {
-        this.account = {
-            firstName: "Ahmed", lastName: "El-Essawy", username: "aa", email: "aa@gmail.com", password: "1234", pasCheck: "1234"
-        };
-    }
+    account: { firstName: string, lastName: string, username: string, email: string, password: string, pasCheck: string } = { firstName: "", lastName: "", username: "", email: "", password: "", pasCheck: "" };
+    // account: { firstName: string, lastName: string, username: string, email: string, password: string, pasCheck: string } = { firstName: "Ahmed", lastName: "El-Essawy", username: "aa", email: "aa@gmail.com", password: "1234", pasCheck: "1234" };
+    constructor(private navCtrl: NavController, private user: Users) { }
     doSignUp() {
-        this.showLoader();
+        Utilities.showLoader();
         if (this.account.password === this.account.pasCheck) {
             this.user.signup(this.account).then(res => {
-                if (res.success)
-                    this.user.login(this.account).then(res => this.success(res)).catch(err => this.failed(err));
+                if (res.success) this.user.login(this.account).then(res => this.success(res)).catch(err => this.failed(err));
                 else this.failed(res);
             }).catch(err => this.failed(err));
         } else this.failed(null);
     }
     doFbLogin() {
-        this.showLoader();
+        Utilities.showLoader();
         this.user.fbLogin().then(res => this.success(res)).catch(err => this.failed(err));
     }
-    success(response: any) {
+    success(response) {
         this.account.firstName = "";
         this.account.lastName = "";
         this.account.username = "";
         this.account.email = "";
         this.account.password = "";
         this.account.pasCheck = "";
-        this.hideLoader();
+        Utilities.hideLoader();
+        Utilities.showToast("Sign Up Successfully.");
     }
-    failed(response: any) {
+    failed(response) {
         this.account.password = "";
         this.account.pasCheck = "";
-        this.hideLoader();
+        Utilities.hideLoader();
+        Utilities.showToast("Sign Up Failed.");
     }
-    showLoader() {
-        this.loader = this.loadingCtrl.create({ content: "Please wait...", });
-        this.loader.present();
-    }
-    hideLoader() { this.loader.dismiss(); }
 }

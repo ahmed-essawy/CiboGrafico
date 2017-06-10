@@ -1,17 +1,14 @@
 ﻿import { Component } from "@angular/core";
-import { NavController, NavParams, Nav, Loading } from "ionic-angular";
-import { Toast } from 'ionic-native';
-import { Facebook, FacebookLoginResponse } from "@ionic-native/facebook";
 import { Users } from "../../../providers/users";
 import { Utilities } from "../../../providers/utilities";
-import { MenuPage } from "../../menu/menu";
 @Component({
     selector: "page-login",
     templateUrl: "login.html"
 })
 export class LoginPage {
-    account: { username: string, password: string } = { username: "aa@gmail.com", password: "1234" };
-    constructor(public navCtrl: NavController, private user: Users) { }
+    account: { username: string, password: string } = { username: "", password: "" };
+    //account: { username: string, password: string } = { username: "ahm.elessawy@gmail.com", password: "1234" };
+    constructor(private user: Users) {}
     doLogin() {
         Utilities.showLoader();
         this.user.login(this.account).then(res => this.success(res)).catch(err => this.failed(err));
@@ -20,11 +17,11 @@ export class LoginPage {
         Utilities.showLoader();
         this.user.fbLogin().then(res => this.success(res)).catch(err => this.failed(err));
     }
-    success(response) {
+    success(response: any) {
         Utilities.hideLoader();
-        Utilities.showToast("Login Successfully.", () => this.navCtrl.pop());
+        Utilities.showToast("Login Successfully.");
     }
-    failed(response) {
+    failed(response: any) {
         Utilities.hideLoader();
         Utilities.showToast("Login Failed.");
     }

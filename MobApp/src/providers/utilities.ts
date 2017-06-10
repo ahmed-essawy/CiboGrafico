@@ -1,14 +1,16 @@
 import { Injectable } from "@angular/core";
-import { LoadingController, Loading, ToastController } from "ionic-angular";
+import { LoadingController, Loading, ToastController, Events } from "ionic-angular";
 @Injectable()
 export class Utilities {
     static loader: Loading;
     static loadingCtrl: LoadingController;
     static toast;
-    static toastController: ToastController;
-    constructor(loadingCtrl: LoadingController, toastController: ToastController) {
+    static toastCtrl: ToastController;
+    static eventsCtrl: Events;
+    constructor(loadingCtrl: LoadingController, toastCtrl: ToastController, eventsCtrl: Events) {
         Utilities.loadingCtrl = loadingCtrl;
-        Utilities.toastController = toastController;
+        Utilities.toastCtrl = toastCtrl;
+        Utilities.eventsCtrl = eventsCtrl;
     }
     static showLoader(content = "Please wait...") {
         Utilities.loader = Utilities.loadingCtrl.create({ content: content });
@@ -16,11 +18,11 @@ export class Utilities {
     }
     static hideLoader() { Utilities.loader.dismiss(); }
     static showToast(message: string = "Done successfully.", onDismiss = () => { }) {
-        Utilities.toast = Utilities.toastController.create({
+        Utilities.toast = Utilities.toastCtrl.create({
             message: message,
             showCloseButton: true,
             closeButtonText: "OK",
-            duration: 10000,
+            duration: 5000,
             dismissOnPageChange: true
         })
         Utilities.toast.present();

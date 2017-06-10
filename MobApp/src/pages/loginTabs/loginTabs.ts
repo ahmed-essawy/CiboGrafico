@@ -1,7 +1,8 @@
 ﻿import { Component } from "@angular/core";
-import { NavController, NavParams, Nav } from "ionic-angular";
 import { LoginPage } from "./login/login";
 import { SignupPage } from "./signup/signup";
+import { NavController } from "ionic-angular";
+import { Utilities } from "../../providers/utilities";
 @Component({
     selector: "page-loginTabs",
     templateUrl: "loginTabs.html"
@@ -9,5 +10,10 @@ import { SignupPage } from "./signup/signup";
 export class LoginTabs {
     signin = LoginPage;
     signup = SignupPage;
-    constructor() { }
+    constructor(navCtrl: NavController) {
+        Utilities.eventsCtrl.subscribe("User:Login", res => {
+            navCtrl.pop();
+            Utilities.eventsCtrl.unsubscribe("User:Login");
+        });
+    }
 }
