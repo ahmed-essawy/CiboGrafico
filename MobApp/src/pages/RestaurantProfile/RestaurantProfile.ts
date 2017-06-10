@@ -52,6 +52,6 @@ export class RestaurantProfilePage {
         }).catch(err => console.log(err));
         this.comment = "";
     }
-    offerDetails(offer: any) { this.navCtrl.push(offerDetailsPage, { data: offer }); }
+    offerDetails(offer: any) {this.navCtrl.push(offerDetailsPage, { Id: offer._id });}
     starClicked(value: any) { this.rest.addRate({ "restaurant": this.params.get("Id"), "rate": { "_id": this.userId, "rate": value } }).then((resp: PromiseResp) => this.readonly = true).catch(err => console.log(err)); }
 }
