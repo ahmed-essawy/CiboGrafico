@@ -1,13 +1,13 @@
-﻿import { Component } from '@angular/core';
-import { NavParams } from 'ionic-angular';
+﻿import { Component } from "@angular/core";
+import { NavParams } from "ionic-angular";
 import { Meals } from "../../providers/meals";
 import { Orders } from "../../providers/orders";
 import { PromiseResp } from "../../providers/classes";
 import { Sql } from "../../providers/sql";
 import { Utilities } from "../../providers/utilities";
 @Component({
-    selector: 'page-joinOrder',
-    templateUrl: 'joinOrder.html'
+    selector: "page-joinOrder",
+    templateUrl: "joinOrder.html"
 })
 export class joinOrderPage {
     isOrdered: boolean;
@@ -26,9 +26,7 @@ export class joinOrderPage {
         Sql.selectOptions("_id").then(resp => this.userId = resp.response).catch(err => console.log(err));
         for (let key in this.Orders) {
             this.meals.read(key).then((resp: PromiseResp) => {
-                this.Meals.push({
-                    "_id": resp.response._id, "price": resp.response.price, "quantity": this.Orders[key]
-                });
+                this.Meals.push({ "_id": resp.response._id, "price": resp.response.price, "quantity": this.Orders[key] });
                 resp.response.quantity = this.Orders[key];
                 this.total += (resp.response.quantity * resp.response.price);
                 this.OrderMeals.push(resp.response);
@@ -36,13 +34,13 @@ export class joinOrderPage {
         }
     }
     JoinOrder() {
-        let SubOrder = {
+        const SubOrder = {
             num: Number(this.OrderNum),
             owner: this.userId, meals: this.Meals
-        }
+        };
         this.orders.joinOrder(SubOrder).then((resp: PromiseResp) => {
             this.isOrdered = true;
             Utilities.showToast("Request is pending.");
-        }).catch(err => Utilities.showToast("Request is failed."););
+        }).catch(err => Utilities.showToast("Request is failed."));
     }
 }

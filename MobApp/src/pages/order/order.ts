@@ -21,8 +21,7 @@ export class orderPage {
     table: string;
     userId: any;
     restId: string;
-    constructor(private navParams: NavParams, public meals: Meals, public orders: Orders,
-        public alertCtrl: AlertController, public toastCtrl: ToastController) {
+    constructor(private navParams: NavParams, private meals: Meals, private orders: Orders, private alertCtrl: AlertController) {
         this.typeChosen = true;
         this.isOrdered = false;
         this.type = "";
