@@ -23,7 +23,7 @@ export class AccountPage {
 segment;
   constructor(private navCtrl: NavController, private user: Users) {
     Users.isLogged().then(isLogged => {
-      if (!isLogged) { navCtrl.setRoot(MenuPage); navCtrl.push(LoginTabs) }
+      if (!isLogged) { navCtrl.setPages([MenuPage, LoginTabs]) }
     });
     Sql.selectOptions("_id").then(res => this.account._id = res.response).catch(err => console.log(err));
     Sql.selectOptions("firstName").then(res => this.account.firstName = res.response).catch(err => console.log(err));

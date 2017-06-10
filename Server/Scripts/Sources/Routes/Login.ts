@@ -1,13 +1,9 @@
-﻿import { Address, User } from "../Classes";
-import { validate } from "class-validator";
-{
-    const login = require("express").Router(), db = require("../Mongodb"), cookie = require("cookie");
+﻿{
+    const login = require("express").Router(), db = require("../Mongodb");
     login
         .post("/", (req: any, res: any) => {
-            if (req.body.username && req.body.password) {
-                db.Login.Check({ username: req.body.username, password: req.body.password }, response => res
-                    .json(response));
-            } else res.status(400).json({ success: false, msg: "Invalid Data" });
+            if (req.body.username && req.body.password) db.Login.Check({ username: req.body.username, password: req.body.password }, response => res.json(response));
+            else res.status(400).json({ success: false, msg: "Invalid Data" });
         })
         .post("/fbLogin", (req: any, res: any) => {
             if (req.body.id && req.body.email) {

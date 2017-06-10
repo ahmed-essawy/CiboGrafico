@@ -9,5 +9,6 @@ middlewares
     .use("/Meals", require("./Routes/Meals"))
     .use("/Offers", require("./Routes/Offers"))
     .use("/Users", require("./Routes/Users"))
+    .use("/Ingredients", require("./Routes/Ingredients"))
     .use("/Locations", require("./Routes/Locations"));
 module.exports = middlewares;

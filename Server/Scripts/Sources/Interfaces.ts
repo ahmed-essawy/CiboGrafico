@@ -93,6 +93,9 @@ export interface IUser extends IPerson, ILogin, IId, IImage {
     favoritesCount(): number;
     ordersCount(): number;
     reservationsCount(): number;
+    addFavorite(meal: IMeal): void;
+    addOrder(order: string): void;
+    addReservation(reservation: string): void;
 }
 export interface IRestaurantOwner extends IPerson {}
 export interface IBranchManager extends IPerson {}
@@ -102,25 +105,26 @@ export interface IReservation extends IId {
     order?: string;
     branch: string;
 }
-export interface ISubOrder extends IId {
+export interface ISubOrderProp extends IId {
     num: number;
     rate: string;
     price(): Price;
     owner: string;
     meals: Array<MealPrice>;
-    state: JoinState;
     mealsCount(): number;
     addMeal(meal: MealPrice): void;
 }
-export interface IOrder extends ISubOrder {
+export interface ISubOrder extends ISubOrderProp {
+    state: JoinState;
+}
+export interface IOrder extends ISubOrderProp {
+    restaurant: string;
     type: string;
     address: IAddress;
     subOrders: Array<string>;
     time: Date;
     subOrdersCount(): number;
-    mealsCount(): number;
     addsubOrder(subOrder: Id): void;
-    restaurant: string;
 }
 export interface IMeal extends IId, IName, IImage {
     category: string;

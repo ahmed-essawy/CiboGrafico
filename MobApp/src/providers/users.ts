@@ -2,6 +2,7 @@
 import { Network } from "@ionic-native/network";
 import { Api } from "./api";
 import { Sql } from "./sql";
+import { Utilities } from "./utilities";
 import { PromiseResp } from "./classes";
 import { Facebook, FacebookLoginResponse } from "@ionic-native/facebook";
 @Injectable()
@@ -23,8 +24,8 @@ export class Users {
         });
     }
     signup(params: {
-               firstName: string, lastName: string, username: string, email: string, password: string;
-           }): Promise<PromiseResp> {
+        firstName: string, lastName: string, username: string, email: string, password: string;
+    }): Promise<PromiseResp> {
         return new Promise((resolve, reject) => {
             this.api.post("Users", params).then((resp: PromiseResp) => {
                 const data: any = resp.response;
@@ -103,13 +104,14 @@ export class Users {
                 });
         });
     }
-    saveLoginState(data: { _id: string, email: string, username: string, token: string, firstName: string,
-                       lastName: string, image: string, address: any, phones: string[] }): Promise<PromiseResp> {
+    saveLoginState(data: { _id: string, email: string, username: string, token: string, firstName: string, lastName: string, image: string, address: any, phones: any }): Promise<PromiseResp> {
         data.address = JSON.stringify(data.address);
+        data.phones = JSON.stringify(data.phones);
+        data["name"] = data.firstName + " " + data.lastName;
         return new Promise((resolve, reject) => {
             if (data.token) {
-                for (let key in data)
-                    if (data.hasOwnProperty(key)) Sql.insertOrUpdateOptions({ key: key, value: data[key] });
+                for (let key in data) if (data.hasOwnProperty(key) && typeof data[key] === "string") Sql.insertOrUpdateOptions({ key: key, value: data[key] });
+                Utilities.eventsCtrl.publish("User:Login");
                 resolve(new PromiseResp(true, "Log In Successfully"));
             } else reject(new PromiseResp(false, "Log In Failed"));
         });

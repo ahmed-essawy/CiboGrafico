@@ -39,5 +39,6 @@ module.exports = {
     Restaurants: require("./Access Layers/Restaurants"),
     SubOrders: require("./Access Layers/SubOrders"),
     Users: require("./Access Layers/Users"),
-    Locations: require("./Access Layers/Locations")
+    Locations: require("./Access Layers/Locations"),
+    Ingredients: require("./Access Layers/Ingredients")
 };
