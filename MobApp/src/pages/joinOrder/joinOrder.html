@@ -1,38 +1,46 @@
 ﻿<ion-header>
-    <ion-navbar color="danger" text-center>
-        <ion-title>Joined Order Info</ion-title>
-    </ion-navbar>
+  <ion-navbar color="danger" text-center>
+    <ion-title>Joined Order Info</ion-title>
+  </ion-navbar>
 </ion-header>
 <ion-content padding>
-    <ion-item>
-        <ion-label floating>Enter Joined Order Number Here</ion-label>
-        <ion-input [(ngModel)]="OrderNum" [attr.disabled]="isOrdered?'':null" type="number"></ion-input>
-    </ion-item>
-    <button (click)="JoinOrder()" [attr.disabled]="isOrdered?'':null" block color="primary" ion-button>Join Order Now</button>
-    <ion-navbar>
-        <ion-title>Your Orders</ion-title>
-    </ion-navbar>
-    <ion-list>
-        <ion-item *ngFor="let meal of OrderMeals" text-wrap>
-            <ion-thumbnail item-start>
-                <img [src]="meal?.image">
-            </ion-thumbnail>
-            <h2>{{meal?.name}}</h2>
-            <ion-list item-right>
-                <ion-item>
-                    <b>MealPrice: {{meal?.price}}</b>
-                </ion-item>
-                <ion-item>
-                    <b>Quantity: {{meal?.quantity}}</b>
-                </ion-item>
-            </ion-list>
+  <ion-item>
+    <ion-label floating>Enter Joined Order Number Here</ion-label>
+    <ion-input readonly='{{isOrdered}}' [(ngModel)]="OrderNum" type="number"></ion-input>
+  </ion-item>
+  <button (click)="JoinOrder()" [attr.disabled]="isOrdered?'':null" block color="primary" ion-button>Join Order Now</button>
+  <ion-navbar>
+    <ion-title>Your Orders</ion-title>
+  </ion-navbar>
+  <ion-list>
+    <ion-item *ngFor="let meal of OrderMeals" text-wrap>
+      <ion-thumbnail item-start>
+        <img [src]="meal?.image">
+      </ion-thumbnail>
+      <h2>{{meal?.name}}</h2>
+      <ion-list item-right>
+        <ion-item *ngIf="!meal?.discount">
+          <b>MealPrice: {{meal?.price| currency:'EGP':true:'1.2-2'}}</b>
         </ion-item>
+        <div *ngIf="meal?.discount">
+          <ion-item>
+            <b id="oldPrice">Old Price: {{meal?.price | currency:'EGP':true:'1.2-2'}}</b>
+          </ion-item>
+          <ion-item>
+            <b>New Price: {{meal?.price*(1-meal?.discount) | currency:'EGP':true:'1.2-2'}}</b>
+          </ion-item>
+        </div>
         <ion-item>
-            <h2>
-                <b>Total Order Price: {{total}} L.E</b>
-            </h2>
-            <p>Hope for you a delicious meal.</p>
-            <p>Thanks for using CiboGrafico.</p>
+          <b>Quantity: {{meal?.quantity}}</b>
         </ion-item>
-    </ion-list>
+      </ion-list>
+    </ion-item>
+    <ion-item>
+      <h2>
+        <b>Total Order Price: {{total}} L.E</b>
+      </h2>
+      <p>Hope for you a delicious meal.</p>
+      <p>Thanks for using CiboGrafico.</p>
+    </ion-item>
+  </ion-list>
 </ion-content>
