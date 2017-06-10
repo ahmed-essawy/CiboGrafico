@@ -3,16 +3,19 @@
     <ion-title>Hot Offers</ion-title>
   </ion-navbar>
 </ion-header>
-<ion-content padding>
-  <ion-list>
-    <ion-item *ngFor="let offer of offers">
-      <ion-thumbnail item-left>
-        <img [src]="offer?.image">
-      </ion-thumbnail>
-      <h1>{{offer?.restName}}</h1>
-      <h2>{{offer?.discount*100}} %</h2>
-      <p>{{offer.description}}</p>
-      <button (click)="selectOffer(offer)" clear ion-button item-right>View</button>
-    </ion-item>
-  </ion-list>
+<ion-content>
+  <ion-content class="card-background-page">
+    <ion-card (click)="selectOffer(offer._id)" *ngFor="let offer of offers" class="offerCard">
+      <img [src]="offer?.image">
+      <div class="offerDetail">
+        <h2 class="card-title">
+          <b>{{offer?.restName}}</b>
+        </h2>
+        <h2 id="discount">
+          <b>{{offer?.discount*100}}% Discount</b>
+        </h2>
+        <div class="card-subtitle">{{offer.description}}</div>
+      </div>
+    </ion-card>
+  </ion-content>
 </ion-content>

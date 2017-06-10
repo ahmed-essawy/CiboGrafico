@@ -1,10 +1,4 @@
-﻿<!--
-Generated template for the NewPage page.
-
-See http://ionicframework.com/docs/v2/components/#navigation for more info on
-Ionic pages and navigation.
--->
-<ion-header>
+﻿<ion-header>
   <ion-navbar color="danger" text-center>
     <ion-title>Joined Order Info</ion-title>
   </ion-navbar>
@@ -12,9 +6,9 @@ Ionic pages and navigation.
 <ion-content padding>
   <ion-item>
     <ion-label floating>Enter Joined Order Number Here</ion-label>
-    <ion-input [(ngModel)]="OrderNum" type="number"></ion-input>
+    <ion-input readonly='{{isOrdered}}' [(ngModel)]="OrderNum" type="number"></ion-input>
   </ion-item>
-  <button (click)="JoinOrder()" block color="primary" ion-button>Join Order Now</button>
+  <button (click)="JoinOrder()" [attr.disabled]="isOrdered?'':null" block color="primary" ion-button>Join Order Now</button>
   <ion-navbar>
     <ion-title>Your Orders</ion-title>
   </ion-navbar>
@@ -25,9 +19,17 @@ Ionic pages and navigation.
       </ion-thumbnail>
       <h2>{{meal?.name}}</h2>
       <ion-list item-right>
-        <ion-item>
-          <b>MealPrice: {{meal?.price}}</b>
+        <ion-item *ngIf="!meal?.discount">
+          <b>MealPrice: {{meal?.price| currency:'EGP':true:'1.2-2'}}</b>
         </ion-item>
+        <div *ngIf="meal?.discount">
+          <ion-item>
+            <b id="oldPrice">Old Price: {{meal?.price | currency:'EGP':true:'1.2-2'}}</b>
+          </ion-item>
+          <ion-item>
+            <b>New Price: {{meal?.price*(1-meal?.discount) | currency:'EGP':true:'1.2-2'}}</b>
+          </ion-item>
+        </div>
         <ion-item>
           <b>Quantity: {{meal?.quantity}}</b>
         </ion-item>

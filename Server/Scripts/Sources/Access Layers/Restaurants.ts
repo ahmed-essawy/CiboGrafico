@@ -18,25 +18,29 @@ module.exports = {
                     const reviews = Array<Review>();
                     for (let i = 0; i < row.reviews.length; i++) {
                         const review = row.reviews[i];
-                        await new Promise(resolve => {
+                        await new Promise((resolve, reject) => {
                             Collection("Users").findOne(objectId(review._id),
                                 (err, datarow: User) => {
                                     if (err) return callback({ success: false, msg: "Error !!" });
-                                    review["name"] = datarow.firstName + " " + datarow.lastName;
-                                    review["userImg"] = datarow.image;
-                                    resolve(review);
+                                    if (datarow) {
+                                        review["name"] = datarow.firstName + " " + datarow.lastName;
+                                        review["userImg"] = datarow.image;
+                                        resolve(review);
+                                    }
+                                    reject();
                                 });
-                        }).then(review => reviews.push(review as Review));
+                        }).then(review => reviews.push(review as Review)).catch(() => {});
                     }
                     const offers = Array<Offer>();
                     for (let i = 0; i < row.offers.length; i++) {
-                        await new Promise(resolve => {
+                        await new Promise((resolve, reject) => {
                             Collection("Offers").findOne(objectId(row.offers[i]),
                                 (err, datarow: Offer) => {
                                     if (err) return callback({ success: false, msg: "Error !!" });
-                                    resolve(datarow);
+                                    if (datarow) resolve(datarow);
+                                    reject();
                                 });
-                        }).then(offer => offers.push(offer as Offer));
+                        }).then(offer => offers.push(offer as Offer)).catch(() => {});
                     }
                     return { reviews: reviews, offers: offers };
                 };

@@ -5,11 +5,20 @@ export * from "./classes";
 @Injectable()
 export class Meals {
     constructor(private api: Api) { }
-    read(params: any): Promise<PromiseResp> {
+    Read(params: any): Promise<PromiseResp> {
         return new Promise((resolve, reject) => {
-            this.api.get("Restaurant/Meals", params).then((resp: PromiseResp) => {
+            this.api.get("Meals", params).then((resp: PromiseResp) => {
                 let data: any = resp.response;
                 if (data._id) resolve(new PromiseResp(true, data));
+                else reject(new PromiseResp(false, new Array()));
+            }).catch(e => reject(e));
+        });
+    }
+    ReadMealsPerRest(params: any): Promise<PromiseResp> {
+        return new Promise((resolve, reject) => {
+            this.api.get("Meals/Restaurant", params).then((resp: PromiseResp) => {
+                let data: any = resp.response;
+                if (data) resolve(new PromiseResp(true, data));
                 else reject(new PromiseResp(false, new Array()));
             }).catch(e => reject(e));
         });

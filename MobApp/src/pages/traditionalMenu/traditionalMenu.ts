@@ -1,66 +1,59 @@
 ﻿import { Component } from '@angular/core';
-import { NavController, NavParams, AlertController, Events } from 'ionic-angular';
-import { Restaurants, PromiseResp } from "../../providers/restaurants";
+import { NavController, NavParams, AlertController, ModalController } from 'ionic-angular';
+import { Meals, PromiseResp } from "../../providers/meals";
 import { Sql } from "../../providers/sql";
 import { orderPage } from "../order/order";
 import { joinOrderPage } from "../joinOrder/joinOrder";
 import { Network } from "@ionic-native/network";
+import { mealDetailsPage } from "../mealDetails/mealDetails";
 @Component({
     selector: 'page-traditionalMenu',
     templateUrl: 'traditionalMenu.html'
 })
 export class TraditionalMenuPage {
-    restaurant: any;
+    Meals: Array<any> = [];
     ordersCount: any = {};
     isOnline: boolean;
-    constructor(navParams: NavParams, private rest: Restaurants, private navctrl: NavController,
-        private alertCtrl: AlertController, events: Events, network: Network) {
-        this.rest.read(navParams.get('Id')).then((resp: PromiseResp) => {
-            this.restaurant = resp.response;
+    restId: string;
+    constructor(private navParams: NavParams, meals: Meals, private navctrl: NavController, private alertCtrl: AlertController, network: Network, private modalCtrl: ModalController) {
+        this.restId = navParams.get('Id');
+        meals.ReadMealsPerRest(navParams.get('Id')).then((resp: PromiseResp) => {
+            this.Meals = resp.response;
             this.initOrdersCount();
         }).catch(err => console.log(err));
         this.isOnline = network.type !== "none";
         network.onConnect().subscribe(a => this.isOnline = a.type == "online");
         network.onDisconnect().subscribe(a => this.isOnline = a.type == "online");
     }
-    Show(ingredients: any) {
-        let alert = this.alertCtrl.create({
-            title: 'Ingredients',
-            subTitle: ingredients,
-            buttons: ['OK']
-        });
-        alert.present();
-    }
+    Show(mealId: string) { this.modalCtrl.create(mealDetailsPage, { mealId: mealId }).present(); }
     Add(id: any) {
-        Sql.selectOptions("order-" + this.restaurant._id).then(object => {
+        Sql.selectOptions("order-" + this.restId).then(object => {
             object.response = JSON.parse(object.response);
             if (object.response[id]) {
                 ++object.response[id];
                 this.ordersCount[id] = parseInt(object.response[id]);
             } else this.ordersCount[id] = 1;
             Sql.insertOrUpdateOptions({
-                key: "order-" + this.restaurant._id, value: JSON.stringify(this.ordersCount)
+                key: "order-" + this.restId, value: JSON.stringify(this.ordersCount)
             });
         }).catch(e => {
             this.ordersCount[id] = 1;
-            Sql.insertOrUpdateOptions({ key: "order-" + this.restaurant._id, value: JSON.stringify(this.ordersCount) });
+            Sql.insertOrUpdateOptions({ key: "order-" + this.restId, value: JSON.stringify(this.ordersCount) });
         });
     }
     Remove(id: any) {
-        Sql.selectOptions("order-" + this.restaurant._id).then(object => {
+        Sql.selectOptions("order-" + this.restId).then(object => {
             object.response = JSON.parse(object.response);
             if (object.response[id]) {
                 if (object.response[id] > 0)--object.response[id];
                 this.ordersCount[id] = parseInt(object.response[id]);
-                Sql.insertOrUpdateOptions({
-                    key: "order-" + this.restaurant._id, value: JSON.stringify(this.ordersCount)
-                });
+                Sql.insertOrUpdateOptions({ key: "order-" + this.restId, value: JSON.stringify(this.ordersCount) });
             } else this.ordersCount[id] = 0;
         }).catch(e => { this.ordersCount[id] = 0; });
     }
     initOrdersCount() {
-        this.restaurant.meals.forEach(meal => {
-            Sql.selectOptions("order-" + this.restaurant._id).then(object => {
+        this.Meals.forEach(meal => {
+            Sql.selectOptions("order-" + this.restId).then(object => {
                 object.response = JSON.parse(object.response);
                 if (object.response[meal._id]) {
                     if (object.response[meal._id] === "") object.response[meal._id] = "0";
@@ -70,11 +63,9 @@ export class TraditionalMenuPage {
         });
     }
     Reset() {
-        Sql.deleteOptions("order-" + this.restaurant._id)
-            .then(d => {
-                for (let key in this.ordersCount) if (this.ordersCount.hasOwnProperty(key)) this.ordersCount[key] = 0;
-                console.log(this.ordersCount);
-            }).catch(err => { });
+        Sql.deleteOptions("order-" + this.restId).then(d => {
+            for (let key in this.ordersCount) if (this.ordersCount.hasOwnProperty(key)) this.ordersCount[key] = 0;
+        }).catch(err => { });
     }
     Order() {
         let orders = {};
@@ -98,8 +89,7 @@ export class TraditionalMenuPage {
         alert.addButton({
             text: 'OK',
             handler: data => {
-                console.log(data);
-                if (data == "NewOrder") this.navctrl.push(orderPage, { orders: orders });
+                if (data == "NewOrder") this.navctrl.push(orderPage, { orders: orders, restId: this.restId });
                 else this.navctrl.push(joinOrderPage, { orders: orders });
             }
         });

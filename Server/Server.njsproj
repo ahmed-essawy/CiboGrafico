@@ -12,7 +12,8 @@
     <ProjectGuid>96402235-5c5d-41f4-86de-d939dbb0a4af</ProjectGuid>
     <ProjectHome>
     </ProjectHome>
-    <StartupFile>Scripts\libs\server.js</StartupFile>
+    <StartupFile>
+    </StartupFile>
     <StartWebBrowser>True</StartWebBrowser>
     <SearchPath>
     </SearchPath>
@@ -34,18 +35,38 @@
   </PropertyGroup>
   <ItemGroup>
     <None Include="bundleconfig.json" />
+    <Content Include="Scripts\libs\Scripts\Sources\Access Layers\Branches.js.map" />
+    <Content Include="Scripts\libs\Scripts\Sources\Access Layers\Ingredients.js.map" />
+    <Content Include="Scripts\libs\Scripts\Sources\Access Layers\Locations.js.map" />
+    <Content Include="Scripts\libs\Scripts\Sources\Access Layers\Login.js.map" />
+    <Content Include="Scripts\libs\Scripts\Sources\Access Layers\Meals.js.map" />
+    <Content Include="Scripts\libs\Scripts\Sources\Access Layers\Offers.js.map" />
+    <Content Include="Scripts\libs\Scripts\Sources\Access Layers\Orders.js.map" />
+    <Content Include="Scripts\libs\Scripts\Sources\Access Layers\Restaurants.js.map" />
+    <Content Include="Scripts\libs\Scripts\Sources\Access Layers\SubOrders.js.map" />
+    <Content Include="Scripts\libs\Scripts\Sources\Access Layers\Users.js.map" />
+    <Content Include="Scripts\libs\Scripts\Sources\Authentication.js.map" />
     <Content Include="Scripts\libs\Scripts\Sources\Classes.js.map" />
     <Content Include="Scripts\libs\Scripts\Sources\Interfaces.js.map" />
     <Content Include="Scripts\libs\Scripts\Sources\Middlewares.js.map" />
     <Content Include="Scripts\libs\Scripts\Sources\Mongodb.js.map" />
+    <Content Include="Scripts\libs\Scripts\Sources\Routes\Branches.js.map" />
+    <Content Include="Scripts\libs\Scripts\Sources\Routes\Ingredients.js.map" />
+    <Content Include="Scripts\libs\Scripts\Sources\Routes\Locations.js.map" />
     <Content Include="Scripts\libs\Scripts\Sources\Routes\Login.js.map" />
+    <Content Include="Scripts\libs\Scripts\Sources\Routes\Meals.js.map" />
+    <Content Include="Scripts\libs\Scripts\Sources\Routes\Offers.js.map" />
+    <Content Include="Scripts\libs\Scripts\Sources\Routes\Orders.js.map" />
     <Content Include="Scripts\libs\Scripts\Sources\Routes\Restaurants.js.map" />
+    <Content Include="Scripts\libs\Scripts\Sources\Routes\SubOrders.js.map" />
     <Content Include="Scripts\libs\Scripts\Sources\Routes\Users.js.map" />
+    <Content Include="Scripts\libs\Scripts\Sources\Settings.js.map" />
     <Content Include="Scripts\libs\Scripts\Sources\Types.js.map" />
     <Content Include="Scripts\libs\server.js.map" />
     <Content Include="tsconfig.json">
       <SubType>Code</SubType>
     </Content>
+    <TypeScriptCompile Include="Scripts\Sources\Access Layers\Ingredients.ts" />
     <TypeScriptCompile Include="Scripts\Sources\Access Layers\Locations.ts" />
     <TypeScriptCompile Include="Scripts\Sources\Access Layers\Branches.ts">
       <SubType>Code</SubType>
@@ -80,6 +101,7 @@
     <TypeScriptCompile Include="Scripts\Sources\Mongodb.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
+    <TypeScriptCompile Include="Scripts\Sources\Routes\Ingredients.ts" />
     <TypeScriptCompile Include="Scripts\Sources\Routes\Locations.ts" />
     <TypeScriptCompile Include="Scripts\Sources\Routes\Meals.ts" />
     <TypeScriptCompile Include="Scripts\Sources\Routes\Branches.ts">
@@ -119,6 +141,7 @@
     <Folder Include="Scripts\libs\" />
     <Folder Include="Scripts\libs\Scripts\" />
     <Folder Include="Scripts\libs\Scripts\Sources\" />
+    <Folder Include="Scripts\libs\Scripts\Sources\Access Layers\" />
     <Folder Include="Scripts\libs\Scripts\Sources\Routes\" />
     <Folder Include="Scripts\Sources\" />
     <Folder Include="Scripts\Sources\Access Layers\" />
@@ -127,13 +150,32 @@
     <Folder Include="Scripts\typings\node\" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Scripts\libs\Scripts\Sources\Access Layers\Branches.js" />
+    <Compile Include="Scripts\libs\Scripts\Sources\Access Layers\Ingredients.js" />
+    <Compile Include="Scripts\libs\Scripts\Sources\Access Layers\Locations.js" />
+    <Compile Include="Scripts\libs\Scripts\Sources\Access Layers\Login.js" />
+    <Compile Include="Scripts\libs\Scripts\Sources\Access Layers\Meals.js" />
+    <Compile Include="Scripts\libs\Scripts\Sources\Access Layers\Offers.js" />
+    <Compile Include="Scripts\libs\Scripts\Sources\Access Layers\Orders.js" />
+    <Compile Include="Scripts\libs\Scripts\Sources\Access Layers\Restaurants.js" />
+    <Compile Include="Scripts\libs\Scripts\Sources\Access Layers\SubOrders.js" />
+    <Compile Include="Scripts\libs\Scripts\Sources\Access Layers\Users.js" />
+    <Compile Include="Scripts\libs\Scripts\Sources\Authentication.js" />
     <Compile Include="Scripts\libs\Scripts\Sources\Classes.js" />
     <Compile Include="Scripts\libs\Scripts\Sources\Interfaces.js" />
     <Compile Include="Scripts\libs\Scripts\Sources\Middlewares.js" />
     <Compile Include="Scripts\libs\Scripts\Sources\Mongodb.js" />
+    <Compile Include="Scripts\libs\Scripts\Sources\Routes\Branches.js" />
+    <Compile Include="Scripts\libs\Scripts\Sources\Routes\Ingredients.js" />
+    <Compile Include="Scripts\libs\Scripts\Sources\Routes\Locations.js" />
     <Compile Include="Scripts\libs\Scripts\Sources\Routes\Login.js" />
+    <Compile Include="Scripts\libs\Scripts\Sources\Routes\Meals.js" />
+    <Compile Include="Scripts\libs\Scripts\Sources\Routes\Offers.js" />
+    <Compile Include="Scripts\libs\Scripts\Sources\Routes\Orders.js" />
     <Compile Include="Scripts\libs\Scripts\Sources\Routes\Restaurants.js" />
+    <Compile Include="Scripts\libs\Scripts\Sources\Routes\SubOrders.js" />
     <Compile Include="Scripts\libs\Scripts\Sources\Routes\Users.js" />
+    <Compile Include="Scripts\libs\Scripts\Sources\Settings.js" />
     <Compile Include="Scripts\libs\Scripts\Sources\Types.js" />
     <Compile Include="Scripts\libs\server.js" />
     <Compile Include="server.min.js" />

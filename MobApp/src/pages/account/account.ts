@@ -4,6 +4,7 @@ import { Sql } from "../../providers/sql";
 import { Users } from "../../providers/users";
 import { MenuPage } from "../menu/menu";
 import { LoginTabs } from "../loginTabs/loginTabs";
+import { Utilities } from "../../providers/utilities";
 
 import { FavoritesPage } from './favorites/favorites';
 import { OrdersPage } from './orders/orders';
@@ -15,10 +16,10 @@ import { Orders } from "../../providers/orders";
 })
 export class AccountPage {
     tab1Root: any = FavoritesPage;
-    tab2Root: any = ordersPage;
+    tab2Root: any = OrdersPage;
     account: { _id: string, firstName: string, lastName: string, image: string, email: string, username: string, address: { street: string, city: string, country: string }, phones: string[] } = { _id: "", firstName: "", lastName: "", image: "", email: "", username: "", address: { street: "", city: "", country: "" }, phones: Array<string>() };
     button: string = "Edit";
-    visable: boolean = true;
+    visible: boolean = true;
     segment;
     constructor(private navCtrl: NavController, private user: Users) {
         Users.isLogged().then(isLogged => {
@@ -36,20 +37,21 @@ export class AccountPage {
     }
 
     buttonToggle() {
-        if (this.visable) {
+        if (this.visible) {
             this.button = "Submit";
-            this.visable = false;
+            this.visible = false;
         }
         else {
             this.user.updateUser(this.account).then(res => {
                 console.log(res)
                 this.button = "Edit";
-                this.visable = true;
+                this.visible = true;
             }).catch(err => console.log(err));
         }
     }
     doSignOut() {
         Sql.truncateOptions().then(resp => {
+            Utilities.eventsCtrl.publish("User:Logout");
             this.navCtrl.pop();
         }).catch(err => console.log(err));
     }

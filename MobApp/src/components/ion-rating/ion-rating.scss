@@ -1,0 +1,12 @@
+﻿ion-rating {
+  ion-grid:before {
+    content: "";
+    display: block;
+    margin: -8px 0;
+  }
+
+  ion-icon {
+    font-size: 30px;
+    color: #ffb400;
+  }
+}

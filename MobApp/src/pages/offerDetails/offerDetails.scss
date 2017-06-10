@@ -1,10 +1,13 @@
 ﻿page-offerDetails {
-}
+  #oldprice {
+    text-decoration: line-through;
+  }
 
-#oldprice {
-  text-decoration: line-through;
-}
+  b {
+    display: block;
+  }
 
-b {
-  display: block;
+  #orderButton {
+    margin-top: 80px;
+  }
 }
