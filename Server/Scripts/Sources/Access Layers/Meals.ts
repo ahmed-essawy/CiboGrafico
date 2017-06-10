@@ -22,9 +22,15 @@ module.exports = {
                             require("../Mongodb").Ingredients.Read({ "_id": meal.ingredients[i] }, ingredient => {
                                 if (ingredient.success) resolve(ingredient.data);
                                 reject();
-                            })
-                        ).then(ingredient => ingredients.push(ingredient as Ingredient)).catch(() => {});
+                            })).then(ingredient => ingredients.push(ingredient as Ingredient)).catch(() => {});
                     }
+                    await new Promise((resolve, reject) => {
+                        Collection("Offers").findOne({ "meal": objectId(meal._id) }, (err, offer: Offer) => {
+                            if (err) return callback({ success: false, msg: "Error !!" });
+                            if (offer) resolve(offer.discount);
+                            reject({ success: false, data: meal._id });
+                        });
+                    }).then(discount => meal.discount = discount).catch(() => {});
                     return ingredients;
                 };
                 meals().then(ingredients => {
