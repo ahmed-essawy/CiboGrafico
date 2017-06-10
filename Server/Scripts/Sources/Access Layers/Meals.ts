@@ -1,6 +1,6 @@
-﻿import { Collection } from "../Mongodb";
-import { Meal, Restaurant, Order, Ingredient, Offer } from "../Classes";
-import { objectId, Id } from "../Types";
+﻿import {Meal, Ingredient, Offer, Restaurant } from "../Classes";
+import {Collection} from "../Mongodb";
+import {objectId, Id} from "../Types";
 module.exports = {
     Create(object: Meal, restaurant: Id, callback: any) {
         Collection("Restaurants").update({ _id: objectId(restaurant._id), "meals.name": { $ne: object.name } }, { $addToSet: { "meals": object } }, (err, resp) => {
@@ -71,34 +71,6 @@ module.exports = {
     AddIngredients(object: Ingredient, meal: Id, callback: any) {
         return callback({ success: false, data: object });
     },
-    MealsByUser(object: Id, callback: any) {
-        Collection("Orders").findOne({ "_id": objectId(object._id) }, (err, row: Order) => {
-            if (err) return callback({ success: false, msg: "Error !!" });
-            if (row) {
-                const order = async function () {
-                    const meals = Array<Meal>();
-                    for (let i = 0; i < row.meals.length; i++) {
-                        const meal = row.meals[i];
-                        await new Promise((resolve, reject) => {
-                            Collection("Restaurants").findOne({ "_id": objectId(row.restaurant) }, (err, rest: Restaurant) => {
-                                if (err) return callback({ success: false, msg: "Error !!" });
-                                if (rest) {
-                                    meal["name"] = rest.meals.filter(b => b._id.toString() === meal._id.toString())[0].name;
-                                    resolve(meal);
-                                }
-                                reject({ success: false, data: meal._id });
-                            });
-                        }).then(meal => meals.push(meal as Meal)).catch(() => {});
-                    }
-                    return meals;
-                };
-                order().then(meals => {
-                    row.meals = meals;
-                    callback({ success: true, data: row });
-                });
-            } else return callback({ success: false });
-        });
-    },
     MealsByRestaurant(object: Id, callback: any) {
         Collection("Restaurants").findOne({ "_id": objectId(object._id) }, (err, row: Restaurant) => {
             if (err) return callback({ success: false, msg: "Error !!" });
@@ -109,12 +81,9 @@ module.exports = {
                         const meal = row.meals[i];
                         await new Promise((resolve, reject) => {
                             Collection("Offers").findOne({ "meal": objectId(meal._id) }, (err, offer: Offer) => {
-                                if (err) return callback({ success: false, msg: "Error !!" });
-                                if (offer) {
-                                    meal["discount"] = offer.discount;
-                                    resolve(meal);
-                                }
-                                reject({ success: false, data: meal._id });
+                                if (err) reject({ success: false, msg: "Error !!" });
+                                if (offer) meal["discount"] = offer.discount;
+                                resolve(meal);
                             });
                         }).then(meal => meals.push(meal as Meal)).catch(() => {});
                     }

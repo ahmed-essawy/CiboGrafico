@@ -4,7 +4,6 @@
     meals
         .get("/", (req: any, res: any) => db.Meals.ReadAll(response => res.json(response)))
         .get("/:id", (req, res) => db.Meals.Read({ _id: req.params.id }, response => res.json(response)))
-        .get("/userMeals/:id", (req, res) => db.Meals.MealsByUser({ _id: req.params.id }, response => res.json(response)))
         .get("/Restaurant/:id", (req, res) => db.Meals.MealsByRestaurant({ _id: req.params.id }, response => res.json(response)))
         .delete("/:id", (req, res) => db.Meals.Delete({ _id: req.params.id }, response => res.json(response)))
         .post("/", (req, res) => {
