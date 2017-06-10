@@ -10,6 +10,24 @@ module.exports = {
             else return callback({ success: false, data: object });
         });
     },
+    ReadFull(object: Id, callback: any) {
+        Collection("Offers").findOne(objectId(object._id), (err, row: Offer) => {
+            if (err) return callback({ success: false, msg: "Error !!" });
+            if (row) {
+                new Promise((resolve, reject) => {
+                    Collection("Restaurants").findOne(objectId(row.provider), (err, datarow: Restaurant) => {
+                        if (err) return callback({ success: false, msg: "Error !!" });
+                        if (datarow) {
+                            row["restName"] = datarow.name;
+                            row["oldPrice"] = datarow.meals.find(meal => meal._id.toString() === row.meal.toString()).price;
+                            resolve(row);
+                        }
+                        reject();
+                    });
+                }).then(offer => callback({ success: false, data: offer })).catch(() => {});
+            } else return callback({ success: false, data: object });
+        });
+    },
     ReadAll(callback: any) {
         Collection("Offers").find().toArray((err, row: Offer[]) => {
             if (err) return callback({ success: false, msg: "Error !!" });
