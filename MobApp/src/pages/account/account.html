@@ -1,4 +1,4 @@
-<ion-header>
+﻿<ion-header>
   <ion-navbar color="danger" text-center>
     <ion-title>Profile</ion-title>
     <ion-buttons end>
@@ -59,22 +59,27 @@
         </ion-row>
       </ion-grid>
     </ion-item>
-
   </ion-list>
+  <div>
 
-  <ion-segment [ngSwitch]="segment">
-    <ion-segment-button value="favorites">Favorites</ion-segment-button>
-    <ion-segment-button value="orders">Orders</ion-segment-button>
-  </ion-segment>
+    <ion-segment [(ngModel)]="segment">
+      <ion-segment-button value="fav">
+        fav
+      </ion-segment-button>
+      <ion-segment-button value="ord">
+        ord
+      </ion-segment-button>
+    </ion-segment>
+  </div>
 
-  <ion-list *ngSwitchWhen="'favorites'">
-    <ion-item>favorites</ion-item>
-  </ion-list>
-  <ion-list *ngSwitchWhen="'orders'">
-    <ion-item>orders</ion-item>
-  </ion-list>
-  <!--<ion-tabs>
-    <ion-tab [root]="tab1Root" tabTitle="favourite" tabIcon="information-circle"></ion-tab>
-    <ion-tab [root]="tab2Root" tabTitle="orders" tabIcon="contacts"></ion-tab>
-  </ion-tabs>-->
+  <div [ngSwitch]="segment">
+    <ion-list *ngSwitchCase="'fav'">
+      <page-favourite></page-favourite>
+    </ion-list>
+
+    <ion-list *ngSwitchCase="'ord'">
+
+      <page-orders></page-orders>
+    </ion-list>
+  </div>
 </ion-content>

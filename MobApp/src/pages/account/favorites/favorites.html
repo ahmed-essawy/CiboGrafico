@@ -1,0 +1,14 @@
+<ion-content padding>
+
+  <ion-list>
+    <ion-item *ngFor="let meal of userr?.favorites">
+      <ion-thumbnail item-left>
+        <img [src]="meal?.image">
+      </ion-thumbnail>
+      <h1>{{meal?.category}}</h1>
+      <h2>{{meal?.name}} </h2>
+      <h2>{{meal?.price}}</h2>
+      <button (click)="order(meal?._id)" clear ion-button item-right>order</button>
+    </ion-item>
+  </ion-list>
+</ion-content>
