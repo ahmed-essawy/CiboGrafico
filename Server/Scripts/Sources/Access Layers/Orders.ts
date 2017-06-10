@@ -102,13 +102,16 @@ module.exports = {
                 const restaurants = async function () {
                     const orders = Array<Order>();
                     for (let i = 0; i < row.length; i++) {
-                        await new Promise(resolve => {
+                        await new Promise((resolve, reject) => {
                             Collection("Restaurants").findOne(objectId(row[i].restaurant), (err, datarow: Restaurant) => {
                                 if (err) return callback({ success: false, msg: "Error !!" });
-                                row[i]["restName"] = datarow.name;
-                                resolve(row[i]);
+                                if (datarow) {
+                                    row[i]["restName"] = datarow.name;
+                                    resolve(row[i]);
+                                }
+                                reject();
                             });
-                        }).then(order => orders.push(order as Order));
+                        }).then(order => orders.push(order as Order)).catch(() => {});
                     }
                     return orders;
                 };

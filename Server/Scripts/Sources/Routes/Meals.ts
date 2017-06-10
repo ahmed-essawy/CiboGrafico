@@ -5,20 +5,15 @@
         .get("/", (req: any, res: any) => db.Meals.ReadAll(response => res.json(response)))
         .get("/:id", (req, res) => db.Meals.Read({ _id: req.params.id }, response => res.json(response)))
         .get("/userMeals/:id", (req, res) => db.Meals.MealsByUser({ _id: req.params.id }, response => res.json(response)))
+        .get("/Restaurant/:id", (req, res) => db.Meals.MealsByRestaurant({ _id: req.params.id }, response => res.json(response)))
         .delete("/:id", (req, res) => db.Meals.Delete({ _id: req.params.id }, response => res.json(response)))
-        .post("/",
-        (req, res) => {
+        .post("/", (req, res) => {
             if (req.body.restaurant && req.body.meal) {
-                const tempMeal = new Meal(db.objectId(),
-                    req.body.meal.name,
-                    req.body.meal.image,
-                    req.body.meal.category,
-                    req.body.meal.price);
+                const tempMeal = new Meal(db.objectId(), req.body.meal.name, req.body.meal.image, req.body.meal.category, req.body.meal.price);
                 db.Meals.Create(tempMeal, { _id: req.body.restaurant }, response => res.json(response));
             } else res.sendStatus(403);
         })
-        .put("/",
-        (req, res) => {
+        .put("/", (req, res) => {
             if (req.body._id) {
                 db.Meals.Read({ _id: req.body._id },
                     response => {

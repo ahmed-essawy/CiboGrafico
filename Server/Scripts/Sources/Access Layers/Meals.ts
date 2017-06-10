@@ -1,5 +1,5 @@
 ﻿import { Collection } from "../Mongodb";
-import { Meal, Restaurant, Order, Ingredient } from "../Classes";
+import { Meal, Restaurant, Order, Ingredient, Offer } from "../Classes";
 import { objectId, Id } from "../Types";
 module.exports = {
     Create(object: Meal, restaurant: Id, callback: any) {
@@ -18,9 +18,12 @@ module.exports = {
                 const meals = async function () {
                     const ingredients = Array<Ingredient>();
                     for (let i = 0; i < meal.ingredients.length; ++i) {
-                        await new Promise(resolve =>
-                            require("../Mongodb").Ingredients.Read({ "_id": meal.ingredients[i] }, ingredient => resolve(ingredient.data))
-                        ).then(ingredient => ingredients.push(ingredient as Ingredient));
+                        await new Promise((resolve, reject) =>
+                            require("../Mongodb").Ingredients.Read({ "_id": meal.ingredients[i] }, ingredient => {
+                                if (ingredient.success) resolve(ingredient.data);
+                                reject();
+                            })
+                        ).then(ingredient => ingredients.push(ingredient as Ingredient)).catch(() => {});
                     }
                     return ingredients;
                 };
@@ -70,15 +73,16 @@ module.exports = {
                     const meals = Array<Meal>();
                     for (let i = 0; i < row.meals.length; i++) {
                         const meal = row.meals[i];
-                        await new Promise(resolve => {
+                        await new Promise((resolve, reject) => {
                             Collection("Restaurants").findOne({ "_id": objectId(row.restaurant) }, (err, rest: Restaurant) => {
                                 if (err) return callback({ success: false, msg: "Error !!" });
                                 if (rest) {
                                     meal["name"] = rest.meals.filter(b => b._id.toString() === meal._id.toString())[0].name;
                                     resolve(meal);
-                                } else return callback({ success: false, data: meal._id });
+                                }
+                                reject({ success: false, data: meal._id });
                             });
-                        }).then(meal => meals.push(meal as Meal));
+                        }).then(meal => meals.push(meal as Meal)).catch(() => {});
                     }
                     return meals;
                 };
@@ -88,5 +92,30 @@ module.exports = {
                 });
             } else return callback({ success: false });
         });
-    }
+    },
+    MealsByRestaurant(object: Id, callback: any) {
+        Collection("Restaurants").findOne({ "_id": objectId(object._id) }, (err, row: Restaurant) => {
+            if (err) return callback({ success: false, msg: "Error !!" });
+            if (row) {
+                const order = async function () {
+                    const meals = Array<Meal>();
+                    for (let i = 0; i < row.meals.length; i++) {
+                        const meal = row.meals[i];
+                        await new Promise((resolve, reject) => {
+                            Collection("Offers").findOne({ "meal": objectId(meal._id) }, (err, offer: Offer) => {
+                                if (err) return callback({ success: false, msg: "Error !!" });
+                                if (offer) {
+                                    meal["discount"] = offer.discount;
+                                    resolve(meal);
+                                }
+                                reject({ success: false, data: meal._id });
+                            });
+                        }).then(meal => meals.push(meal as Meal)).catch(() => {});
+                    }
+                    return meals;
+                };
+                order().then(meals => callback({ success: true, data: meals }));
+            } else return callback({ success: false });
+        });
+    },
 };
