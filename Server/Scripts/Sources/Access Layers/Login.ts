@@ -26,32 +26,23 @@ module.exports = {
             if (resp.result.ok === 1) {
                 if (resp.result.n === 0) {
                     new Promise((resolve, reject) => {
-                        const tempUser = new User(require("../Mongodb").objectId(), object.first_name, object
-                            .last_name,
-                            object.email, object.username, [], new Address(), object.Image);
+                        const tempUser = new User(require("../Mongodb").objectId(), object.first_name, object.last_name, object.email, object.username, [], new Address(), object.Image);
                         validate(tempUser).then(errs => {
                             if (errs.length > 0) {
                                 const errors = Array<string>();
                                 errs.forEach(a => errors.push(a.constraints[Object.keys(a.constraints)[0]]));
                                 reject({ success: false, msg: errors });
-                            } else {
-                                require("../Mongodb").Users.Create(tempUser, object.username, response => resolve({
-                                    success: true, data: response
-                                }));
-                            }
+                            } else require("../Mongodb").Users.Create(tempUser, object.username, response => resolve({ success: true, data: response }));
                         });
-                    }).then(resp1 => { addSocial(object, callback); }).catch(err => console.log(err));
+                    }).then(resp1 => addSocial(object, callback)).catch(err => console.log(err));
                 } else addSocial(object, callback);
             } else return callback({ success: false });
         });
     }
 };
 function addSocial(object: any, callback: any) {
-    const fbObject = { "name": "facebook", "data": { "id": object.id, "accessToken": object.AccessToken,
-        "expiresIn": object.ExpiresIn } };
-    Collection("Authentications").update({ $or: [{ "_id": objectId(object._id) }, { "username": object.username }, {
-        "email": object.email }] }, {
-        $push: { "socials": fbObject } }, (err, resp1) => {
+    const fbObject = { "name": "facebook", "data": { "id": object.id, "accessToken": object.AccessToken, "expiresIn": object.ExpiresIn } };
+    Collection("Authentications").update({ $or: [{ "_id": objectId(object._id) }, { "username": object.username }, { "email": object.email }] }, { $push: { "socials": fbObject } }, (err, resp1) => {
         if (err) return callback({ success: false });
         if (resp1.result.nModified > 0) {
             Collection("Authentications").findOne({ "socials.data.id": object.id }, (err, resp2: Authentication) => {
