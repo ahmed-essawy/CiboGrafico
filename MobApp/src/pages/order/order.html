@@ -10,27 +10,11 @@ Ionic pages and navigation.
   </ion-navbar>
 </ion-header>
 <ion-content padding>
-  <ion-list radio-group>
-    <!--<ion-list-header>
-        Choose Your Place
-    </ion-list-header>
-    <ion-item>
-        <span>
-            <ion-radio checked value="friends"></ion-radio>
-            <ion-label>Delivery</ion-label>
-        </span>
-        <span>
-            <ion-radio checked value="friends"></ion-radio>
-            <ion-label>On the Way</ion-label>
-        </span>
-        <span>
-            <ion-radio value="family"></ion-radio>
-            <ion-label>Inside</ion-label>
-        </span>
-    </ion-item>-->
+  <ion-list (ionChange)="ChangeType()" *ngIf="typeChosen" [(ngModel)]="type" radio-group>
+    <h1>Please select Order Type</h1>
     <ion-item>
       <ion-label>Delivery</ion-label>
-      <ion-radio value="family"></ion-radio>
+      <ion-radio value="Delivery"></ion-radio>
     </ion-item>
     <ion-item>
       <ion-label>On the Way</ion-label>
@@ -41,4 +25,72 @@ Ionic pages and navigation.
       <ion-radio value="Inside"></ion-radio>
     </ion-item>
   </ion-list>
-</ion-content>
+  <div [ngSwitch]="type">
+    <div *ngSwitchCase="'Delivery'">
+      <form #form='ngForm' (ngSubmit)="Order(form)">
+        <ion-item>
+          <ion-label stacked>
+            <h2>Choose Delivery Time</h2>
+          </ion-label>
+          <ion-datetime [(ngModel)]="deliveryTime" displayFormat="h : m A" minuteValues="0,15,30,45" name="deliveryTime"></ion-datetime>
+        </ion-item>
+        <div text-center>
+          <button [attr.disabled]="isOrdered?'':null" block color="primary" ion-button>Order Now</button>
+        </div>
+      </form>
+    </div>
+    <div *ngSwitchCase="'OntheWay'">
+      <form #form='ngForm' (ngSubmit)="Order(form)">
+        <ion-item>
+          <ion-label stacked>
+            <h2>Choose Meal ReceivingTime</h2>
+          </ion-label>
+          <ion-datetime [(ngModel)]="onTheWayTime" displayFormat="h : m A" minuteValues="0,15,30,45" name="onTheWayTime"></ion-datetime>
+        </ion-item>
+        <div text-center>
+          <button [attr.disabled]="isOrdered?'':null" block color="primary" ion-button>Order Now</button>
+        </div>
+      </form>
+    </div>
+    <div *ngSwitchCase="'Inside'">
+      <form #form='ngForm' (ngSubmit)="Order(form)">
+        <ion-item>
+          <ion-label stacked>
+            <h2>Enter Table Number Please</h2>
+          </ion-label>
+          <ion-select [(ngModel)]="table" name="table">
+            <ion-option value="Table1">Table1</ion-option>
+            <ion-option value="Table2">Table2</ion-option>
+            <ion-option value="Table3">Table3</ion-option>
+          </ion-select>
+        </ion-item>
+        <div text-center>
+          <button [attr.disabled]="isOrdered?'':null" block color="primary" ion-button>Order Now</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <ion-list>
+    <ion-item *ngFor="let meal of OrderMeals" text-wrap>
+      <ion-thumbnail item-start>
+        <img [src]="meal?.image">
+      </ion-thumbnail>
+      <h2>{{meal?.name}}</h2>
+      <ion-list item-right>
+        <ion-item>
+          <b>MealPrice: {{meal?.price}}</b>
+        </ion-item>
+        <ion-item>
+          <b>Quantity: {{meal?.quantity}}</b>
+        </ion-item>
+      </ion-list>
+    </ion-item>
+    <ion-item>
+      <h2>
+        <b>Total Order Price: {{total}} L.E</b>
+      </h2>
+      <p>Hope for you a delicious meal.</p>
+      <p>Thanks for using CiboGrafico.</p>
+    </ion-item>
+  </ion-list>
+</ion-content>s

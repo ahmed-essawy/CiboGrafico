@@ -17,7 +17,7 @@ Ionic pages and navigation.
 <ion-content padding>
   <ion-list>
     <ion-item *ngFor="let meal of restaurant?.meals">
-      <ion-thumbnail (click)="Show(meal.ingredients)" item-left>
+      <ion-thumbnail (click)="Show(meal)" item-left>
         <img [src]="meal.image">
       </ion-thumbnail>
       <h2>{{meal.name}}</h2>
