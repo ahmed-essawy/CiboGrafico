@@ -12,7 +12,7 @@ export class SignupPage {
     constructor(private navCtrl: NavController, private user: Users) { }
     doSignUp() {
         Utilities.showLoader();
-        if (this.account.password === this.account.pasCheck) {
+        if (this.account.password && this.account.password === this.account.pasCheck) {
             this.user.signup(this.account).then(res => {
                 if (res.success) this.user.login(this.account).then(res => this.success(res)).catch(err => this.failed(err));
                 else this.failed(res);

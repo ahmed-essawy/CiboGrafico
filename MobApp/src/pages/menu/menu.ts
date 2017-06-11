@@ -31,6 +31,10 @@ export class MenuPage {
         if (page === this.rootPage) this.nav.setRoot(page);
         else this.nav.setPages([this.rootPage, page]);
     }
+    pushPage(page: { title: string, icon: string, component: any }): void {
+        let index = this.pages.findIndex(p => p.title === page.title);
+        if (index === -1) this.pages.push(page);
+    }
     removePage(title: string): void {
         let index = this.pages.findIndex(p => p.title === title);
         if (index !== -1) {
@@ -39,11 +43,11 @@ export class MenuPage {
         }
     }
     loggedIn() {
-        this.pages.push({ title: "Profile", icon: "contact", component: AccountPage });
+        this.pushPage({ title: "Profile", icon: "contact", component: AccountPage });
         this.removePage("Login");
     }
     loggedOut() {
-        this.pages.push({ title: "Login", icon: "log-in", component: LoginTabs });
+        this.pushPage({ title: "Login", icon: "log-in", component: LoginTabs });
         this.removePage("Profile");
     }
 }

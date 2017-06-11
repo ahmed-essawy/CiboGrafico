@@ -7,7 +7,7 @@
         </ion-buttons>
         <ion-title>{{account.firstName}} {{account.lastName}}</ion-title>
         <ion-buttons end>
-            <button (click)="buttonToggle()" clear ion-button>{{button}}</button>
+            <button (click)="doSignOut()" clear ion-button>Sign Out</button>
         </ion-buttons>
     </ion-toolbar>
 </ion-header>
@@ -34,13 +34,13 @@
                     <ion-label floating icon-left>
                         <ion-icon name="keypad"></ion-icon>First Name
                     </ion-label>
-                    <ion-input [(ngModel)]="account.firstName" disabled="{{visible}}" type="text"></ion-input>
+                    <ion-input [(ngModel)]="account.firstName" disabled="{{visible}}" type="text" required></ion-input>
                 </ion-item>
                 <ion-item>
                     <ion-label floating icon-left>
                         <ion-icon name="keypad"></ion-icon>Last Name
                     </ion-label>
-                    <ion-input [(ngModel)]="account.lastName" disabled="{{visible}}" type="text"></ion-input>
+                    <ion-input [(ngModel)]="account.lastName" disabled="{{visible}}" type="text" required></ion-input>
                 </ion-item>
                 <ion-item>
                     <ion-label floating icon-left>Street</ion-label>
@@ -54,38 +54,32 @@
                     <ion-label floating icon-left>Country</ion-label>
                     <ion-input [(ngModel)]="account.address.country" disabled="{{visible}}" type="text"></ion-input>
                 </ion-item>
-                <!--<ion-label floating icon-left>Phones</ion-label>
-                <ion-item *ngIf="account.phones.length > 0">
-                    <ion-input *ngFor="let phone of account.phones" disabled="{{visible}}" type="text"></ion-input>
-                </ion-item>-->
+                <ion-item *ngFor="let phone of account.phones; let i = index">
+                    <ion-label floating icon-left>
+                        <ion-icon name="call"></ion-icon>Phone {{i+1}}</ion-label>
+                    <ion-input [(ngModel)]="account.phones[i]" disabled="{{visible}}" type="tel"></ion-input>
+                </ion-item>
             </ion-list>
             <ion-list>
                 <ion-item>
-                    <ion-grid>
-                        <ion-row>
-                            <ion-col width-50>
-                                <button (click)="doFbLogin()" icon-right ion-button style="width: 100%">Connect<ion-icon name="logo-facebook"></ion-icon></button>
-                            </ion-col>
-                            <ion-col width-50>
-                                <button (click)="doSignOut()" color="danger" ion-button style="width: 100%">Sign Out</button>
-                            </ion-col>
-                        </ion-row>
-                    </ion-grid>
+                    <button (click)="doFbLogin()" block icon-right ion-button>Connect Facebook<ion-icon name="logo-facebook"></ion-icon></button>
                 </ion-item>
             </ion-list>
         </ion-card-content>
     </ion-card>
     <div>
-        <ion-segment [(ngModel)]="segment">
-            <ion-segment-button value="favorites">
+        <ion-segment [(ngModel)]="tabs">
+            <ion-segment-button icon-right value="favorites">
                 Your Favorites
+                <ion-icon name="heart"></ion-icon>
             </ion-segment-button>
-            <ion-segment-button value="orders">
+            <ion-segment-button icon-right value="orders">
                 Your Orders
+                <ion-icon name="cart"></ion-icon>
             </ion-segment-button>
         </ion-segment>
     </div>
-    <div [ngSwitch]="segment">
+    <div [ngSwitch]="tabs">
         <ion-list *ngSwitchCase="'favorites'">
             <page-favorites></page-favorites>
         </ion-list>

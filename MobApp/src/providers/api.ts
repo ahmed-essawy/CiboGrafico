@@ -2,10 +2,10 @@
 import { Http, RequestOptions, URLSearchParams, RequestOptionsArgs, ResponseContentType, Headers } from "@angular/http";
 import { Network } from "@ionic-native/network";
 import { PromiseResp } from "./classes";
-import 'rxjs/add/operator/timeout';
+import "rxjs/add/operator/timeout";
 @Injectable()
 export class Api {
-    url = "http://172.16.3.133:8888";
+    url = "http://localhost:8888";
     options: RequestOptions;
     isOnline: boolean;
     constructor(private http: Http, network: Network) {
@@ -25,15 +25,9 @@ export class Api {
             return this.response(this.http.get(this.url + "/" + endpoint + "/" + params, this.options));
         } else return this.response(this.http.get(this.url + "/" + endpoint, this.options));
     }
-    post(endpoint: string, body: any): Promise<PromiseResp> {
-        return this.response(this.http.post(this.url + "/" + endpoint, body, this.options));
-    }
-    put(endpoint: string, body: any): Promise<PromiseResp> {
-        return this.response(this.http.put(this.url + "/" + endpoint, body, this.options));
-    }
-    delete(endpoint: string): Promise<PromiseResp> {
-        return this.response(this.http.delete(this.url + "/" + endpoint, this.options));
-    }
+    post(endpoint: string, body: any): Promise<PromiseResp> { return this.response(this.http.post(this.url + "/" + endpoint, body, this.options)); }
+    put(endpoint: string, body: any): Promise<PromiseResp> { return this.response(this.http.put(this.url + "/" + endpoint, body, this.options)); }
+    delete(endpoint: string): Promise<PromiseResp> { return this.response(this.http.delete(this.url + "/" + endpoint, this.options)); }
     response(command: any): Promise<PromiseResp> {
         return new Promise((resolve, reject) => {
             if (!this.isOnline) reject(new PromiseResp(false, "Mobile not connected to network"));

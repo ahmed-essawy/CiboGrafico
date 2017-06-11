@@ -10,37 +10,37 @@
             <ion-label>
                 <ion-icon name="keypad"></ion-icon>
             </ion-label>
-            <ion-input [(ngModel)]="account.firstName" name="firstName" placeholder="First name" type="text"></ion-input>
+            <ion-input [(ngModel)]="account.firstName" name="firstName" placeholder="First name" type="text" required></ion-input>
         </ion-item>
         <ion-item>
             <ion-label>
                 <ion-icon name="keypad"></ion-icon>
             </ion-label>
-            <ion-input [(ngModel)]="account.lastName" name="lastName" placeholder="Last name" type="text"></ion-input>
+            <ion-input [(ngModel)]="account.lastName" name="lastName" placeholder="Last name" type="text" required></ion-input>
         </ion-item>
         <ion-item>
             <ion-label>
                 <ion-icon name="mail"></ion-icon>
             </ion-label>
-            <ion-input [(ngModel)]="account.email" name="email" placeholder="Email" type="email"></ion-input>
+            <ion-input [(ngModel)]="account.email" name="email" placeholder="Email" type="email" required></ion-input>
         </ion-item>
         <ion-item>
             <ion-label>
                 <ion-icon name="person"></ion-icon>
             </ion-label>
-            <ion-input [(ngModel)]="account.username" name="username" placeholder="Username" type="username"></ion-input>
+            <ion-input [(ngModel)]="account.username" name="username" placeholder="Username" type="username" required></ion-input>
         </ion-item>
         <ion-item>
             <ion-label>
                 <ion-icon name="lock"></ion-icon>
             </ion-label>
-            <ion-input [(ngModel)]="account.password" name="password" placeholder="Password" type="password"></ion-input>
+            <ion-input [(ngModel)]="account.password" name="password" placeholder="Password" type="password" required></ion-input>
         </ion-item>
         <ion-item>
             <ion-label>
                 <ion-icon name="lock"></ion-icon>
             </ion-label>
-            <ion-input [(ngModel)]="account.pasCheck" name="pasCheck" placeholder="Confirm your password" type="password"></ion-input>
+            <ion-input [(ngModel)]="account.pasCheck" name="pasCheck" placeholder="Confirm your password" type="password" required></ion-input>
         </ion-item>
     </ion-list>
     <button (click)="doSignUp()" block color="secondary" ion-button large>Sign Up</button>
