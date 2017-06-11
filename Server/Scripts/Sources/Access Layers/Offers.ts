@@ -24,7 +24,7 @@ module.exports = {
                         }
                         reject();
                     });
-                }).then(offer => callback({ success: false, data: offer })).catch(() => {});
+                }).then(offer => callback({ success: true, data: offer })).catch(() => { });
             } else return callback({ success: false, data: object });
         });
     },
@@ -48,12 +48,12 @@ module.exports = {
                                     if (err) return callback({ success: false, msg: "Error !!" });
                                     if (datarow) {
                                         row[i]["restName"] = datarow.name;
-                                        row[i]["oldPrice"] = datarow.meals.find(meal => meal._id == row[i].meal).price;
+                                        row[i]["oldPrice"] = datarow.meals.find(meal => meal._id.toString() === row[i].meal.toString()).price;
                                         resolve(row[i]);
                                     }
                                     reject();
                                 });
-                        }).then(offer => offers.push(offer as Offer)).catch(() => {});
+                        }).then(offer => offers.push(offer as Offer)).catch(() => { });
                     }
                     return offers;
                 };

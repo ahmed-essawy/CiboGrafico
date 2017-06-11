@@ -11,5 +11,7 @@ export class OffersPage {
     constructor(private offer: Offers, private navctrl: NavController) {
         this.offer.readAll().then(resp => this.offers = resp.response).catch(err => console.log(err));
     }
-    selectOffer(offerId: string) { this.navctrl.push(offerDetailsPage, { Id: offerId }); }
+    selectOffer(offerId: string) {
+        this.navctrl.push(offerDetailsPage, { Id: offerId });
+    }
 }

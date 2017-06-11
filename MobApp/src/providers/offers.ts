@@ -12,4 +12,12 @@ export class Offers {
             }).catch(e => reject(e));
         });
     }
+    Read(params: any): Promise<PromiseResp> {
+        return new Promise((resolve, reject) => {
+            this.api.get("Offers", params).then((data: PromiseResp) => {
+                if (data.response) resolve(new PromiseResp(true, data.response));
+                else reject(new PromiseResp(false, {}));
+            }).catch(e => reject(e));
+        });
+    }
 }

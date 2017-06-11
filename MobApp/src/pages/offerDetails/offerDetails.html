@@ -5,7 +5,7 @@
 </ion-header>
 <ion-content>
   <ion-card class="offer">
-    <img [src]="offer.image" class="offerImage" />
+    <img [src]="offer?.image" class="offerImage" />
     <ion-card-content>
       <div style="float: right">
         <h2 id="oldprice">{{offer?.oldPrice | currency:'EGP':true:'1.2-2' }}</h2>
