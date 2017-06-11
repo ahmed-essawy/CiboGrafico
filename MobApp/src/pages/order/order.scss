@@ -1,7 +1,10 @@
 ﻿page-order {
-}
+  span {
+    width: 33%;
+    text-align: center;
+  }
 
-span {
-  width: 33%;
-  text-align: center;
+  #oldPrice {
+    text-decoration: line-through;
+  }
 }

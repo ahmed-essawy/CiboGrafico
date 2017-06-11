@@ -1,102 +1,102 @@
-﻿{
-  "author": "Ahmed El-Essawy, Engy Abd Elaziz, Omar Hamdy, Sohaila Tarek",
-  "cordova": {
-    "plugins": {
-      "cordova-plugin-compat": {},
-      "cordova-plugin-console": {},
-      "cordova-plugin-device": {},
-      "cordova-plugin-facebook4": {
-        "APP_ID": "832738326895641",
-        "APP_NAME": "ITI Grad App"
-      },
-      "cordova-plugin-file": {},
-      "cordova-plugin-googlemaps": {
-        "API_KEY_FOR_ANDROID": "AIzaSyBSUY81Vu1Fe-Nw90xm4mBN8SKRcVnbJCc",
-        "API_KEY_FOR_IOS": "AIzaSyBSUY81Vu1Fe-Nw90xm4mBN8SKRcVnbJCc"
-      },
-      "cordova-plugin-http": {},
-      "cordova-plugin-network-information": {},
-      "cordova-plugin-splashscreen": {},
-      "cordova-plugin-statusbar": {},
-      "cordova-plugin-whitelist": {},
-      "cordova-sqlite-storage": {},
-      "ionic-plugin-keyboard": {}
+{
+    "author": "Ahmed El-Essawy, Engy Abd Elaziz, Omar Hamdy, Sohaila Tarek",
+    "cordova": {
+        "plugins": {
+            "cordova-plugin-compat": {},
+            "cordova-plugin-console": {},
+            "cordova-plugin-device": {},
+            "cordova-plugin-facebook4": {
+                "APP_ID": "832738326895641",
+                "APP_NAME": "ITI Grad App"
+            },
+            "cordova-plugin-file": {},
+            "cordova-plugin-googlemaps": {
+                "API_KEY_FOR_ANDROID": "AIzaSyBSUY81Vu1Fe-Nw90xm4mBN8SKRcVnbJCc",
+                "API_KEY_FOR_IOS": "AIzaSyBSUY81Vu1Fe-Nw90xm4mBN8SKRcVnbJCc"
+            },
+            "cordova-plugin-http": {},
+            "cordova-plugin-network-information": {},
+            "cordova-plugin-splashscreen": {},
+            "cordova-plugin-statusbar": {},
+            "cordova-plugin-whitelist": {},
+            "cordova-sqlite-storage": {},
+            "ionic-plugin-keyboard": {}
+        },
+        "platforms": [
+            "android"
+        ]
     },
-    "platforms": [
-      "android"
-    ]
-  },
-  "cordovaPlatforms": [],
-  "cordovaPlugins": [
-    "cordova-plugin-whitelist",
-    "cordova-plugin-console",
-    "cordova-plugin-statusbar",
-    "cordova-plugin-device",
-    "cordova-plugin-splashscreen",
-    "ionic-plugin-keyboard"
-  ],
-  "dependencies": {
-    "@angular/common": "2.2.1",
-    "@angular/compiler": "2.2.1",
-    "@angular/compiler-cli": "2.2.1",
-    "@angular/core": "2.2.1",
-    "@angular/forms": "2.2.1",
-    "@angular/http": "2.2.1",
-    "@angular/platform-browser": "2.2.1",
-    "@angular/platform-browser-dynamic": "2.2.1",
-    "@angular/platform-server": "2.2.1",
-    "@ionic/storage": "1.1.7",
-    "@ionic-native/core": "^3.10.3",
-    "@ionic-native/facebook": "^3.10.3",
-    "@ionic-native/geolocation": "^3.10.3",
-    "@ionic-native/google-maps": "^3.10.3",
-    "@ionic-native/http": "^3.10.3",
-    "@ionic-native/network": "^3.11.0",
-    "@ionic-native/sqlite": "^3.10.3",
-    "cordova": "^7.0.1",
-    "cordova-android": "^6.2.3",
-    "cordova-plugin-compat": "^1.0.0",
-    "cordova-plugin-console": "^1.0.5",
-    "cordova-plugin-device": "^1.1.4",
-    "cordova-plugin-facebook4": "^1.9.0",
-    "cordova-plugin-file": "^4.3.3",
-    "cordova-plugin-googlemaps": "^1.4.0",
-    "cordova-plugin-http": "^1.2.0",
-    "cordova-plugin-network-information": "^1.3.3",
-    "cordova-plugin-splashscreen": "^4.0.3",
-    "cordova-plugin-statusbar": "^2.2.1",
-    "cordova-plugin-whitelist": "^1.3.1",
-    "cordova-sqlite-storage": "^2.0.4",
-    "ionic2-rating": "^1.2.2",
-    "ionic-angular": "2.0.1",
-    "ionic-native": "2.4.1",
-    "ionicons": "3.0.0",
-    "ionic-plugin-keyboard": "^2.2.1",
-    "rxjs": "^5.4.0",
-    "sw-toolbox": "3.4.0",
-    "zone.js": "0.6.26"
-  },
-  "description": "Ionic2Blank: An Ionic project",
-  "devDependencies": {
-    "@ionic/app-scripts": "1.1.0",
-    "@ionic/cli-plugin-cordova": "1.3.0",
-    "@ionic/cli-plugin-ionic-angular": "1.3.0",
-    "typescript": "2.0.9"
-  },
-  "homepage": "",
-  "name": "io.cordova.myapp2aa76b",
-  "private": true,
-  "scripts": {
-    "build": "ionic-app-scripts build",
-    "clean": "ionic-app-scripts clean",
-    "ionic:build": "ionic-app-scripts build",
-    "ionic:serve": "ionic-app-scripts serve",
-    "watch": "ionic-app-scripts watch"
-  },
-  "version": "0.0.1",
-  "-vs-binding": {
-    "BeforeBuild": [
-      "ionic:build"
-    ]
-  }
+    "cordovaPlatforms": [],
+    "cordovaPlugins": [
+        "cordova-plugin-whitelist",
+        "cordova-plugin-console",
+        "cordova-plugin-statusbar",
+        "cordova-plugin-device",
+        "cordova-plugin-splashscreen",
+        "ionic-plugin-keyboard"
+    ],
+    "dependencies": {
+        "@angular/common": "2.2.1",
+        "@angular/compiler": "2.2.1",
+        "@angular/compiler-cli": "2.2.1",
+        "@angular/core": "2.2.1",
+        "@angular/forms": "2.2.1",
+        "@angular/http": "2.2.1",
+        "@angular/platform-browser": "2.2.1",
+        "@angular/platform-browser-dynamic": "2.2.1",
+        "@angular/platform-server": "2.2.1",
+        "@ionic/storage": "1.1.7",
+        "@ionic-native/core": "^3.10.3",
+        "@ionic-native/facebook": "^3.10.3",
+        "@ionic-native/geolocation": "^3.10.3",
+        "@ionic-native/google-maps": "^3.10.3",
+        "@ionic-native/http": "^3.10.3",
+        "@ionic-native/network": "^3.11.0",
+        "@ionic-native/sqlite": "^3.10.3",
+        "cordova": "^7.0.1",
+        "cordova-android": "^6.2.3",
+        "cordova-plugin-compat": "^1.0.0",
+        "cordova-plugin-console": "^1.0.5",
+        "cordova-plugin-device": "^1.1.4",
+        "cordova-plugin-facebook4": "^1.9.0",
+        "cordova-plugin-file": "^4.3.3",
+        "cordova-plugin-googlemaps": "^1.4.0",
+        "cordova-plugin-http": "^1.2.0",
+        "cordova-plugin-network-information": "^1.3.3",
+        "cordova-plugin-splashscreen": "^4.0.3",
+        "cordova-plugin-statusbar": "^2.2.1",
+        "cordova-plugin-whitelist": "^1.3.1",
+        "cordova-sqlite-storage": "^2.0.4",
+        "ionic2-rating": "^1.2.2",
+        "ionic-angular": "2.0.1",
+        "ionic-native": "2.4.1",
+        "ionicons": "3.0.0",
+        "ionic-plugin-keyboard": "^2.2.1",
+        "rxjs": "^5.4.0",
+        "sw-toolbox": "3.4.0",
+        "zone.js": "0.6.26"
+    },
+    "description": "Ionic2Blank: An Ionic project",
+    "devDependencies": {
+        "@ionic/app-scripts": "1.1.0",
+        "@ionic/cli-plugin-cordova": "1.3.0",
+        "@ionic/cli-plugin-ionic-angular": "1.3.0",
+        "typescript": "2.0.9"
+    },
+    "homepage": "",
+    "name": "io.cordova.myapp2aa76b",
+    "private": true,
+    "scripts": {
+        "build": "ionic-app-scripts build",
+        "clean": "ionic-app-scripts clean",
+        "ionic:build": "ionic-app-scripts build",
+        "ionic:serve": "ionic-app-scripts serve",
+        "watch": "ionic-app-scripts watch"
+    },
+    "version": "0.0.1",
+    "-vs-binding": {
+        "BeforeBuild": [
+            "ionic:build"
+        ]
+    }
 }

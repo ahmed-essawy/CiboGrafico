@@ -28,15 +28,19 @@ import { mealDetailsPage } from "../pages/mealDetails/mealDetails";
 import { orderPage } from "../pages/order/order";
 import { joinOrderPage } from "../pages/joinOrder/joinOrder";
 import { offerDetailsPage } from "../pages/offerDetails/offerDetails";
+import { FavoritesPage } from "../pages/account/favorites/favorites";
+import { OrdersPage } from "../pages/account/orders/orders";
+import { orderDetailsPage } from "../pages/orderDetails/orderDetails";
+
 @NgModule({
-    declarations: [IonRating,MyApp, HomePage, AccountPage, LoginTabs, IntroPage, MenuPage, LoginPage, SignupPage,
+    declarations: [IonRating, MyApp, HomePage, AccountPage, LoginTabs, IntroPage, MenuPage, LoginPage, SignupPage,
         RestaurantsListPage, RestaurantProfilePage, reservationPage, OffersPage, TraditionalMenuPage,
-        offerDetailsPage, orderPage, joinOrderPage, mealDetailsPage],
+        offerDetailsPage, orderPage, joinOrderPage, mealDetailsPage, FavoritesPage, OrdersPage, orderDetailsPage],
     imports: [IonicModule.forRoot(MyApp)],
     bootstrap: [IonicApp],
-    entryComponents: [IonRating,MyApp, HomePage, AccountPage, LoginTabs, IntroPage, MenuPage, LoginPage, SignupPage,
+    entryComponents: [IonRating, MyApp, HomePage, AccountPage, LoginTabs, IntroPage, MenuPage, LoginPage, SignupPage,
         RestaurantsListPage, RestaurantProfilePage, reservationPage, OffersPage, TraditionalMenuPage,
-        offerDetailsPage, orderPage, joinOrderPage, mealDetailsPage],
+        offerDetailsPage, orderPage, joinOrderPage, mealDetailsPage, FavoritesPage, OrdersPage, orderDetailsPage],
     providers: [Network, Api, Sql, SQLite, Facebook, Users, Restaurants, Offers, Meals, Orders, {
         provide: ErrorHandler,
         useClass: IonicErrorHandler

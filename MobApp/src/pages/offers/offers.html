@@ -5,7 +5,7 @@
 </ion-header>
 <ion-content>
   <ion-content class="card-background-page">
-    <ion-card (click)="selectOffer(offer)" *ngFor="let offer of offers" class="offerCard">
+    <ion-card (click)="selectOffer(offer._id)" *ngFor="let offer of offers" class="offerCard">
       <img [src]="offer?.image">
       <div class="offerDetail">
         <h2 class="card-title">

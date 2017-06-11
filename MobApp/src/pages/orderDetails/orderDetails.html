@@ -1,0 +1,22 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      Order
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content padding>
+ <ion-list>
+         <h1>{{restName}}</h1> 
+     <h1>{{orders?.num}}</h1>
+      <h1>{{orders?.address?.city}}</h1>
+   <h1>{{orders?.address?.country}}</h1> 
+   <h1>{{orders?.address?.street}}</h1>
+    <h1>{{orders?.time.slice(0,10)}}</h1>
+        <ion-item *ngFor="let meal of orders?.meals">
+            
+            <h2>{{meal?.name}}</h2>
+            <p>{{meal?.price}}</p>
+           
+        </ion-item>
+</ion-list>

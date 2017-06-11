@@ -10,19 +10,23 @@
 </ion-header>
 <ion-content padding>
   <ion-list>
-    <ion-item *ngFor="let meal of restaurant?.meals">
-      <ion-thumbnail (click)="Show(meal)" item-left>
-        <img [src]="meal.image">
+    <ion-item *ngFor="let meal of Meals">
+      <ion-thumbnail (click)="Show(meal._id)" item-left>
+        <img [src]="meal?.image">
       </ion-thumbnail>
-      <h2 (click)="Show(meal)">{{meal.name}}</h2>
-      <p>{{meal.category}}</p>
-      <p>{{meal.price}} L.E</p>
-      <button (click)="Remove(meal._id)" icon-only id="remove" ion-button item-right>
+      <h2 (click)="Show(meal)">{{meal?.name}}</h2>
+      <p>{{meal?.category}}</p>
+      <p *ngIf="!meal?.discount">{{meal?.price | currency:'EGP':true:'1.2-2'}}</p>
+      <div *ngIf="meal?.discount">
+        <p id="oldPrice">{{meal?.price | currency:'EGP':true:'1.2-2'}}</p>
+        <p>{{meal?.price * (1-meal?.discount) | currency:'EGP':true:'1.2-2'}}</p>
+      </div>
+      <button (click)="Remove(meal?._id)" icon-only id="remove" ion-button item-right>
         <ion-icon clear name="remove-circle" padding></ion-icon>
       </button>
       <!--<div [innerHTML]="countHtml"></div>-->
-      <b item-right>{{ordersCount[meal._id]}}</b>
-      <button (click)="Add(meal._id)" icon-only id="add" ion-button item-right>
+      <b item-right>{{ordersCount[meal?._id]}}</b>
+      <button (click)="Add(meal?._id)" icon-only id="add" ion-button item-right>
         <ion-icon clear name="add-circle" padding></ion-icon>
       </button>
     </ion-item>

@@ -4,7 +4,7 @@ import { Order_Rate, objectId, OrderType } from "../Types";
     const orders = require("express").Router(), db = require("../Mongodb");
     orders
         .get("/", (req: any, res: any) => db.Orders.ReadAll(response => res.json(response)))
-        .get("/:id", (req, res) => db.Orders.Read({ _id: req.params.id }, response => res.json(response)))
+        .get("/:id", (req, res) => db.Orders.ReadFull({ _id: req.params.id }, response => res.json(response)))
         .get("/UserOrder/:id", (req, res) => db.Orders.ReadAllByUser({ _id: req.params.id }, response => res.json(response)))
         .get("/SubOrders/:num", (req, res) => db.Orders.GetSubOrders(parseInt(req.params.num), response => res.json(response)))
         .delete("/:id", (req, res) => db.Orders.Delete({ _id: req.params.id }, response => res.json(response)))

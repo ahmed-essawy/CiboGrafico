@@ -7,9 +7,8 @@ import { Meals, PromiseResp } from "../../providers/meals";
 })
 export class mealDetailsPage {
     meal: any;
-    constructor(navParams: NavParams, private viewCtrl: ViewController, meal: Meals) {
-        this.meal = navParams.get('meal');
-        meal.Read(navParams.get('meal')).then((resp: PromiseResp) => this.meal = resp.response).catch(err => console.log(err));
+    constructor(private navParams: NavParams, private viewCtrl: ViewController, meal: Meals) {
+        meal.Read(navParams.get('mealId')).then((resp: PromiseResp) => this.meal = resp.response).catch(err => console.log(err));
     }
     Close() { this.viewCtrl.dismiss(); }
 }
