@@ -133,5 +133,5 @@ export interface IMeal extends IId, IName, IImage {
     ingredients: Array<string>;
     ingredientsCount(): number;
     addIngredient(ingredient: Id): void;
-    addIngredients(ingredient: Array<Id>): void;
+    addIngredients(ingredient: Array<string>): void;
 }

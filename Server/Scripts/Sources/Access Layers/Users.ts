@@ -35,10 +35,10 @@ module.exports = {
         object._id = objectId(object._id);
         Collection("Users").update({ _id: object._id }, { $set: object }, (err, resp1) => {
             if (err) return callback({ success: false, msg: "Error !!" });
-            if (resp1.result.nModified === 1) {
+            if (resp1.result.n === 1) {
                 Collection("Authentications").update({ _id: object._id }, { $set: { "email": object.email, "username": object.username } as ILogin }, (err, resp2) => {
                     if (err) return callback({ success: false, msg: "Error !!" });
-                    if (resp2.result.ok) return callback({ success: true, data: resp1.result, data1: resp2.result });
+                    if (resp2.result.ok) return callback({ success: true, data: { "users": resp1.result, "authentications": resp2.result } });
                     else return callback({ success: false, msg: "Data not modified" });
                 });
             } else return callback({ success: false, msg: "Data not modified" });
@@ -57,6 +57,7 @@ module.exports = {
         });
     },
     AddFavorite(object: Meal, UserId: Id, callback: any) {
+        object.ingredients.forEach((e, i, arr) => arr[i] = objectId(arr[i]));
         Collection("Users").update({ _id: objectId(UserId._id), "favorites._id": { $ne: objectId(object._id) } }, { $addToSet: { "favorites": object } }, (err, resp) => {
                 if (err) return callback({ success: false, msg: "Error !!" });
                 if (resp.result.nModified > 0) return callback({ success: true, data: resp.result });

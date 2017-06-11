@@ -10,7 +10,7 @@
             if (req.body.restaurant && req.body.meal) {
                 const tempMeal = new Meal(db.objectId(), req.body.meal.name, req.body.meal.image, req.body.meal.category, req.body.meal.price);
                 db.Meals.Create(tempMeal, { _id: req.body.restaurant }, response => res.json(response));
-            } else res.sendStatus(403);
+            } else res.status(400).json({ success: false, msg: "Invalid Data" });
         })
         .put("/", (req, res) => {
             if (req.body._id) {
@@ -24,7 +24,7 @@
                         if (req.body.ingredients) tempMeal.ingredients = req.body.ingredients;
                         db.Meals.Update(tempMeal, response => res.json(response));
                     });
-            } else res.sendStatus(403);
+            } else res.status(400).json({ success: false, msg: "Invalid Data" });
         });
     module.exports = meals;
 }

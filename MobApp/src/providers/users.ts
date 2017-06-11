@@ -16,8 +16,8 @@ export class Users {
     static isLogged(): Promise<boolean> { return new Promise(resolve => { Sql.isExistsOptions("_id").then(resp => resolve(resp.response)); }); }
     login(params: { username: string, password: string }): Promise<PromiseResp> { return new Promise((resolve, reject) => { this.api.post("Login", params).then((resp: PromiseResp) => { this.saveLoginState(resp.response).then(r => resolve(r)).catch(e => reject(e)); }).catch(e => reject(new PromiseResp(e.success, "Log In Failed"))); }); }
     signup(params: {
-        firstName: string, lastName: string, username: string, email: string, password: string;
-    }): Promise<PromiseResp> {
+               firstName: string, lastName: string, username: string, email: string, password: string;
+           }): Promise<PromiseResp> {
         return new Promise((resolve, reject) => {
             this.api.post("Users", params).then((resp: PromiseResp) => {
                 const data: any = resp.response;
@@ -94,10 +94,11 @@ export class Users {
     updateUser(params: any): Promise<PromiseResp> {
         return new Promise((resolve, reject) => {
             this.api.put("Users", params).then((resp: PromiseResp) => {
-                if (resp.success && resp.response.users.n > 0) this.saveLoginState(params)
-                    .then(r => resolve(new PromiseResp(true, "Update Info Successfully")))
-                    .catch(e => reject(new PromiseResp(false, "Update Info Failed")));
-                else reject(new PromiseResp(false, "Update Info Failed"));
+                if (resp.success && resp.response.users.n > 0) {
+                    this.saveLoginState(params)
+                        .then(r => resolve(new PromiseResp(true, "Update Info Successfully")))
+                        .catch(e => reject(new PromiseResp(false, "Update Info Failed")));
+                } else reject(new PromiseResp(false, "Update Info Failed"));
             }).catch(e => reject(e));
         });
     }
@@ -115,13 +116,5 @@ export class Users {
             } else reject(new PromiseResp(false, "Log In Failed"));
         });
     }
-    addToFav(params: { user: string, meal: { _id: string, name: any, image: any, category: any, price: any, ingredients: any[] } }): Promise<PromiseResp> {
-        return new Promise((resolve, reject) => {
-            this.api.post("Users/Favorites", params).then((resp: PromiseResp) => {
-                if (resp.response.nModified > 0) {
-                    Sql.insertFavorite(params.meal._id).then((resp2: PromiseResp) => resolve(new PromiseResp(true, "Meal added to favorites successfully."))).catch(e => reject(new PromiseResp(e.success, e)));
-                }
-            }).catch(e => reject(new PromiseResp(e.success, "Connection Error")));
-        });
-    }
+    addToFav(params: { user: string, meal: { _id: string, name: any, image: any, category: any, price: any, ingredients: any[] } }): Promise<PromiseResp> { return new Promise((resolve, reject) => { this.api.post("Users/Favorites", params).then((resp: PromiseResp) => { if (resp.response.nModified > 0) Sql.insertFavorite(params.meal._id).then((resp2: PromiseResp) => resolve(new PromiseResp(true, resp2.response))).catch(e => reject(new PromiseResp(e.success, e))); }).catch(e => reject(new PromiseResp(e.success, "Connection Error"))); }); }
 }

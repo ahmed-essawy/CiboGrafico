@@ -215,7 +215,7 @@ export class Meal implements IMeal {
         this.ingredients = new Array<string>();
     }
     addIngredient(ingredient: Id): void { this.ingredients.push(ingredient._id); }
-    addIngredients(ingredients: Array<Id>): void { ingredients.forEach(item => this.ingredients.push(item._id)); }
+    addIngredients(ingredients: Array<string>): void { ingredients.forEach(ingredient => this.ingredients.push(ingredient)); }
     static deserialize(object: Meal): Meal {
         const meal = new Meal(object._id, object.name, object.image, object.category, object.price);
         if (object.ingredients) meal.ingredients = object.ingredients;

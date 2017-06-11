@@ -92,9 +92,7 @@ export class Sql {
                     Sql.selectOptions("favorites").then(resp => {
                         let favorites: string[] = JSON.parse(resp.response);
                         favorites.push(id);
-                        Sql.query("INSERT INTO Options VALUES (?,?)", ["favorites", JSON.stringify(favorites)])
-                            .then(resp => resolve(new PromiseResp(true, resp.rowsAffected > 0)))
-                            .catch(e => reject(new PromiseResp(false, e)));
+                        Sql.insertOrUpdateOptions({ key: "favorites", value: JSON.stringify(favorites) }).then(d => resolve(d)).catch(e => reject(e));
                     });
                 } else reject(new PromiseResp(false, "Data already exists !"));
             }).catch(e => reject(new PromiseResp(false, e)));
