@@ -58,9 +58,8 @@ module.exports = {
     },
     AddFavorite(object: Meal, UserId: Id, callback: any) {
         Collection("Users").update({ _id: objectId(UserId._id), "favorites._id": { $ne: objectId(object._id) } }, { $addToSet: { "favorites": object } }, (err, resp) => {
-                console.log(resp.result);
                 if (err) return callback({ success: false, msg: "Error !!" });
-                if (resp.result.ok) return callback({ success: true, data: resp.result });
+                if (resp.result.nModified > 0) return callback({ success: true, data: resp.result });
                 else return callback({ success: false, data: object });
             }
         );
