@@ -1,6 +1,6 @@
 ﻿<ion-header>
   <ion-navbar color="danger" text-center>
-    <ion-title>{{restaurant?.name}} Menu</ion-title>
+    <ion-title>Menu</ion-title>
     <ion-buttons end>
       <button (click)="Reset()" clear ion-button>
         Reset
@@ -21,6 +21,13 @@
         <p id="oldPrice">{{meal?.price | currency:'EGP':true:'1.2-2'}}</p>
         <p>{{meal?.price * (1-meal?.discount) | currency:'EGP':true:'1.2-2'}}</p>
       </div>
+      <button id="icon" (click)="favourite(meal)">
+        <ion-icon color="danger" name="heart" [ngClass]="isFavourite ? 'ios-heart' : 'ios-heart-outline'"></ion-icon>
+      </button>
+      <!--<ion-icon name="heart" ios="ios-heart"></ion-icon>
+      <ion-icon name="heart"></ion-icon>-->
+      <!--<ion-icon color="danger" ios="ios-heart"></ion-icon>
+      <ion-icon color="danger" ios="ios-heart-outline"></ion-icon>-->
       <button (click)="Remove(meal?._id)" icon-only id="remove" ion-button item-right>
         <ion-icon clear name="remove-circle" padding></ion-icon>
       </button>

@@ -5,7 +5,7 @@ import { PromiseResp } from "./classes";
 import 'rxjs/add/operator/timeout';
 @Injectable()
 export class Api {
-    url = "http://169.254.80.80:8888";
+    url = "http://172.16.3.133:8888";
     options: RequestOptions;
     isOnline: boolean;
     constructor(private http: Http, network: Network) {

@@ -115,4 +115,13 @@ export class Users {
             } else reject(new PromiseResp(false, "Log In Failed"));
         });
     }
+    addToFav(params: { user: string, meal: { _id: string, name: any, image: any, category: any, price: any, ingredients: any[] } }): Promise<PromiseResp> {
+        return new Promise((resolve, reject) => {
+            this.api.post("Users/Favorites", params).then((resp: PromiseResp) => {
+                if (resp.response.nModified > 0) {
+                    Sql.insertFavorite(params.meal._id).then((resp2: PromiseResp) => resolve(new PromiseResp(true, "Meal added to favorites successfully."))).catch(e => reject(new PromiseResp(e.success, e)));
+                }
+            }).catch(e => reject(new PromiseResp(e.success, "Connection Error")));
+        });
+    }
 }

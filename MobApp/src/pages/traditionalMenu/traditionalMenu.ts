@@ -1,7 +1,9 @@
 ﻿import { Component } from '@angular/core';
 import { NavController, NavParams, AlertController, ModalController } from 'ionic-angular';
 import { Meals, PromiseResp } from "../../providers/meals";
+import { Users } from "../../providers/users";
 import { Sql } from "../../providers/sql";
+import { Utilities } from "../../providers/utilities";
 import { orderPage } from "../order/order";
 import { joinOrderPage } from "../joinOrder/joinOrder";
 import { Network } from "@ionic-native/network";
@@ -15,8 +17,10 @@ export class TraditionalMenuPage {
     ordersCount: any = {};
     isOnline: boolean;
     restId: string;
-    constructor(private navParams: NavParams, meals: Meals, private navctrl: NavController, private alertCtrl: AlertController, network: Network, private modalCtrl: ModalController) {
+    userId: string;
+    constructor(private navParams: NavParams, meals: Meals, private navctrl: NavController, private alertCtrl: AlertController, network: Network, private modalCtrl: ModalController, private users: Users) {
         this.restId = navParams.get('Id');
+        Sql.selectOptions("_id").then(resp => this.userId = resp.response).catch(err => console.log(err));
         meals.ReadMealsPerRest(navParams.get('Id')).then((resp: PromiseResp) => {
             this.Meals = resp.response;
             this.initOrdersCount();
@@ -24,6 +28,10 @@ export class TraditionalMenuPage {
         this.isOnline = network.type !== "none";
         network.onConnect().subscribe(a => this.isOnline = a.type == "online");
         network.onDisconnect().subscribe(a => this.isOnline = a.type == "online");
+    }
+    favourite(meal: any) {
+        let favMeal = { user: this.userId, meal: { _id: meal._id, name: meal.name, image: meal.image, category: meal.category, price: meal.price, ingredients: meal.ingredients } };
+        this.users.addToFav(favMeal).then((resp: PromiseResp) => Utilities.showToast("Meal added to your favorites.")).catch(err => Utilities.showToast("Failed to add meal."));
     }
     Show(mealId: string) { this.modalCtrl.create(mealDetailsPage, { mealId: mealId }).present(); }
     Add(id: any) {
