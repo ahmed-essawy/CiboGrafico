@@ -84,7 +84,7 @@
         "typescript": "2.0.9"
     },
     "homepage": "",
-    "name": "io.cordova.myapp2aa76b",
+    "name": "com.cibografico",
     "private": true,
     "scripts": {
         "build": "ionic-app-scripts build",
