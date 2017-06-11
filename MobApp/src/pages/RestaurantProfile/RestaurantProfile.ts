@@ -30,10 +30,12 @@ export class RestaurantProfilePage {
         }).catch(error1 => console.log(error1));
         Users.isLogged().then(isLogged => this.isLogged = isLogged);
         this.readonly = false;
+        Utilities.eventsCtrl.subscribe("User:Login", res => { this.isLogged = true });
+        Utilities.eventsCtrl.subscribe("User:Logout", res => { this.isLogged = false });
     }
     reserve(restId: any) {
         if (this.isLogged) this.navCtrl.push(reservationPage, { Id: restId });
-        //else Utilities.loginAlert();
+        else Utilities.loginAlert();
     }
     menu(restId: any) { this.navCtrl.push(TraditionalMenuPage, { Id: restId }); }
     submit(data: any) {
@@ -52,6 +54,9 @@ export class RestaurantProfilePage {
         }).catch(err => console.log(err));
         this.comment = "";
     }
-    offerDetails(offer: any) {this.navCtrl.push(offerDetailsPage, { Id: offer._id });}
+    offerDetails(offer: any) {
+        console.log(offer._id)
+        this.navCtrl.push(offerDetailsPage, { Id: offer._id });
+    }
     starClicked(value: any) { this.rest.addRate({ "restaurant": this.params.get("Id"), "rate": { "_id": this.userId, "rate": value } }).then((resp: PromiseResp) => this.readonly = true).catch(err => console.log(err)); }
 }

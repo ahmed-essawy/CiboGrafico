@@ -23,7 +23,7 @@
     </ion-grid>
     <div *ngIf="restaurant?.offers?.length > 0" padding-bottom padding-top>
         <h1>Offers</h1>
-        <ion-slides autoplay="3000" loop="true" speed="1000">
+        <ion-slides autoplay="3000" loop="true" speed="1000" autoplayDisableOnInteraction="false" >
             <ion-slide *ngFor="let offer of restaurant.offers" class="slide-offer">
                 <img [src]="offer.image" (click)="offerDetails(offer)" />
             </ion-slide>
