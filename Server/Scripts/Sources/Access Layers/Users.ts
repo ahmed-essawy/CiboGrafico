@@ -60,7 +60,7 @@ module.exports = {
         Collection("Users").update({ _id: objectId(UserId._id), "favorites._id": { $ne: objectId(object._id) } }, { $addToSet: { "favorites": object } }, (err, resp) => {
                 if (err) return callback({ success: false, msg: "Error !!" });
                 if (resp.result.nModified > 0) return callback({ success: true, data: resp.result });
-                else return callback({ success: false, data: object });
+                else return callback({ success: false, data: "Data not modified" });
             }
         );
     },
