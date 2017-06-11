@@ -7,18 +7,12 @@ const valid = new Validator();
         .get("/", (req: any, res: any) => db.Users.ReadAll(response => res.json(response)))
         .get("/:id", (req, res) => db.Users.Read({ _id: req.params.id }, response => res.json(response)))
         .delete("/:id", (req, res) => db.Users.Delete({ _id: req.params.id }, response => res.json(response)))
-        .post("/",
-        (req, res) => {
+        .post("/", (req, res) => {
             if (req.body.firstName && req.body.lastName && req.body.email && req.body.username && req.body
                 .password) {
                 let tempAddress = new Address();
-                if (req.body.address) {
-                    tempAddress = new Address(req.body.address.street &&
-                        req.body.address.city &&
-                        req.body.address.country);
-                }
-                const tempUser = new User(db.objectId(), req.body.firstName, req.body.lastName, req.body.email, req
-                    .body.username, req.body.phones, tempAddress, req.body.image);
+                if (req.body.address) tempAddress = new Address(req.body.address.street && req.body.address.city && req.body.address.country);
+                const tempUser = new User(db.objectId(), req.body.firstName, req.body.lastName, req.body.email, req.body.username, req.body.phones, tempAddress, req.body.image);
                 validate(tempAddress).then(errs1 => {
                     if (errs1.length > 0) {
                         const errors = Array<string>();
@@ -36,8 +30,7 @@ const valid = new Validator();
                 });
             } else res.status(400).json({ success: false, msg: "Invalid Data" });
         })
-        .put("/",
-        (req, res) => {
+        .put("/", (req, res) => {
             if (req.body._id) {
                 db.Users.Read({ _id: req.body._id },
                     response => {
@@ -60,19 +53,13 @@ const valid = new Validator();
                     });
             } else res.status(400).json({ success: false, msg: "Invalid Data" });
         })
-        .post("/Favorites",
-        (req, res) => {
-            if (req.body.id && req.body.name && req.body.image && req.body.category && req.body.price) {
-                const tempMeal = new Meal(db.objectId(),
-                    req.body.name,
-                    req.body.image,
-                    req.body.category,
-                    req.body.price);
-                if (req.body.ingredients) tempMeal.addIngredients(req.body.ingredients);
-                db.Users.AddFavurite({ _id: req.body.Id }, tempMeal, response => res.json(response));
+        .post("/Favorites", (req, res) => {
+            if (req.body.user && req.body.meal && valid.isArray(req.body.meal.ingredients)) {
+                const tempMeal = new Meal(req.body.meal._id, req.body.meal.name, req.body.meal.image, req.body.meal.category, req.body.meal.price);
+                tempMeal.addIngredients(req.body.meal.ingredients);
+                db.Users.AddFavorite(tempMeal, { _id: req.body.user }, response => res.json(response));
             } else res.status(400).json({ success: false, msg: "Invalid Data" });
         })
-        .delete("/Favorites/:id",
-        (req, res) => db.Users.DeleteFavorite({ _id: req.params.id }, response => res.json(response)));
+        .delete("/Favorites/:id", (req, res) => db.Users.DeleteFavorite({ _id: req.params.id }, response => res.json(response)));
     module.exports = users;
 }

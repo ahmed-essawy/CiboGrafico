@@ -99,10 +99,11 @@ export class Users {
             }).catch(e => reject(e));
         });
     }
-    saveLoginState(data: { _id: string, email: string, username: string, token: string, firstName: string, lastName: string, image: string, address: any, phones: any }): Promise<PromiseResp> {
+    saveLoginState(data: { _id: string, email: string, username: string, token: string, firstName: string, lastName: string, image: string, address: any, phones: any, favorites: any }): Promise<PromiseResp> {
+        data["name"] = data.firstName + " " + data.lastName;
         data.address = JSON.stringify(data.address);
         data.phones = JSON.stringify(data.phones);
-        data["name"] = data.firstName + " " + data.lastName;
+        data.favorites = JSON.stringify(data.favorites);
         return new Promise((resolve, reject) => {
             if (data._id) {
                 for (let key in data) if (data.hasOwnProperty(key) && typeof data[key] === "string") Sql.insertOrUpdateOptions({ key: key, value: data[key] });
