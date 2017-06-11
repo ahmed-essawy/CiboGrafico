@@ -57,6 +57,7 @@ module.exports = {
         });
     },
     AddFavorite(object: Meal, UserId: Id, callback: any) {
+        object._id = objectId(object._id);
         object.ingredients.forEach((e, i, arr) => arr[i] = objectId(arr[i]));
         Collection("Users").update({ _id: objectId(UserId._id), "favorites._id": { $ne: objectId(object._id) } }, { $addToSet: { "favorites": object } }, (err, resp) => {
                 if (err) return callback({ success: false, msg: "Error !!" });
