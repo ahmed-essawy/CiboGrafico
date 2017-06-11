@@ -94,16 +94,19 @@ export class Users {
     updateUser(params: any): Promise<PromiseResp> {
         return new Promise((resolve, reject) => {
             this.api.put("Users", params).then((resp: PromiseResp) => {
-                if (resp.success) this.saveLoginState(resp.response).then(r => resolve(r)).catch(e => reject(e));
-                else reject(new PromiseResp(false, ""));
+                if (resp.success && resp.response.users.n > 0) this.saveLoginState(params)
+                    .then(r => resolve(new PromiseResp(true, "Update Info Successfully")))
+                    .catch(e => reject(new PromiseResp(false, "Update Info Failed")));
+                else reject(new PromiseResp(false, "Update Info Failed"));
             }).catch(e => reject(e));
         });
     }
     saveLoginState(data: { _id: string, email: string, username: string, token: string, firstName: string, lastName: string, image: string, address: any, phones: any, favorites: any }): Promise<PromiseResp> {
         data["name"] = data.firstName + " " + data.lastName;
-        data.address = JSON.stringify(data.address);
-        data.phones = JSON.stringify(data.phones);
-        data.favorites = JSON.stringify(data.favorites);
+        if (data.address) data.address = typeof data.address === "string" ? data.address : JSON.stringify(data.address);
+        if (!Array.isArray(data.phones)) data.phones = new Array();
+        data.phones = typeof data.phones === "string" ? data.phones : JSON.stringify(data.phones);
+        if (data.favorites) data.favorites = typeof data.favorites === "string" ? data.favorites : JSON.stringify(data.favorites);
         return new Promise((resolve, reject) => {
             if (data._id) {
                 for (let key in data) if (data.hasOwnProperty(key) && typeof data[key] === "string") Sql.insertOrUpdateOptions({ key: key, value: data[key] });

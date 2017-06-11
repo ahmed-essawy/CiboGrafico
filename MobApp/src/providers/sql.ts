@@ -78,4 +78,26 @@ export class Sql {
         });
     }
     static drop(table: string) { Sql.query(`DROP TABLE ${table}`, {}); }
+    static isExistsFavorite(id: string): Promise<PromiseResp> {
+        return new Promise((resolve, reject) => {
+            Sql.selectOptions("favorites").then(resp => {
+                resolve(new PromiseResp(true, (JSON.parse(resp.response) as string[]).find(favorite => favorite === id)) ? true : false);
+            }).catch(e => reject(e));
+        });
+    }
+    static insertFavorite(id: string): Promise<PromiseResp> {
+        return new Promise((resolve, reject) => {
+            Sql.isExistsFavorite(id).then(isExists => {
+                if (!isExists.response) {
+                    Sql.selectOptions("favorites").then(resp => {
+                        let favorites: string[] = JSON.parse(resp.response);
+                        favorites.push(id);
+                        Sql.query("INSERT INTO Options VALUES (?,?)", ["favorites", JSON.stringify(favorites)])
+                            .then(resp => resolve(new PromiseResp(true, resp.rowsAffected > 0)))
+                            .catch(e => reject(new PromiseResp(false, e)));
+                    });
+                } else reject(new PromiseResp(false, "Data already exists !"));
+            }).catch(e => reject(new PromiseResp(false, e)));
+        });
+    }
 }
