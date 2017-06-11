@@ -83,14 +83,14 @@ export class AccountPage {
         Utilities.hideLoader();
         Utilities.showToast("Facebook connected Failed.");
     }
-    async loadData() {
-        await Sql.selectOptions("_id").then(res => this.account._id = res.response).catch(err => console.log(err));
-        await Sql.selectOptions("firstName").then(res => this.account.firstName = res.response).catch(err => console.log(err));
-        await Sql.selectOptions("lastName").then(res => this.account.lastName = res.response).catch(err => console.log(err));
-        await Sql.selectOptions("image").then(res => this.account.image = res.response).catch(err => console.log(err));
-        await Sql.selectOptions("email").then(res => this.account.email = res.response).catch(err => console.log(err));
-        await Sql.selectOptions("username").then(res => this.account.username = res.response).catch(err => console.log(err));
-        await Sql.selectOptions("address").then(res => this.account.address = JSON.parse(res.response)).catch(err => console.log(err));
-        await Sql.selectOptions("phones").then(res => this.account.phones = JSON.parse(res.response)).catch(err => console.log(err));
+    loadData() {
+        return Promise.all([Sql.selectOptions("_id").then(res => this.account._id = res.response).catch(err => console.log(err)),
+        Sql.selectOptions("firstName").then(res => this.account.firstName = res.response).catch(err => console.log(err)),
+        Sql.selectOptions("lastName").then(res => this.account.lastName = res.response).catch(err => console.log(err)),
+        Sql.selectOptions("image").then(res => this.account.image = res.response).catch(err => console.log(err)),
+        Sql.selectOptions("email").then(res => this.account.email = res.response).catch(err => console.log(err)),
+        Sql.selectOptions("username").then(res => this.account.username = res.response).catch(err => console.log(err)),
+        Sql.selectOptions("address").then(res => this.account.address = JSON.parse(res.response)).catch(err => console.log(err)),
+        Sql.selectOptions("phones").then(res => this.account.phones = JSON.parse(res.response)).catch(err => console.log(err))]);
     }
 }

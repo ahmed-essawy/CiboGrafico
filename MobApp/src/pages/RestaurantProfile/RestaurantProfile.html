@@ -1,84 +1,93 @@
 ﻿<ion-header>
-  <ion-navbar color="danger" text-center>
-    <ion-title>{{restaurant?.name}}</ion-title>
-  </ion-navbar>
+    <ion-navbar color="danger" text-center>
+        <ion-title>{{restaurant?.name}}</ion-title>
+    </ion-navbar>
 </ion-header>
 <ion-content padding>
-  <ion-item>
-    <ion-thumbnail item-left>
-      <img [src]="restaurant?.logo">
-    </ion-thumbnail>
-    <h1>{{restaurant?.name}}</h1>
-    <ion-rating *ngIf="isLogged && !addedReviewBefore" [numStars]="5" [readOnly]="readonly" [value]="0" (clicked)="starClicked($event)">
-    </ion-rating>
-    <ion-badge item-right>{{restaurant?.rate | number:'1.1-1'}}
-      <ion-icon name="star" style="padding: 8px"></ion-icon>
-    </ion-badge>
-  </ion-item>
-  <ion-grid>
-    <ion-row>
-      <ion-col width-50><button style="width:100%" ion-button color="danger" outline (click)="menu(restaurant?._id)">Menu<ion-icon ios="ios-restaurant" md="ios-restaurant" padding-left></ion-icon></button></ion-col>
-      <ion-col width-50><button ion-button style="width:100%" color="secondary" outline (click)="reserve(restaurant?._id)">Reserve<ion-icon name="calendar" padding-left></ion-icon></button></ion-col>
-    </ion-row>
-  </ion-grid>
-  <div *ngIf="restaurant?.offers?.length > 0" padding-bottom padding-top>
-    <h1>Offers</h1>
-    <ion-slides autoplay="3000" loop="true" speed="1000" autoplayDisableOnInteraction="false">
-      <ion-slide *ngFor="let offer of restaurant.offers" class="slide-offer">
-        <img [src]="offer.image" (click)="offerDetails(offer)" />
-      </ion-slide>
-    </ion-slides>
-  </div>
-  <div *ngIf="restaurant?.branches?.length > 0">
-    <h1>Branches</h1>
-    <ion-slides autoplay="4000" loop="true" speed="2000">
-      <ion-slide *ngFor="let branch of restaurant.branches">
-        <ion-card>
-          <ion-card-header color="danger" style="font-weight: bold;font-size: 20px">{{branch.name}} branch</ion-card-header>
-          <ion-item-group>
-            <ion-item-divider color="danger" text-left><b>Address</b></ion-item-divider>
-            <ion-item text-wrap>
-              {{branch.address.area}}, {{branch.address.street}} street<br /> {{branch.address.city}}, {{branch.address.country}}
+    <ion-item>
+        <ion-thumbnail item-left>
+            <img [src]="restaurant?.logo">
+        </ion-thumbnail>
+        <h1>{{restaurant?.name}}</h1>
+        <ion-rating (clicked)="starClicked($event)" *ngIf="isLogged && !addedReviewBefore" [numStars]="5" [readOnly]="readonly" [value]="0">
+        </ion-rating>
+        <ion-badge item-right>
+            {{restaurant?.rate | number:'1.1-1'}}
+            <ion-icon name="star" style="padding: 8px"></ion-icon>
+        </ion-badge>
+    </ion-item>
+    <ion-grid>
+        <ion-row>
+            <ion-col width-50>
+                <button (click)="menu(restaurant?._id)" block color="danger" ion-button outline>Menu<ion-icon ios="ios-restaurant" md="ios-restaurant" padding-left></ion-icon></button>
+            </ion-col>
+            <ion-col width-50>
+                <button (click)="reserve(restaurant?._id)" block color="secondary" ion-button outline>Reserve<ion-icon name="calendar" padding-left></ion-icon></button>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+    <div *ngIf="restaurant?.offers?.length > 0" padding-bottom padding-top>
+        <h1>Offers</h1>
+        <ion-slides autoplay="3000" autoplayDisableOnInteraction="false" loop="true" speed="1000">
+            <ion-slide *ngFor="let offer of restaurant.offers" class="slide-offer">
+                <img (click)="offerDetails(offer)" [src]="offer.image" />
+            </ion-slide>
+        </ion-slides>
+    </div>
+    <div *ngIf="restaurant?.branches?.length > 0">
+        <h1>Branches</h1>
+        <ion-slides autoplay="4000" loop="true" speed="2000">
+            <ion-slide *ngFor="let branch of restaurant.branches">
+                <ion-card>
+                    <ion-card-header color="danger" style="font-size: 20px; font-weight: bold;">{{branch.name}} branch</ion-card-header>
+                    <ion-item-group>
+                        <ion-item-divider color="danger" text-left>
+                            <b>Address</b>
+                        </ion-item-divider>
+                        <ion-item text-wrap>
+                            {{branch.address.area}}, {{branch.address.street}} street<br /> {{branch.address.city}}, {{branch.address.country}}
+                        </ion-item>
+                    </ion-item-group>
+                    <ion-item-group>
+                        <ion-item-divider color="danger" text-left>
+                            <b>Contact Us</b>
+                        </ion-item-divider>
+                        <ion-item text-wrap>
+                            <div>
+                                <ion-icon name="call"></ion-icon>
+                                <span item-left style="font-weight: bold">Phones:</span>
+                                <a *ngFor="let phone of branch.phones" class="phone" color="danger" ion-text href="tel:{{phone}}">{{phone}}</a>
+                            </div>
+                            <div>
+                                <ion-icon name="mail"></ion-icon>
+                                <span item-left style="font-weight: bold">Email:</span>
+                                <a color="danger" ion-text href="mailto:{{branch.email}}">{{branch.email}}</a>
+                            </div>
+                        </ion-item>
+                    </ion-item-group>
+                </ion-card>
+            </ion-slide>
+        </ion-slides>
+    </div>
+    <h1>Reviews</h1>
+    <ion-card *ngFor="let review of restaurant?.reviews">
+        <ion-list>
+            <ion-item>
+                <ion-avatar item-left>
+                    <img [src]="review?.userImg" />
+                </ion-avatar>
+                <h3>{{review?.name}}</h3>
+                <p>{{review?.date | date: 'dd-MM-yyyy'}}</p>
             </ion-item>
-          </ion-item-group>
-          <ion-item-group>
-            <ion-item-divider color="danger" text-left><b>Contact Us</b></ion-item-divider>
-            <ion-item text-wrap>
-              <div>
-                <ion-icon name="call"></ion-icon>
-                <span item-left style="font-weight: bold">Phones:</span>
-                <span class="phone" *ngFor="let phone of branch.phones">{{phone}}</span>
-              </div>
-              <div>
-                <ion-icon name="mail"></ion-icon>
-                <span item-left style="font-weight: bold">Email:</span>
-                <span>{{branch.email}}</span>
-              </div>
+        </ion-list>
+        <ion-card-content>{{review?.comment}}</ion-card-content>
+    </ion-card>
+    <ion-list *ngIf="isLogged" padding-bottom padding-top>
+        <form #form="ngForm" (ngSubmit)="submit(form)">
+            <ion-item>
+                <ion-input [(ngModel)]="comment" name="comment" placeholder="Tell us about your review" type="text"></ion-input>
+                <button color="primary" ion-button item-right>Add</button>
             </ion-item>
-          </ion-item-group>
-        </ion-card>
-      </ion-slide>
-    </ion-slides>
-  </div>
-  <h1>Reviews</h1>
-  <ion-card *ngFor="let review of restaurant?.reviews">
-    <ion-list>
-      <ion-item>
-        <ion-avatar item-left>
-          <img [src]="review?.userImg" />
-        </ion-avatar>
-        <h3>{{review?.name}}</h3>
-        <p>{{review?.date | date: 'dd-MM-yyyy'}}</p>
-      </ion-item>
+        </form>
     </ion-list>
-    <ion-card-content>{{review?.comment}}</ion-card-content>
-  </ion-card>
-  <ion-list *ngIf="isLogged" padding-bottom padding-top>
-    <form #form='ngForm' (ngSubmit)="submit(form)">
-      <ion-item>
-        <ion-input placeholder="Tell us about your review" type="text" [(ngModel)]="comment" name="comment"></ion-input>
-        <button ion-button color="primary" item-right>Add</button>
-      </ion-item>
-    </form>
-  </ion-list>
 </ion-content>
