@@ -27,8 +27,7 @@ export class Utilities {
             message: message,
             showCloseButton: true,
             closeButtonText: "OK",
-            duration: 5000,
-            dismissOnPageChange: true
+            duration: 3000
         })
         Utilities.toast.present();
         Utilities.toast.onDidDismiss(onDismiss);

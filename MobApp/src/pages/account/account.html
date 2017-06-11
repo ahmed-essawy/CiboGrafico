@@ -1,60 +1,80 @@
 ﻿<ion-header>
-    <ion-navbar color="danger" text-center>
-        <ion-title>Profile</ion-title>
+    <ion-toolbar color="danger" text-center>
+        <ion-buttons left>
+            <button icon-only ion-button large menuToggle>
+                <ion-icon name="menu"></ion-icon>
+            </button>
+        </ion-buttons>
+        <ion-title>{{account.firstName}} {{account.lastName}}</ion-title>
         <ion-buttons end>
             <button (click)="buttonToggle()" clear ion-button>{{button}}</button>
         </ion-buttons>
-    </ion-navbar>
+    </ion-toolbar>
 </ion-header>
-<ion-content padding>
-    <ion-list>
-        <ion-item>
-            <ion-avatar>
-                <img src="{{account.image}}">
-                <ion-label>{{account.username}}</ion-label>
-            </ion-avatar>
-        </ion-item>
-        <ion-item>
-            <ion-label floating>First Name</ion-label>
-            <ion-input [(ngModel)]="account.firstName" readonly="{{visible}}" type="text"></ion-input>
-        </ion-item>
-        <ion-item>
-            <ion-label floating>Last Name</ion-label>
-            <ion-input [(ngModel)]="account.lastName" readonly="{{visible}}" type="text"></ion-input>
-        </ion-item>
-        <ion-item>
-            <ion-label floating>Email</ion-label>
-            <ion-input [(ngModel)]="account.email" readonly="true" type="text"></ion-input>
-        </ion-item>
-        <ion-item>
-            <ion-label floating>Street</ion-label>
-            <ion-input [(ngModel)]="account.address.street" readonly="{{visible}}" type="text"></ion-input>
-        </ion-item>
-        <ion-item>
-            <ion-label floating>City</ion-label>
-            <ion-input [(ngModel)]="account.address.city" readonly="{{visible}}" type="text"></ion-input>
-        </ion-item>
-        <ion-item>
-            <ion-label floating>Country</ion-label>
-            <ion-input [(ngModel)]="account.address.country" readonly="{{visible}}" type="text"></ion-input>
-        </ion-item>
-        <!--<ion-label floating>Phones</ion-label>
-        <ion-item *ngIf="account.phones.length > 0">
-            <ion-input *ngFor="let phone of account.phones" readonly="{{visible}}" type="text"></ion-input>
-        </ion-item>-->
-        <ion-item>
-            <ion-grid>
-                <ion-row>
-                    <ion-col width-50>
-                        <button (click)="doFbLogin()" icon-right ion-button style="width: 100%">Connect<ion-icon name="logo-facebook"></ion-icon></button>
-                    </ion-col>
-                    <ion-col width-50>
-                        <button (click)="doSignOut()" color="danger" ion-button style="width: 100%">Sign Out</button>
-                    </ion-col>
-                </ion-row>
-            </ion-grid>
-        </ion-item>
-    </ion-list>
+<ion-content>
+    <div class="profile-sec" text-center>
+        <ion-avatar>
+            <img class="profile-img" src="{{account.image}}">
+        </ion-avatar>
+        <ion-label icon-left>
+            <ion-icon name="person"></ion-icon>{{account.username}}
+        </ion-label>
+        <ion-label icon-left>
+            <ion-icon name="mail"></ion-icon>{{account.email}}
+        </ion-label>
+    </div>
+    <ion-card>
+        <ion-card-header>
+            Informamtion
+            <button (click)="buttonToggle()" clear color="danger" ion-button style="float: right">{{button}}</button>
+        </ion-card-header>
+        <ion-card-content>
+            <ion-list>
+                <ion-item>
+                    <ion-label floating icon-left>
+                        <ion-icon name="keypad"></ion-icon>First Name
+                    </ion-label>
+                    <ion-input [(ngModel)]="account.firstName" disabled="{{visible}}" type="text"></ion-input>
+                </ion-item>
+                <ion-item>
+                    <ion-label floating icon-left>
+                        <ion-icon name="keypad"></ion-icon>Last Name
+                    </ion-label>
+                    <ion-input [(ngModel)]="account.lastName" disabled="{{visible}}" type="text"></ion-input>
+                </ion-item>
+                <ion-item>
+                    <ion-label floating icon-left>Street</ion-label>
+                    <ion-input [(ngModel)]="account.address.street" disabled="{{visible}}" type="text"></ion-input>
+                </ion-item>
+                <ion-item>
+                    <ion-label floating icon-left>City</ion-label>
+                    <ion-input [(ngModel)]="account.address.city" disabled="{{visible}}" type="text"></ion-input>
+                </ion-item>
+                <ion-item>
+                    <ion-label floating icon-left>Country</ion-label>
+                    <ion-input [(ngModel)]="account.address.country" disabled="{{visible}}" type="text"></ion-input>
+                </ion-item>
+                <!--<ion-label floating icon-left>Phones</ion-label>
+                <ion-item *ngIf="account.phones.length > 0">
+                    <ion-input *ngFor="let phone of account.phones" disabled="{{visible}}" type="text"></ion-input>
+                </ion-item>-->
+            </ion-list>
+            <ion-list>
+                <ion-item>
+                    <ion-grid>
+                        <ion-row>
+                            <ion-col width-50>
+                                <button (click)="doFbLogin()" icon-right ion-button style="width: 100%">Connect<ion-icon name="logo-facebook"></ion-icon></button>
+                            </ion-col>
+                            <ion-col width-50>
+                                <button (click)="doSignOut()" color="danger" ion-button style="width: 100%">Sign Out</button>
+                            </ion-col>
+                        </ion-row>
+                    </ion-grid>
+                </ion-item>
+            </ion-list>
+        </ion-card-content>
+    </ion-card>
     <div>
         <ion-segment [(ngModel)]="segment">
             <ion-segment-button value="favorites">

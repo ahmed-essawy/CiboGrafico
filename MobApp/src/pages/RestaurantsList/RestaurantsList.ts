@@ -14,7 +14,7 @@ export class RestaurantsListPage {
         this.restaurant.readAll().then((resp: PromiseResp) => {
             this.restaurants = resp.response;
             Utilities.hideLoader();
-        }).catch(err => Utilities.hideLoader());
+        }).catch(err => { navCtrl.pop(); Utilities.hideLoader(); Utilities.showToast("Failed to retrieve data.") });
     }
     details(restId: any) { this.navCtrl.push(RestaurantProfilePage, { Id: restId }); }
 }

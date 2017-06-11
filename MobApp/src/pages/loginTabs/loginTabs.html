@@ -1,7 +1,7 @@
-﻿<ion-header no-border>
+﻿<ion-header>
     <ion-toolbar color="danger" text-center>
         <ion-buttons left>
-            <button icon-onl ion-button large menuToggle>
+            <button icon-only ion-button large menuToggle>
                 <ion-icon name="menu"></ion-icon>
             </button>
         </ion-buttons>
@@ -9,6 +9,6 @@
     </ion-toolbar>
 </ion-header>
 <ion-tabs tabsPlacement="top">
-    <ion-tab [root]="signin" tabTitle="Log In" tabIcon="log-in"></ion-tab>
-    <ion-tab [root]="signup" tabTitle="Sign Up" tabIcon="person-add"></ion-tab>
+    <ion-tab [root]="signin" tabIcon="log-in" tabTitle="Log In"></ion-tab>
+    <ion-tab [root]="signup" tabIcon="person-add" tabTitle="Sign Up"></ion-tab>
 </ion-tabs>

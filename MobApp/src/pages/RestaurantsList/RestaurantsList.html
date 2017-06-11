@@ -1,7 +1,12 @@
 ﻿<ion-header>
-  <ion-navbar color="danger"  text-center>
-    <ion-title>Restaurants</ion-title>
-  </ion-navbar>
+    <ion-toolbar color="danger" text-center>
+        <ion-buttons left>
+            <button icon-only ion-button large menuToggle>
+                <ion-icon name="menu"></ion-icon>
+            </button>
+        </ion-buttons>
+        <ion-title>Restaurants</ion-title>
+    </ion-toolbar>
 </ion-header>
 
 <ion-content padding>
@@ -10,7 +15,7 @@
             <ion-thumbnail item-left><img [src]="rest?.logo"></ion-thumbnail>
             <h1>{{rest.name}}</h1>
             <ion-rating [numStars]="5" [readOnly]="true" [value]="rest?.rate"></ion-rating>
-           <ion-icon ios="ios-arrow-forward" md="ios-arrow-forward" item-right></ion-icon>
+            <ion-icon ios="ios-arrow-forward" md="ios-arrow-forward" item-right></ion-icon>
         </ion-item>
     </ion-list>
 </ion-content>

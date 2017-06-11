@@ -4,26 +4,44 @@
     </ion-navbar>
 </ion-header>
 <ion-content padding>
-    <button (click)="doFbLogin()" block ion-button icon-right>Log In with Facebook<ion-icon name="logo-facebook"></ion-icon></button>
+    <button (click)="doFbLogin()" block icon-right ion-button>Log In with Facebook<ion-icon name="logo-facebook"></ion-icon></button>
     <ion-list>
         <ion-item>
+            <ion-label>
+                <ion-icon name="keypad"></ion-icon>
+            </ion-label>
             <ion-input [(ngModel)]="account.firstName" name="firstName" placeholder="First name" type="text"></ion-input>
         </ion-item>
         <ion-item>
+            <ion-label>
+                <ion-icon name="keypad"></ion-icon>
+            </ion-label>
             <ion-input [(ngModel)]="account.lastName" name="lastName" placeholder="Last name" type="text"></ion-input>
         </ion-item>
         <ion-item>
+            <ion-label>
+                <ion-icon name="mail"></ion-icon>
+            </ion-label>
             <ion-input [(ngModel)]="account.email" name="email" placeholder="Email" type="email"></ion-input>
         </ion-item>
         <ion-item>
+            <ion-label>
+                <ion-icon name="person"></ion-icon>
+            </ion-label>
             <ion-input [(ngModel)]="account.username" name="username" placeholder="Username" type="username"></ion-input>
         </ion-item>
         <ion-item>
+            <ion-label>
+                <ion-icon name="lock"></ion-icon>
+            </ion-label>
             <ion-input [(ngModel)]="account.password" name="password" placeholder="Password" type="password"></ion-input>
         </ion-item>
         <ion-item>
+            <ion-label>
+                <ion-icon name="lock"></ion-icon>
+            </ion-label>
             <ion-input [(ngModel)]="account.pasCheck" name="pasCheck" placeholder="Confirm your password" type="password"></ion-input>
         </ion-item>
     </ion-list>
-    <button (click)="doSignUp()" block ion-button large color="secondary">Sign Up</button>
+    <button (click)="doSignUp()" block color="secondary" ion-button large>Sign Up</button>
 </ion-content>
