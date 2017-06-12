@@ -1,3 +1,7 @@
 ﻿page-RestaurantsList {
-
+  ion-grid:before {
+    content: "";
+    display: block;
+    margin: -8px 0;
+  }
 }

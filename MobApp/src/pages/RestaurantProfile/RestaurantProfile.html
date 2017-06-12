@@ -8,7 +8,7 @@
         <ion-thumbnail item-left>
             <img [src]="restaurant?.logo">
         </ion-thumbnail>
-        <h1>{{restaurant?.name}}</h1>
+      <b style="font-size: large">{{restaurant?.name}}</b>
         <ion-rating (clicked)="starClicked($event)" *ngIf="isLogged && !addedReviewBefore" [numStars]="5" [readOnly]="readonly" [value]="0">
         </ion-rating>
         <ion-badge item-right>
@@ -76,8 +76,10 @@
                 <ion-avatar item-left>
                     <img [src]="review?.userImg" />
                 </ion-avatar>
+              <div padding>
                 <h3>{{review?.name}}</h3>
                 <p>{{review?.date | date: 'dd-MM-yyyy'}}</p>
+              </div>
             </ion-item>
         </ion-list>
         <ion-card-content>{{review?.comment}}</ion-card-content>
