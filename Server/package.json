@@ -1,14 +1,24 @@
 {
-    "name": "app-service-hello-world",
-    "description": "Simple Hello World Node.js sample for Azure App Service",
-    "version": "0.0.1",
-    "private": true,
-    "license": "MIT",
-    "author": "Microsoft",
+  "author": {
+    "name": "Ahmed El-Essawy, Engy Abd Elaziz, Omar Hamdy, Sohaila Tarek"
+  },
+  "dependencies": {
+    "body-parser": "^1.17.1",
+    "class-validator": "^0.7.0",
+    "cookie": "^0.3.1",
+    "cookie-parser": "^1.4.3",
+    "express": "^4.15.2",
+    "md5": "^2.2.1",
+    "mongodb": "^2.2.26"
+  },
+  "description": "Server",
+  "main": "server.ts",
+  "name": "cibografico-api",
+  "version": "0.0.0",
     "engines": {
         "node": ">=6.9.1"
     },
     "scripts": {
-        "start": "node server.min.js"
+        "start": "node Scripts\libs\ser.js"
     }
 }
