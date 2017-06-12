@@ -11,34 +11,34 @@ module.exports = {
                 else return callback({ success: false, data: object });
             });
     },
-    ReadFull(object: Id, callback: any) {
-        return callback({ success: false });
-        //Collection("Orders").findOne({ "_id": objectId(object._id) }, (err, row: Order) => {
-        //    if (err) return callback({ success: false, msg: "Error !!" });
-        //    if (row) {
-        //        const order = async function () {
-        //            const meals = Array<Meal>();
-        //            for (let i = 0; i < row.meals.length; i++) {
-        //                const meal = row.meals[i];
-        //                await new Promise((resolve, reject) => {
-        //                    Collection("Restaurants").findOne({ "_id": objectId(row.restaurant) }, (err, rest: Restaurant) => {
-        //                        if (err) return callback({ success: false, msg: "Error !!" });
-        //                        if (rest) {
-        //                            meal["name"] = rest.meals.filter(b => b._id.toString() === meal._id.toString())[0].name;
-        //                            resolve(meal);
-        //                        }
-        //                        reject({ success: false, data: meal._id });
-        //                    });
-        //                }).then(meal => meals.push(meal as Meal)).catch(() => {});
-        //            }
-        //            return meals;
-        //        };
-        //        order().then(meals => {
-        //            row.meals = meals;
-        //            callback({ success: true, data: row });
-        //        });
-        //    } else return callback({ success: false });
-        //});
+    ReadFull(object: string, callback: any) {
+        //return callback({ success: false });
+        Collection("Orders").findOne({ "_id": objectId(object) }, (err, row: Order) => {
+            if (err) return callback({ success: false, msg: "Error !!" });
+            if (row) {
+                const order = async function () {
+                    const meals = Array<Meal>();
+                    for (let i = 0; i < row.meals.length; i++) {
+                        const meal = row.meals[i];
+                        await new Promise((resolve, reject) => {
+                            Collection("Restaurants").findOne({ "_id": objectId(row.restaurant) }, (err, rest: Restaurant) => {
+                                if (err) return callback({ success: false, msg: "Error !!" });
+                                if (rest) {
+                                    meal["name"] = rest.meals.filter(b => b._id.toString() === meal._id.toString())[0].name;
+                                    resolve(meal);
+                                }
+                                reject({ success: false, data: meal._id });
+                            });
+                        }).then(meal => meals.push(meal as Meal)).catch(() => { });
+                    }
+                    return meals;
+                };
+                order().then(meals => {
+                    row.meals = meals;
+                    callback({ success: true, data: row });
+                });
+            } else return callback({ success: false });
+        });
     },
     ReadAll(callback: any) {
         Collection("Orders").find().toArray((err, row: Order[]) => {
@@ -125,7 +125,7 @@ module.exports = {
                     for (let i = 0; i < row.length; i++) {
                         const orderMeals = row[i].meals;
                         await new Promise((resolve,
-                                           reject) => {
+                            reject) => {
                             const order = async function () {
                                 const meals = Array<Meal>();
                                 for (let j = 0; j < row[i].meals.length; j++) {
@@ -135,7 +135,7 @@ module.exports = {
                                 return orders;
                             };
                             orders().then(orders => callback({ success: true, data: orders }));
-                        }).then(meal => {}).catch(() => {});
+                        }).then(meal => { }).catch(() => { });
                     }
                     return orders;
                 };
@@ -159,7 +159,7 @@ module.exports = {
                                 }
                                 reject();
                             });
-                        }).then(order => orders.push(order as Order)).catch(() => {});
+                        }).then(order => orders.push(order as Order)).catch(() => { });
                     }
                     return orders;
                 };
