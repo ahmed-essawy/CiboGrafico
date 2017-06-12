@@ -56,10 +56,12 @@ module.exports = {
             } else return callback({ success: false, msg: "Can't delete data" });
         });
     },
-    AddFavorite(object: Meal, UserId: Id, callback: any) {
+    AddFavorite(object: Meal, object2: { userId: string, restId: string }, callback: any) {
+        object2.restId = objectId(object2.restId);
         object._id = objectId(object._id);
         object.ingredients.forEach((e, i, arr) => arr[i] = objectId(arr[i]));
-        Collection("Users").update({ _id: objectId(UserId._id), "favorites._id": { $ne: objectId(object._id) } }, { $addToSet: { "favorites": object } }, (err, resp) => {
+        object["restId"] = objectId(object2.userId);
+        Collection("Users").update({ _id: objectId(object2.userId), "favorites._id": { $ne: objectId(object._id) } }, { $addToSet: { "favorites": object } }, (err, resp) => {
                 if (err) return callback({ success: false, msg: "Error !!" });
                 if (resp.result.nModified > 0) return callback({ success: true, data: resp.result });
                 else return callback({ success: false, data: "Data not modified" });
