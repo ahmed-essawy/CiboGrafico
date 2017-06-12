@@ -4,6 +4,7 @@
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
     <Name>Server</Name>
     <RootNamespace>Serverx</RootNamespace>
+    <NameOfLastUsedPublishProfile>CiboGrafico - FTP</NameOfLastUsedPublishProfile>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -12,8 +13,7 @@
     <ProjectGuid>96402235-5c5d-41f4-86de-d939dbb0a4af</ProjectGuid>
     <ProjectHome>
     </ProjectHome>
-    <StartupFile>
-    </StartupFile>
+    <StartupFile>Scripts\libs\server.js</StartupFile>
     <StartWebBrowser>True</StartWebBrowser>
     <SearchPath>
     </SearchPath>
@@ -29,11 +29,30 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
+    <TypeScriptTarget>ES6</TypeScriptTarget>
+    <TypeScriptJSXEmit>None</TypeScriptJSXEmit>
+    <TypeScriptCompileOnSaveEnabled>True</TypeScriptCompileOnSaveEnabled>
+    <TypeScriptNoImplicitAny>False</TypeScriptNoImplicitAny>
+    <TypeScriptModuleKind>CommonJS</TypeScriptModuleKind>
+    <TypeScriptRemoveComments>False</TypeScriptRemoveComments>
+    <TypeScriptOutFile>
+    </TypeScriptOutFile>
+    <TypeScriptOutDir>.\Scripts\libs</TypeScriptOutDir>
+    <TypeScriptGeneratesDeclarations>False</TypeScriptGeneratesDeclarations>
+    <TypeScriptNoEmitOnError>True</TypeScriptNoEmitOnError>
+    <TypeScriptSourceMap>True</TypeScriptSourceMap>
+    <TypeScriptMapRoot />
+    <TypeScriptSourceRoot />
+    <TypeScriptExperimentalDecorators>True</TypeScriptExperimentalDecorators>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
+    <None Include="CiboGrafico - Web Deploy.pubxml" />
+    <None Include="CiboGrafico - FTP.pubxml" />
+    <Content Include="Web.config" />
+    <None Include="Web.Debug.config" />
     <None Include="bundleconfig.json" />
     <Content Include="Scripts\libs\Scripts\Sources\Access Layers\Branches.js.map" />
     <Content Include="Scripts\libs\Scripts\Sources\Access Layers\Ingredients.js.map" />
@@ -63,9 +82,6 @@
     <Content Include="Scripts\libs\Scripts\Sources\Settings.js.map" />
     <Content Include="Scripts\libs\Scripts\Sources\Types.js.map" />
     <Content Include="Scripts\libs\server.js.map" />
-    <Content Include="tsconfig.json">
-      <SubType>Code</SubType>
-    </Content>
     <TypeScriptCompile Include="Scripts\Sources\Access Layers\Ingredients.ts" />
     <TypeScriptCompile Include="Scripts\Sources\Access Layers\Locations.ts" />
     <TypeScriptCompile Include="Scripts\Sources\Access Layers\Branches.ts">
