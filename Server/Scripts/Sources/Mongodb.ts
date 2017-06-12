@@ -12,7 +12,7 @@ module.exports = {
         });
     }),
     connectToServer: function (callback: any) {
-        require("mongodb").MongoClient.connect("mongodb://cibograficodb:APYb3hzAd7gB6sY3mHtWtAY23RWcvRmhychWibTrAU5Zv7tIlBWFrugrTcWQ6dO4ehpuANgjMW0kOKqTY2FAaQ==@cibograficodb.documents.azure.com:10255/CiboGraficoDB?ssl=true",
+        require("mongodb").MongoClient.connect("mongodb://localhost:27017/CiboGraficoDB",
             (err, db) => {
                 collection["db"] = db;
                 collection["Authentications"] = db.collection("Authentications");
