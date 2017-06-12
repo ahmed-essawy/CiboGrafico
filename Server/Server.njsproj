@@ -12,8 +12,7 @@
     <ProjectGuid>96402235-5c5d-41f4-86de-d939dbb0a4af</ProjectGuid>
     <ProjectHome>
     </ProjectHome>
-    <StartupFile>
-    </StartupFile>
+    <StartupFile>Scripts\libs\server.js</StartupFile>
     <StartWebBrowser>True</StartWebBrowser>
     <SearchPath>
     </SearchPath>
@@ -34,7 +33,6 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
-    <Content Include="web.config" />
     <None Include="bundleconfig.json" />
     <Content Include="tsconfig.json">
       <SubType>Code</SubType>
