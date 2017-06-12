@@ -15,7 +15,10 @@
   "main": "server.ts",
   "name": "cibografico-api",
   "version": "0.0.0",
-  "scripts": {
-    "start": "node Scripts/libs/server.js"
-  }
+    "engines": {
+        "node": ">=6.9.1"
+    },
+    "scripts": {
+        "start": "node Scripts\libs\ser.js"
+    }
 }
