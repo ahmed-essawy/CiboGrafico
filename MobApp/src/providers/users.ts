@@ -75,7 +75,6 @@ export class Users {
         return new Promise((resolve, reject) => {
             this.fb.api(`me?fields=id,first_name,last_name,email&accesstoken=${response.accessToken}`, [])
                 .then(resp => {
-                console.log(resp)
                     for (let key in fbAuthData) if (fbAuthData.hasOwnProperty(key)) resp[key] = fbAuthData[key];
                     Sql.selectOptions("_id").then(id => {
                         resp["isRegistered"] = id.success;
