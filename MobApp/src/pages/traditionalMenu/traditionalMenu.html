@@ -10,7 +10,7 @@
 </ion-header>
 <ion-content padding>
   <ion-list>
-    <ion-item *ngFor="let meal of Meals">
+    <ion-item *ngFor="let meal of Meals" text-wrap>
       <ion-thumbnail (click)="Show(meal._id)" item-left>
         <img [src]="meal?.image">
       </ion-thumbnail>
@@ -21,13 +21,8 @@
         <p id="oldPrice">{{meal?.price | currency:'EGP':true:'1.2-2'}}</p>
         <p>{{meal?.price * (1-meal?.discount) | currency:'EGP':true:'1.2-2'}}</p>
       </div>
-      <button id="icon" (click)="favourite(meal)">
-        <ion-icon color="danger" name="heart" [ngClass]="isFavourite ? 'ios-heart' : 'ios-heart-outline'"></ion-icon>
-      </button>
-      <!--<ion-icon name="heart" ios="ios-heart"></ion-icon>
-      <ion-icon name="heart"></ion-icon>-->
-      <!--<ion-icon color="danger" ios="ios-heart"></ion-icon>
-      <ion-icon color="danger" ios="ios-heart-outline"></ion-icon>-->
+      <ion-icon (click)="favourite(meal)" color="danger" name="heart" [ngClass]="isFavourite?'icon icon-md ion-md-heart':'icon icon-md ion-md-heartokk-outline'"></ion-icon>
+
       <button (click)="Remove(meal?._id)" icon-only id="remove" ion-button item-right>
         <ion-icon clear name="remove-circle" padding></ion-icon>
       </button>

@@ -1,90 +1,91 @@
 ﻿<ion-header>
-    <ion-toolbar color="danger" text-center>
-        <ion-buttons left>
-            <button icon-only ion-button large menuToggle>
-                <ion-icon name="menu"></ion-icon>
-            </button>
-        </ion-buttons>
-        <ion-title>{{account.firstName}} {{account.lastName}}</ion-title>
-        <ion-buttons end>
-            <button (click)="doSignOut()" clear ion-button>Sign Out</button>
-        </ion-buttons>
-    </ion-toolbar>
+  <ion-toolbar color="danger" text-center>
+    <ion-buttons left>
+      <button icon-only ion-button large menuToggle>
+        <ion-icon name="menu"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>{{account.firstName}} {{account.lastName}}</ion-title>
+    <ion-buttons end>
+      <button (click)="doSignOut()" clear ion-button>Sign Out</button>
+    </ion-buttons>
+  </ion-toolbar>
 </ion-header>
 <ion-content>
-    <div class="profile-sec" text-center>
-        <ion-avatar>
-            <img class="profile-img" src="{{account.image}}">
-        </ion-avatar>
-        <ion-label icon-left>
-            <ion-icon name="person"></ion-icon>{{account.username}}
-        </ion-label>
-        <ion-label icon-left>
-            <ion-icon name="mail"></ion-icon>{{account.email}}
-        </ion-label>
-    </div>
-    <ion-card>
-        <ion-card-header>
-            Informamtion
-            <button (click)="buttonToggle()" clear color="danger" ion-button style="float: right">{{button}}</button>
-        </ion-card-header>
-        <ion-card-content>
-            <ion-list>
-                <ion-item>
-                    <ion-label floating icon-left>
-                        <ion-icon name="keypad"></ion-icon>First Name
-                    </ion-label>
-                    <ion-input [(ngModel)]="account.firstName" disabled="{{visible}}" type="text" required></ion-input>
-                </ion-item>
-                <ion-item>
-                    <ion-label floating icon-left>
-                        <ion-icon name="keypad"></ion-icon>Last Name
-                    </ion-label>
-                    <ion-input [(ngModel)]="account.lastName" disabled="{{visible}}" type="text" required></ion-input>
-                </ion-item>
-                <ion-item>
-                    <ion-label floating icon-left>Street</ion-label>
-                    <ion-input [(ngModel)]="account.address.street" disabled="{{visible}}" type="text"></ion-input>
-                </ion-item>
-                <ion-item>
-                    <ion-label floating icon-left>City</ion-label>
-                    <ion-input [(ngModel)]="account.address.city" disabled="{{visible}}" type="text"></ion-input>
-                </ion-item>
-                <ion-item>
-                    <ion-label floating icon-left>Country</ion-label>
-                    <ion-input [(ngModel)]="account.address.country" disabled="{{visible}}" type="text"></ion-input>
-                </ion-item>
-                <ion-item *ngFor="let phone of account.phones; let i = index">
-                    <ion-label floating icon-left>
-                        <ion-icon name="call"></ion-icon>Phone {{i+1}}</ion-label>
-                    <ion-input [(ngModel)]="account.phones[i]" disabled="{{visible}}" type="tel"></ion-input>
-                </ion-item>
-            </ion-list>
-            <ion-list>
-                <ion-item>
-                    <button (click)="doFbLogin()" block icon-right ion-button>Connect Facebook<ion-icon name="logo-facebook"></ion-icon></button>
-                </ion-item>
-            </ion-list>
-        </ion-card-content>
-    </ion-card>
-    <div>
-        <ion-segment [(ngModel)]="tabs">
-            <ion-segment-button icon-right value="favorites">
-                Your Favorites
-                <ion-icon name="heart"></ion-icon>
-            </ion-segment-button>
-            <ion-segment-button icon-right value="orders">
-                Your Orders
-                <ion-icon name="cart"></ion-icon>
-            </ion-segment-button>
-        </ion-segment>
-    </div>
-    <div [ngSwitch]="tabs">
-        <ion-list *ngSwitchCase="'favorites'">
-            <page-favorites></page-favorites>
-        </ion-list>
-        <ion-list *ngSwitchCase="'orders'">
-            <page-orders></page-orders>
-        </ion-list>
-    </div>
+  <div class="profile-sec" text-center>
+    <ion-avatar>
+      <img class="profile-img" src="{{account.image}}">
+    </ion-avatar>
+    <ion-label icon-left>
+      <ion-icon name="person"></ion-icon>{{account.username}}
+    </ion-label>
+    <ion-label icon-left>
+      <ion-icon name="mail"></ion-icon>{{account.email}}
+    </ion-label>
+  </div>
+  <ion-card>
+    <ion-card-header>
+      Information
+      <button (click)="buttonToggle()" clear color="danger" ion-button style="float: right">{{button}}</button>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list>
+        <ion-item>
+          <ion-label floating icon-left>
+            <ion-icon name="keypad"></ion-icon>First Name
+          </ion-label>
+          <ion-input [(ngModel)]="account.firstName" disabled="{{visible}}" type="text" required></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label floating icon-left>
+            <ion-icon name="keypad"></ion-icon>Last Name
+          </ion-label>
+          <ion-input [(ngModel)]="account.lastName" disabled="{{visible}}" type="text" required></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label floating icon-left>Street</ion-label>
+          <ion-input [(ngModel)]="account.address.street" disabled="{{visible}}" type="text"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label floating icon-left>City</ion-label>
+          <ion-input [(ngModel)]="account.address.city" disabled="{{visible}}" type="text"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label floating icon-left>Country</ion-label>
+          <ion-input [(ngModel)]="account.address.country" disabled="{{visible}}" type="text"></ion-input>
+        </ion-item>
+        <ion-item *ngFor="let phone of account.phones; let i = index">
+          <ion-label floating icon-left>
+            <ion-icon name="call"></ion-icon>Phone {{i+1}}
+          </ion-label>
+          <ion-input [(ngModel)]="account.phones[i]" disabled="{{visible}}" type="tel"></ion-input>
+        </ion-item>
+      </ion-list>
+      <ion-list>
+        <ion-item>
+          <button (click)="doFbLogin()" block icon-right ion-button>Connect Facebook<ion-icon name="logo-facebook"></ion-icon></button>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+  <div>
+    <ion-segment [(ngModel)]="tabs">
+      <ion-segment-button icon-right value="favorites">
+        Your Favorites
+        <ion-icon name="heart"></ion-icon>
+      </ion-segment-button>
+      <ion-segment-button icon-right value="orders">
+        Your Orders
+        <ion-icon name="cart"></ion-icon>
+      </ion-segment-button>
+    </ion-segment>
+  </div>
+  <div [ngSwitch]="tabs">
+    <ion-list style="display:initial" *ngSwitchCase="'favorites'">
+      <page-favorites></page-favorites>
+    </ion-list>
+    <ion-list style="display:initial" *ngSwitchCase="'orders'">
+      <page-orders></page-orders>
+    </ion-list>
+  </div>
 </ion-content>

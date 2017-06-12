@@ -1,4 +1,4 @@
-<ion-header>
+﻿<ion-header>
   <ion-navbar>
     <ion-title>
       Order
@@ -6,17 +6,18 @@
   </ion-navbar>
 </ion-header>
 <ion-content padding>
- <ion-list>
-         <h1>{{restName}}</h1> 
-     <h1>{{orders?.num}}</h1>
-      <h1>{{orders?.address?.city}}</h1>
-   <h1>{{orders?.address?.country}}</h1> 
-   <h1>{{orders?.address?.street}}</h1>
-    <h1>{{orders?.time.slice(0,10)}}</h1>
-        <ion-item *ngFor="let meal of orders?.meals">
-            
-            <h2>{{meal?.name}}</h2>
-            <p>{{meal?.price}}</p>
-           
-        </ion-item>
-</ion-list>
+  <ion-list>
+    <ion-item><b>Address: </b>{{orders?.address?.street}}, {{orders?.address?.city}} {{orders?.address?.country}}</ion-item>
+    <ion-item><b>Ordered at: {{orders?.time.slice(0,10)}}</b></ion-item>
+    <ion-item *ngFor="let meal of orders?.meals">
+
+      <h2>{{meal?.name}}</h2>
+      <p>{{meal?.price | currency:'EGP':true:'1.2-2'}}</p>
+    </ion-item>
+    <ion-item>
+      <h2>
+        <b>Total Order Price: {{total| currency:'EGP':true:'1.2-2'}}</b>
+      </h2>
+    </ion-item>
+  </ion-list>
+</ion-content>

@@ -32,8 +32,8 @@ export class Orders {
     }
     readUserOrderDetails(params: any): Promise<PromiseResp> {
         return new Promise((resolve, reject) => {
-            this.api.get("Meals/userMeals", params).then((data: PromiseResp) => {
-                if (Array.isArray(data.response)) resolve(new PromiseResp(true, data.response));
+            this.api.get("Orders/userMeal", params).then((data: PromiseResp) => {
+                if (data.response) resolve(new PromiseResp(true, data.response));
                 else reject(new PromiseResp(false, new Array()));
             }).catch(e => reject(e));
         });
