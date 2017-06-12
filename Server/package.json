@@ -16,6 +16,6 @@
   "name": "cibografico-api",
   "version": "0.0.0",
   "scripts": {
-    "start": "node .\Scripts\libs\server.js"
+    "start": "node Scripts\libs\server.js"
   }
 }
