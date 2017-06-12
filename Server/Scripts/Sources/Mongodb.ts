@@ -12,7 +12,7 @@ module.exports = {
         });
     }),
     connectToServer: function (callback: any) {
-        require("mongodb").MongoClient.connect("mongodb://cibografico:meoMrDXVaUBnsU1tIhy9H87lQoQf5hz6l9mJQyonEwHLI7AaAAo57iyfzkTf19fNgbgqq3yHpmSEiBPBsxBv9w==@cibografico.documents.azure.com:10255/CiboGraficoDB?ssl=true",
+        require("mongodb").MongoClient.connect("mongodb://cibograficodb:APYb3hzAd7gB6sY3mHtWtAY23RWcvRmhychWibTrAU5Zv7tIlBWFrugrTcWQ6dO4ehpuANgjMW0kOKqTY2FAaQ==@cibograficodb.documents.azure.com:10255/CiboGraficoDB?ssl=true",
             (err, db) => {
                 collection["db"] = db;
                 collection["Authentications"] = db.collection("Authentications");

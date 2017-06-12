@@ -31,7 +31,7 @@ export class Api {
     response(command: any): Promise<PromiseResp> {
         return new Promise((resolve, reject) => {
             if (!this.isOnline) reject(new PromiseResp(false, "Mobile not connected to network"));
-            command.timeout(2000).subscribe((data: any) => {
+            command.timeout(5000).subscribe((data: any) => {
                 const resp = typeof data["_body"] === "string" ? JSON.parse(data["_body"]) : data["_body"];
                 if (data.status === 200) {
                     if (resp.success === true) resolve(new PromiseResp(resp.success, resp.data));
