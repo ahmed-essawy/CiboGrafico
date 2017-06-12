@@ -14,5 +14,8 @@
   "description": "Server",
   "main": "server.ts",
   "name": "cibografico-api",
-  "version": "0.0.0"
+  "version": "0.0.0",
+  "scripts": {
+    "start": "node Scripts\libs\server.js"
+  }
 }
