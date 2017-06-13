@@ -2,9 +2,9 @@
 import { NavController, NavParams, Nav } from "ionic-angular";
 import { HomePage } from "../home/home";
 import { RestaurantsListPage } from "../RestaurantsList/RestaurantsList";
+import { OffersPage } from "../offers/offers";
 import { AccountPage } from "../account/account";
 import { LoginTabs } from "../loginTabs/loginTabs";
-import { OffersPage } from "../offers/offers";
 import { Users } from "../../providers/users";
 import { Utilities } from "../../providers/utilities";
 @Component({

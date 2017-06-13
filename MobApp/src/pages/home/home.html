@@ -14,6 +14,23 @@
     </ion-toolbar>
 </ion-header>
 <ion-content padding>
+    <img src="assets/images/logo.png" style="padding: 0 35px;margin: 12px 0 5px;" />
+    <ion-fab center middle style="margin: -95px 25px;">
+        <button ion-fab><ion-icon name="menu"></ion-icon></button>
+        <ion-fab-list side="right">
+            <button (click)="openPage('restaurants')" ion-fab color="danger"><ion-icon name="restaurant"></ion-icon></button>
+        </ion-fab-list>
+        <ion-fab-list side="right" style="margin: 45px 45px;">
+            <button (click)="openPage('offers')" ion-fab color="danger"><ion-icon name="flash"></ion-icon></button>
+        </ion-fab-list>
+        <ion-fab-list side="bottom">
+            <button (click)="openPage('login')" ion-fab color="danger">
+                <ion-icon *ngIf="isLogged" name="contact"></ion-icon>
+                <ion-icon *ngIf="!isLogged" name="log-in"></ion-icon>
+            </button>
+        </ion-fab-list>
+    </ion-fab>
+
     <ion-card *ngIf="!isLogged" text-center>
         <ion-card-header text-wrap>Enjoy a personalized<br />ordering experience</ion-card-header>
         <ion-card-content>
@@ -21,21 +38,13 @@
         </ion-card-content>
     </ion-card>
 
-    <ion-fab center>
-        <button ion-fab color="danger"><ion-icon name="menu"></ion-icon></button>
-        <ion-fab-list side="top">
-            <button ion-fab><ion-icon name="logo-facebook"></ion-icon></button>
-        </ion-fab-list>
-        <ion-fab-list side="right">
-            <button ion-fab><ion-icon name="logo-facebook"></ion-icon></button>
-        </ion-fab-list>
-        <ion-fab-list side="bottom">
-            <button ion-fab><ion-icon name="logo-twitter"></ion-icon></button>
-        </ion-fab-list>
-        <ion-fab-list side="left">
-            <button ion-fab><ion-icon name="logo-vimeo"></ion-icon></button>
-        </ion-fab-list>
-    </ion-fab>
-
-    <div #map id="map" style="height:100%;"></div>
+    <div *ngIf="offers?.length > 0" padding-bottom padding-top>
+        <h3 text-center ion-text color="danger">Hot Offers</h3>
+        <ion-slides autoplay="3000" autoplayDisableOnInteraction="false" loop="true" speed="1000">
+            <ion-slide *ngFor="let offer of offers" class="slide-offer">
+                <img (click)="offerDetails(offer)" [src]="offer.image" />
+            </ion-slide>
+        </ion-slides>
+    </div>
+    <!--<div #map id="map" style="height:100%;width:100%"></div>-->
 </ion-content>
