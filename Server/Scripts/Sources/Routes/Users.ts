@@ -57,7 +57,7 @@ const valid = new Validator();
             if (req.body.user && req.body.meal && valid.isArray(req.body.meal.ingredients)) {
                 const tempMeal = new Meal(req.body.meal._id, req.body.meal.name, req.body.meal.image, req.body.meal.category, req.body.meal.price);
                 tempMeal.addIngredients(req.body.meal.ingredients);
-                db.Users.AddFavorite(tempMeal, { _id: req.body.user }, response => res.json(response));
+                db.Users.AddFavorite(tempMeal, { userId: req.body.user, restId: req.body.meal.restId }, response => res.json(response));
             } else res.status(400).json({ success: false, msg: "Invalid Data" });
         })
         .delete("/Favorites/:id", (req, res) => db.Users.DeleteFavorite({ _id: req.params.id }, response => res.json(response)));
