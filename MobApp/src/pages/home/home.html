@@ -20,4 +20,22 @@
             <button (click)="loginModal()" color="secondary" icon-right ion-button outline>Login<ion-icon name="log-in"></ion-icon></button>
         </ion-card-content>
     </ion-card>
+
+    <ion-fab center>
+        <button ion-fab color="danger"><ion-icon name="menu"></ion-icon></button>
+        <ion-fab-list side="top">
+            <button ion-fab><ion-icon name="logo-facebook"></ion-icon></button>
+        </ion-fab-list>
+        <ion-fab-list side="right">
+            <button ion-fab><ion-icon name="logo-facebook"></ion-icon></button>
+        </ion-fab-list>
+        <ion-fab-list side="bottom">
+            <button ion-fab><ion-icon name="logo-twitter"></ion-icon></button>
+        </ion-fab-list>
+        <ion-fab-list side="left">
+            <button ion-fab><ion-icon name="logo-vimeo"></ion-icon></button>
+        </ion-fab-list>
+    </ion-fab>
+
+    <div #map id="map" style="height:100%;"></div>
 </ion-content>

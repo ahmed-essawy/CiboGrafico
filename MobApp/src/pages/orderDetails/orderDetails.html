@@ -1,16 +1,13 @@
 ﻿<ion-header>
-  <ion-navbar>
-    <ion-title>
-      Order
-    </ion-title>
+  <ion-navbar color="danger" text-center>
+    <ion-title>{{restName}}</ion-title>
   </ion-navbar>
 </ion-header>
 <ion-content padding>
   <ion-list>
     <ion-item><b>Address: </b>{{orders?.address?.street}}, {{orders?.address?.city}} {{orders?.address?.country}}</ion-item>
-    <ion-item><b>Ordered at: {{orders?.time.slice(0,10)}}</b></ion-item>
+    <ion-item><b>Ordered at: {{orders?.time | date: 'dd-MM-yyyy'}}</b></ion-item>
     <ion-item *ngFor="let meal of orders?.meals">
-
       <h2>{{meal?.name}}</h2>
       <p>{{meal?.price | currency:'EGP':true:'1.2-2'}}</p>
     </ion-item>

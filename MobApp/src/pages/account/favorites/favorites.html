@@ -7,7 +7,7 @@
       <h1>{{meal?.category}}</h1>
       <h2>{{meal?.name}} </h2>
       <h2>{{meal?.price}}</h2>
-      <button (click)="order(meal?._id)" clear ion-button item-right>order</button>
+      <button (click)="Order(meal?._id, meal?.restId)" clear ion-button item-right>order</button>
     </ion-item>
   </ion-list>
 </ion-content>

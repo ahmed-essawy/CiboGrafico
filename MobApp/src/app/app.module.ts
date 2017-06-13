@@ -1,6 +1,7 @@
 ﻿import { NgModule, ErrorHandler } from "@angular/core";
 import { IonicApp, IonicModule, IonicErrorHandler } from "ionic-angular";
 import { Network } from "@ionic-native/network";
+import { GoogleMaps } from "@ionic-native/google-maps";
 import { MyApp } from "./app.component";
 import { IonRating } from '../components/ion-rating/ion-rating';
 import { HomePage } from "../pages/home/home";
@@ -41,7 +42,7 @@ import { orderDetailsPage } from "../pages/orderDetails/orderDetails";
     entryComponents: [IonRating, MyApp, HomePage, AccountPage, LoginTabs, IntroPage, MenuPage, LoginPage, SignupPage,
         RestaurantsListPage, RestaurantProfilePage, reservationPage, OffersPage, TraditionalMenuPage,
         offerDetailsPage, orderPage, joinOrderPage, mealDetailsPage, FavoritesPage, OrdersPage, orderDetailsPage],
-    providers: [Network, Api, Sql, SQLite, Facebook, Users, Restaurants, Offers, Meals, Orders, {
+    providers: [GoogleMaps, Network, Api, Sql, SQLite, Facebook, Users, Restaurants, Offers, Meals, Orders, {
         provide: ErrorHandler,
         useClass: IonicErrorHandler
     }]
