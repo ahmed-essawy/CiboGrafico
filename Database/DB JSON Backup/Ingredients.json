@@ -1,0 +1,6 @@
+{"_id":{"$oid":"593ad00967ba92800cdef653"},"image":"http://i.imgur.com/6wozlud.png","name":"Tomato"}
+{"_id":{"$oid":"593ad02567ba92800cdef654"},"image":"http://i.imgur.com/k6CVBfY.png","name":"Penne"}
+{"_id":{"$oid":"593ad02867ba92800cdef655"},"image":"http://i.imgur.com/bnN4A8J.gif","name":"French Fries"}
+{"_id":{"$oid":"593ad02c67ba92800cdef656"},"image":"http://i.imgur.com/n31MPxm.png","name":"Meat"}
+{"_id":{"$oid":"593ad02c67ba92800cdef657"},"image":"http://i.imgur.com/z3x4BRh.png","name":"Chicken"}
+{"_id":{"$oid":"593ad02c67ba92800cdef658"},"image":"http://i.imgur.com/B5JJfQh.jpg","name":"Onion"}
